@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<data>
+    <trigger id="0">
+        <location>145.133712769,-2.25406098366,0.0168727841228</location>
+        <spawn id="0">
+            <type>ai_walker</type>
+            <probability>0</probability>
+            <blueprint>walker.pedestrian.0001</blueprint>
+            <transform>136.310256958,-8.84174442291,1.1199285984,0.0,179.300003052,0.0</transform>
+        </spawn>
+        <spawn id="2">
+            <type>walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>112.407875061,-12.783952713,1.10418748856,0.0,89.4000778198,0.0</transform>
+        </spawn>
+        <spawn id="4">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>78.2926483154,2.10555267334,0.953500270844,0.0,0.900014936924,0.0</transform>
+        </spawn>
+        <spawn id="8">
+            <type>vehicle</type>
+            <probability>80</probability>
+            <blueprint>vehicle.audi.tt</blueprint>
+            <transform>100.033866882,-39.4279823303,0.953500270844,0.0,91.8000488281,0.0</transform>
+        </spawn>
+        <spawn id="9">
+            <type>static</type>
+            <probability>80</probability>
+            <collision_range>4.0</collision_range>
+            <invincible>true</invincible>
+            <blueprint>static.prop.plasticbag</blueprint>
+            <transform>130.025161743,-1.94922292233,1.0544430920482,0.0634934380651,179.811981201,0.00012323865667</transform>
+        </spawn>
+        <pose id="0">
+            <form>call_left</form>
+        </pose>
+    </trigger>
+    <trigger id="1">
+        <location>130.047607422,-2.44484376907,0.0143852643669</location>
+        <move id="0">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="2">
+            <waypoint speed="4.0">110.707000732,9.84315395355,1.09916758537</waypoint>
+            <waypoint speed="2.0">91.6044311523,10.6292161942,1.10389995575</waypoint>
+        </move>
+        <move id="4">
+            <waypoint speed="8.0"/>
+        </move>
+    </trigger>
+    <trigger id="2">
+        <location>119.130821228,-2.46624326706,0.0138290869072</location>
+        <move id="8">
+            <waypoint speed="8.0">99.2578582764,19.9713745117,0.953500270844</waypoint>
+        </move>
+    </trigger>
+    <trigger id="3">
+        <location>102.805625916,-2.15390753746,-0.00172965449747</location>
+        <kill id="0"/>
+        <kill id="2"/>
+        <kill id="4"/>
+        <kill id="8"/>
+        <kill id="9"/>
+    </trigger>
+</data>

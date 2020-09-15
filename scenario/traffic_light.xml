@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<data>
+    <trigger id="0">
+        <location>0,0,0</location>
+        <spawn id="1">
+            <type>ai_vehicle</type>
+            <blueprint>vehicle.audi.etron</blueprint>
+            <transform>28.002538681,208.950439453,1.0,-0.132109507918,-0.321136415005,-0.0635375753045</transform>
+        </spawn>
+    </trigger>
+    <trigger id="1">
+        <location>24.3521842957,47.9693412781,-0.00483436556533</location>
+        <trafficlight>
+            <location>18.7570705414,79.2429428101,1.10390222073</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>39.6360702515,78.6478805542,1.10391521454</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>42.0773048401,99.7039642334,1.10390031338</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>19.7640380859,101.668266296,1.10391533375</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+    </trigger>
+</data>
