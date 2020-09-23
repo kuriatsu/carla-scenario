@@ -318,10 +318,12 @@ class KeyboardControl(object):
                 elif event.key == K_t:
                     ego_pose = self._ego_player.get_transform()
                     str = "{},{},{},{},{},{}".format(ego_pose.location.x, ego_pose.location.y, ego_pose.location.z, ego_pose.rotation.pitch, ego_pose.rotation.yaw, ego_pose.rotation.roll)
+                    print(str)
                     pyperclip.copy(str)
                 elif event.key == K_l:
                     ego_pose = self._ego_player.get_transform()
-                    str = "{},{},{}".format(ego_pose.location.x, ego_pose.location.y, ego_pose.location.z)
+                    str = "{},{},{}".format(float(ego_pose.location.x), float(ego_pose.location.y), float(ego_pose.location.z))
+                    print(str)
                     pyperclip.copy(str)
                 if isinstance(self._control, carla.VehicleControl):
                     if event.key == K_q:
@@ -851,8 +853,8 @@ def main():
     argparser.add_argument(
         '--res',
         metavar='WIDTHxHEIGHT',
-        default='1280x720',
-        help='window resolution (default: 1280x720)')
+        default='800x600',
+        help='window resolution (default: 800x600)')
     argparser.add_argument(
         '--filter',
         metavar='PATTERN',
