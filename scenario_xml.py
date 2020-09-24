@@ -89,7 +89,7 @@ class ScenarioXML(object):
                        + (self.ego_pose.location.y - trigger[0].text[1]) ** 2
             # print('trigger', distance)
             if distance < self.intrusion_thres:
-                # print(self.trigger_index)
+                print("trigger: {}".format(self.trigger_index))
                 self.spawnActor(trigger.findall('spawn'))
                 self.moveActor(trigger.findall('move'))
                 self.killActor(trigger.findall('kill'))
@@ -186,8 +186,8 @@ class ScenarioXML(object):
         for i in range(len(results)):
             spawned_actor = spawn_list[i]
             if results[i].error:
-                warnings.warn(results[i].error)
-                print("removes ", spawned_actor.attrib.get('id'))
+                # warnings.warn(results[i].error)
+                print("failed to spawn: " + spawned_actor.attrib.get('id'))
                 if spawned_actor in ai_walkers_list:
                     ai_walkers_list.remove(spawned_actor)
                 for trigger in self.scenario.findall('trigger'):
@@ -268,13 +268,14 @@ class ScenarioXML(object):
                 print('cannot start AI vehicle. world_id: ', world_id)
                 return
 
-        def moveInnocentActor(world_id, type, waypoints):
+        def moveInnocentActor(id, world_id, type, waypoints):
             """add motion information to the stack
             world_id : actir id under the carla
             """
             control_actor = {}
             control_actor['actor'] = self.world.get_actor(world_id)
             control_actor['type'] = type
+            control_actor['id'] = id
             control_actor['waypoints'] = waypoints
             self.control_actor_list.append(control_actor)
 
@@ -288,7 +289,7 @@ class ScenarioXML(object):
                     elif type == 'ai_vehicle':
                         moveAiVehicle(spawn_elem.find('world_id').text)
                     elif type == 'walker' or type == 'vehicle':
-                        moveInnocentActor(spawn_elem.find('world_id').text, type, move_elem.findall('waypoint')) # take over world info in spawn element and move info in move element
+                        moveInnocentActor(move_elem.attrib.get('id'), spawn_elem.find('world_id').text, type, move_elem.findall('waypoint')) # take over world info in spawn element and move info in move element
                     # elif type == 'static':
                     #     moveStaticActor(spawn_elem.find('world_id').text, type) # take over world info in spawn element and move info in move element
                     print("move: " + spawn_elem.attrib.get("id"));
@@ -323,12 +324,13 @@ class ScenarioXML(object):
         # debug = self.world.debug
         for control_actor in self.control_actor_list:
 
-            if control_actor['actor'].is_alive == False:
+            if control_actor.get('actor').is_alive == False:
                 self.control_actor_list.remove(control_actor)
                 print("Innocent actor ", control_actor['actor'].id, "is dead")
                 continue
 
             if control_actor['type'] == 'walker' and control_actor.get('waypoints'):
+                # print('waypoint', control_actor.get('waypoints'))
                 vector, speed, dist, _ = calcControl(control_actor)
                 if dist < 1.0:
                     del control_actor.get('waypoints')[0]
@@ -372,6 +374,7 @@ class ScenarioXML(object):
                         self.control_actor_list.remove(control_actor)
 
             else:
+                print('{} is free from control'.format(control_actor.get('id')))
                 self.control_actor_list.remove(control_actor)
 
 
@@ -413,12 +416,16 @@ class ScenarioXML(object):
     def __del__(self):
         batch = []
         for spawn in self.scenario.iter('spawn'):
-            if spawn.find('type').text == 'static':
+            print('remove {}'.format(spawn.attrib.get('id')))
+
+            if spawn.find('type').text == 'static' and spawn.find('world_id') is not None:
+                print('remove {}'.format(spawn.attrib.get('id')))
                 batch.append(carla.command.DestroyActor(spawn.find('world_id').text))
 
         for actor in self.world.get_actors():
             if actor.type_id.startswith("vehicle") or actor.type_id.startswith("walker") or actor.type_id.startswith("controller"):
                 if actor.attributes.get('role_name') != 'ego_vehicle':
+                    # print('remove {}'.format(actor.attrib.get('id')))
                     batch.append(carla.command.DestroyActor(actor.id))
 
         self.client.apply_batch(batch)
@@ -427,31 +434,34 @@ class ScenarioXML(object):
 
 def game_loop(args):
 
-    try:
-        client = carla.Client(args.host, args.port)
-        client.set_timeout(2.0)
-        world = client.get_world()
-        sx = ScenarioXML(client, world, args.scenario_file)
-        sx.blueprint = sx.world.get_blueprint_library()
+    # try:
+    client = carla.Client(args.host, args.port)
+    client.set_timeout(2.0)
+    world = client.get_world()
+    sx = ScenarioXML(client, world, args.scenario_file)
+    sx.blueprint = sx.world.get_blueprint_library()
 
-        sx.ego_vehicle = sx.getEgoCar()
-        sx.ego_pose = sx.ego_vehicle.get_transform()
-        sx.spawnActor(sx.scenario[0].findall('spawn'))
-        sx.moveActor(sx.scenario[0].findall('move'))
-        sx.poseActor(sx.scenario[0].findall('pose'))
+    sx.ego_vehicle = sx.getEgoCar()
+    sx.ego_pose = sx.ego_vehicle.get_transform()
+    sx.spawnActor(sx.scenario[0].findall('spawn'))
+    sx.moveActor(sx.scenario[0].findall('move'))
+    sx.poseActor(sx.scenario[0].findall('pose'))
 
-        while sx.checkTrigger() in [0, 1]:
-            sx.world.wait_for_tick()
-            if sx.ego_vehicle is None:
-                sx.getEgoCar()
-            else:
-                sx.ego_pose = sx.ego_vehicle.get_transform()
-                sx.controlActor()
+    while sx.checkTrigger() in [0, 1]:
+        sx.world.wait_for_tick()
+        if sx.ego_vehicle is None:
+            sx.getEgoCar()
+        else:
+            sx.ego_pose = sx.ego_vehicle.get_transform()
+            sx.controlActor()
 
-            time.sleep(0.1)
+        time.sleep(0.1)
 
-    finally:
-        del sx
+    # finally:
+    del sx
+
+    # del sx
+
 
 
 if __name__ == '__main__':

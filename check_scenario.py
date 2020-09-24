@@ -118,13 +118,13 @@ def main():
                 if (action.find('type').text == 'walker' or action.find('type').text == 'vehicle'):
                     debug.draw_string(
                         location=location+carla.Location(z=1.0),
-                        text='spawn'+action.find('type').text + action.attrib.get('id'),
+                        text='spawn '+action.find('type').text + action.attrib.get('id'),
                         color=carla.Color(255,0,0), life_time=args.lifetime
                         )
                 else:
                     debug.draw_string(
                         location=location+carla.Location(z=1.0),
-                        text='spawn'+action.find('type').text + action.attrib.get('id'),
+                        text='spawn '+action.find('type').text + action.attrib.get('id'),
                         color=carla.Color(255,255,255),
                         life_time=args.lifetime
                         )

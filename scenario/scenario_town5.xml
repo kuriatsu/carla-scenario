@@ -3,7 +3,7 @@
 <data>
     <trigger id="0">
         <location>154.324081421,-2.19934725761,0.0761626809835</location>
-        <spawn id="ai_walker_0">
+        <spawn id="walker_0">
             <type>walker</type>
             <probability>80</probability>
             <blueprint>walker.pedestrian.0004</blueprint>
@@ -135,36 +135,6 @@
             <blueprint>random</blueprint>
             <transform>42.2426490784,9.27190876007,1.10343551636,0.0,-123.800056458,0.0</transform>
         </spawn>
-        <spawn id="22">
-            <type>ai_vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>28.6777305603,-44.1153182983,0.951500236988,0.0,90.6000137329,0.0</transform>
-        </spawn>
-        <spawn id="23">
-            <type>ai_vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>25.4343910217,-52.8615875244,0.951500236988,0.0,88.0999984741,0.0</transform>
-        </spawn>
-        <spawn id="24">
-            <type>ai_vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>24.8272609711,-31.8188934326,0.951500236988,0.0,89.3999786377,0.0</transform>
-        </spawn>
-        <spawn id="25">
-            <type>ai_vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>31.4413719177,48.029750824,0.951500236988,0.0,-88.700050354,0.0</transform>
-        </spawn>
-        <spawn id="26">
-            <type>ai_vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>31.5881404877,24.8484401703,0.951500236988,0.0,-91.3000183105,0.0</transform>
-        </spawn>
 
         <move id="2">
             <waypoint speed="2.0"/>
@@ -205,6 +175,82 @@
     </trigger>
     <trigger id="1">
         <location>147.949859619,-1.8595430851,0.0193662252277</location>
+        <move id="walker_0">
+            <waypoint speed="3.0">112.466842651,10.5819349289,1.10365664959</waypoint>
+        </move>
+        <move id="1">
+            <waypoint speed="4.0">91.9000549316,10.2342824936,1.10389995575</waypoint>
+            <waypoint speed="4.0">91.4931793213,-9.86814117432,1.10179519653</waypoint>
+        </move>
+        <move id="14">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="15">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="16">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="17">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="18">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="19">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="20">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="21">
+            <waypoint speed="2.0"/>
+        </move>
+    </trigger>
+    <trigger id="2">
+        <location>75.5969543457,-5.17269086838,0.0422750078142</location>
+        <kill id="walker_0"/>
+        <kill id="1"/>
+        <kill id="2"/>
+        <kill id="3"/>
+        <kill id="4"/>
+        <kill id="5"/>
+        <kill id="6"/>
+        <kill id="7"/>
+        <kill id="8"/>
+        <kill id="9"/>
+        <kill id="10"/>
+        <kill id="11"/>
+        <spawn id="22">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>28.6777305603,-44.1153182983,0.951500236988,0.0,90.6000137329,0.0</transform>
+        </spawn>
+        <spawn id="23">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>25.4343910217,-52.8615875244,0.951500236988,0.0,88.0999984741,0.0</transform>
+        </spawn>
+        <spawn id="24">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>24.8272609711,-31.8188934326,0.951500236988,0.0,89.3999786377,0.0</transform>
+        </spawn>
+        <spawn id="25">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>31.4413719177,48.029750824,0.951500236988,0.0,-88.700050354,0.0</transform>
+        </spawn>
+        <spawn id="26">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>31.5881404877,24.8484401703,0.951500236988,0.0,-91.3000183105,0.0</transform>
+        </spawn>
         <spawn id="27">
             <type>ai_walker</type>
             <probability>80</probability>
@@ -221,7 +267,7 @@
             <type>ai_walker</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
-            <transform>-10.1281147003,9.5404510498,1.10352432728,0.0,-178.599990845,0.0</transform>
+            <transform>-14.6482954025,9.43378925323,1.10382544994,0.0,-177.700073242,0.0</transform>
         </spawn>
         <spawn id="30">
             <type>ai_walker</type>
@@ -253,37 +299,37 @@
             <blueprint>random</blueprint>
             <transform>5.03563690186,-8.06780719757,1.10389995575,0.0,-4.49997138977,0.0</transform>
         </spawn>
-        <move id="ai_walker_0">
-            <waypoint speed="4.0"/>112.466842651,10.5819349289,1.10365664959</waypoint>
-        </move>
-        <move id="1">
-            <waypoint speed="4.0">91.9000549316,10.2342824936,1.10389995575</waypoint>
-            <waypoint speed="4.0">91.4931793213,-9.86814117432,1.10179519653</waypoint>
-        </move>
-        <move id="14">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="15">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="16">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="17">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="18">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="19">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="20">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="21">
-            <waypoint speed="2.0"/>
-        </move>
+        <spawn id="84">
+            <type>walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>-9.95117855072,-20.5609912872,1.12962138653,0.0,88.5999832153,0.0</transform>
+        </spawn>
+        <spawn id="85">
+            <type>walker</type>
+            <probability>80</probability>
+            <blueprint>walker.pedestrian.0002</blueprint>
+            <transform>-9.92657184601,9.66699314117,1.10382544994,0.0,-85.3999633789,0.0</transform>
+        </spawn>
+        <spawn id="86">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>-1.39887952805,-8.25588321686,1.10389995575,0.0,-56.7999076843,0.0</transform>
+        </spawn>
+        <spawn id="87">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>-15.7132396698,-8.33031272888,1.10139012337,0.0,-177.700073242,0.0</transform>
+        </spawn>
+        <spawn id="88">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>-33.1655197144,13.2345762253,1.15437722206,0.0,14.6000165939,0.0</transform>
+        </spawn>
+
         <move id="22">
             <waypoint speed="12.0"/>
         </move>
@@ -299,21 +345,65 @@
         <move id="26">
             <waypoint speed="12.0"/>
         </move>
+        <move id="27">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="28">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="29">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="30">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="31">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="32">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="33">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="34">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="84">
+            <waypoint speed="2.0">-10.8956785202,-9.45081615448,1.10492265224</waypoint>
+            <waypoint speed="5.0">-10.9808473587,9.47265720367,1.10382544994</waypoint>
+        </move>
+        <pose id="85">
+          <form>call_right</form>
+        </pose>
+        <move id="86">
+            <waypoint speed="3.0"/>
+        </move>
+        <move id="87">
+            <waypoint speed="4.0"/>
+        </move>
+        <move id="88">
+            <waypoint speed="3.0"/>
+        </move>
+
     </trigger>
-    <trigger id="2">
-        <location>75.5969543457,-5.17269086838,0.0422750078142</location>
-        <kill id="ai_walker_0"/>
-        <kill id="1"/>
-        <kill id="2"/>
-        <kill id="3"/>
-        <kill id="4"/>
-        <kill id="5"/>
-        <kill id="6"/>
-        <kill id="7"/>
-        <kill id="8"/>
-        <kill id="9"/>
-        <kill id="10"/>
-        <kill id="11"/>
+    <trigger id="3">
+        <location>3.21676540375,-4.58571434021,0.0421811677516</location>
+        <kill id="12"/>
+        <kill id="13"/>
+        <kill id="14"/>
+        <kill id="15"/>
+        <kill id="16"/>
+        <kill id="17"/>
+        <kill id="18"/>
+        <kill id="19"/>
+        <kill id="20"/>
+        <kill id="21"/>
+        <kill id="22"/>
+        <kill id="23"/>
+        <kill id="24"/>
+        <kill id="25"/>
+        <kill id="26"/>
         <spawn id="35">
             <type>ai_vehicle</type>
             <probability>80</probability>
@@ -351,62 +441,13 @@
             <transform>-101.007476807,6.1822924614,0.951773226261,0.0,1.70001220703,0.0</transform>
         </spawn>
         <spawn id="41">
-            <type>vehicle</type>
+            <type>ai_vehicle</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
             <transform>-76.1733856201,6.37776374817,-0.0133644482121,0.0,-1.36016857624,0.0</transform>
         </spawn>
-        <move id="27">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="28">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="29">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="30">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="31">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="32">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="33">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="34">
-            <waypoint speed="2.0"/>
-        </move>
-
-    </trigger>
-    <trigger id="3">
-        <location>3.21676540375,-4.58571434021,0.0421811677516</location>
-        <kill id="12"/>
-        <kill id="13"/>
-        <kill id="14"/>
-        <kill id="15"/>
-        <kill id="16"/>
-        <kill id="17"/>
-        <kill id="18"/>
-        <kill id="19"/>
-        <kill id="20"/>
-        <kill id="21"/>
-        <kill id="22"/>
-        <kill id="23"/>
-        <kill id="24"/>
-        <kill id="25"/>
-        <kill id="26"/>
         <spawn id="42">
-            <type>vehicle</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>-55.2455863953,21.0257053375,0.0980716869235,-0.0515132844448,90.5649795532,0.000103651829704</transform>
-        </spawn>
-        <spawn id="42">
-            <type>vehicle.dodge_charger.police </type>
+            <type>vehicle.dodge_charger.police</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
             <transform>-55.2455863953,21.0257053375,0.0980716869235,-0.0515132844448,90.5649795532,0.000103651829704</transform>
@@ -448,7 +489,7 @@
             <transform>-57.5716018677,36.3937950134,1.1593503952,0.0,91.3999786377,0.0</transform>
         </spawn>
         <spawn id="49">
-            <type>vehicle</type>
+            <type>walker</type>
             <probability>80</probability>
             <blueprint>walker.pedestrian.0004</blueprint>
             <transform>-39.9354133606,47.6742477417,1.1593503952,0.0,-86.6999816895,0.0</transform>
@@ -456,7 +497,7 @@
         <spawn id="50">
             <type>vehicle</type>
             <probability>80</probability>
-            <blueprint>vehicle.carlamotors.carlacola </blueprint>
+            <blueprint>vehicle.carlamotors.carlacola</blueprint>
             <transform>-41.8710632324,29.3138484955,0.0976092293859,0.0369240008295,-90.0308074951,2.34554336203e-05</transform>
         </spawn>
 
@@ -501,11 +542,13 @@
         <kill id="39"/>
         <kill id="40"/>
         <kill id="41"/>
-        <move id="48">
-            <waypoint speed="7.0"/>-57.9040222168,49.9933433533,1.1593503952<waypoint/>
-        </move>
+        <kill id="84"/>
+        <kill id="85"/>
+        <kill id="86"/>
+        <kill id="87"/>
+
         <move id="49">
-            <waypoint speed="8.0"/>-40.6531295776,39.3277931213,1.1593503952<waypoint/>
+            <waypoint speed="2.0">-40.6531295776,39.3277931213,1.1593503952</waypoint>
         </move>
 
     </trigger>
@@ -562,7 +605,7 @@
         <spawn id="59">
             <type>static</type>
             <probability>80</probability>
-            <collision_range>4.0</collision_range>
+            <collision_range>10.0</collision_range>
             <invincible>true</invincible>
             <blueprint>static.prop.plasticbag</blueprint>
             <transform>-12.8004541397,94.2045593262,0.951499938965,0.0,78.3999176025,0.0</transform>
@@ -570,20 +613,19 @@
         <spawn id="60">
             <type>static</type>
             <probability>0</probability>
-            <collision_range>4.0</collision_range>
+            <collision_range>10.0</collision_range>
             <invincible>true</invincible>
-            <blueprint>static.prop.colacan </blueprint>
+            <blueprint>static.prop.colacan</blueprint>
             <transform>-13.493432045,95.8499069214,0.951499938965,0.0,160.300003052,0.0</transform>
         </spawn>
         <move id="48">
-            <waypoint speed="10.0"/>-40.0210914612,50.7340812683,1.1593503952<waypoint/>
+            <waypoint speed="3.0">-57.9040222168,49.9933433533,1.1593503952</waypoint>
+            <waypoint speed="8.0">-40.0210914612,50.7340812683,1.1593503952</waypoint>
         </move>
         <move id="49">
-            <waypoint speed="8.0"/>-57.8647117615,38.6371955872,1.1593503952<waypoint/>
+            <waypoint speed="5.0">-57.8647117615,38.6371955872,1.1593503952</waypoint>
         </move>
-        <move id="51">
-            <waypoint speed="15.0"/>-34.7643013,81.57056427,1.10365593433<waypoint/>
-        </move>
+
         <move id="52">
             <waypoint speed="30.0"/>
         </move>
@@ -592,16 +634,6 @@
         </move>
         <move id="54">
             <waypoint speed="30.0"/>
-        </move>
-        <move id="55">
-            <waypoint speed="15.0">-62.4769630432,99.3821105957,1.10386931896</waypoint>
-            <waypoint speed="15.0">-58.4132423401,100.708435059,1.15899729729</waypoint>
-            <waypoint speed="15.0">-45.3195724487,100.646743774,1.00695037842</waypoint>
-            <waypoint speed="15.0">-39.0483779907,98.7000961304,1.10310518742</waypoint>
-            <waypoint speed="15.0">17.3089790344,98.9211273193,1.10310518742</waypoint>
-            <waypoint speed="15.0">33.1413536072,101.282539368,0.951515078545</waypoint>
-            <waypoint speed="15.0">39.9422416687,105.076293945,1.10391521454</waypoint>
-            <waypoint speed="20.0">39.132358551,157.628631592,1.10588002205</waypoint>
         </move>
     </trigger>
     <trigger id="6">
@@ -639,9 +671,20 @@
             <transform>56.3967628479,88.5162887573,-0.0130896065384,-0.174156159163,-178.654998779,-0.000396728515625</transform>
         </spawn>
         <move id="51">
-            <waypoint speed="15.0"/>-37.2688407898,83.1369628906,0.951499998569<waypoint/>
-            <waypoint speed="15.0"/>-37.6364555359,85.8723220825,0.958758234978<waypoint/>
-            <waypoint speed="15.0"/>-39.4075279236,98.7504653931,1.10389983654<waypoint/>
+          <waypoint speed="15.0">-34.7643013,81.57056427,1.10365593433</waypoint>
+            <waypoint speed="10.0">-37.2688407898,83.1369628906,0.951499998569</waypoint>
+            <waypoint speed="10.0">-37.6364555359,85.8723220825,0.958758234978</waypoint>
+            <waypoint speed="10.0">-39.4075279236,98.7504653931,1.10389983654</waypoint>
+        </move>
+        <move id="55">
+            <waypoint speed="10.0">-62.4769630432,99.3821105957,1.10386931896</waypoint>
+            <waypoint speed="10.0">-58.4132423401,100.708435059,1.15899729729</waypoint>
+            <waypoint speed="10.0">-45.3195724487,100.646743774,1.00695037842</waypoint>
+            <waypoint speed="10.0">-39.0483779907,98.7000961304,1.10310518742</waypoint>
+            <waypoint speed="10.0">17.3089790344,98.9211273193,1.10310518742</waypoint>
+            <waypoint speed="10.0">33.1413536072,101.282539368,0.951515078545</waypoint>
+            <waypoint speed="10.0">39.9422416687,105.076293945,1.10391521454</waypoint>
+            <waypoint speed="12.0">39.132358551,157.628631592,1.10588002205</waypoint>
         </move>
         <move id="56">
             <waypoint speed="5.0"/>
@@ -664,13 +707,13 @@
         <spawn id="66">
             <type>walker</type>
             <probability>0</probability>
-            <blueprint>random</blueprint>
+            <blueprint>walker.pedestrian.0001</blueprint>
             <transform>38.5677223206,115.213813782,1.10264265537,0.0,-16.5000457764,0.0</transform>
         </spawn>
         <spawn id="67">
             <type>walker</type>
             <probability>0</probability>
-            <blueprint>random</blueprint>
+            <blueprint>walker.pedestrian.0001</blueprint>
             <transform>21.2008876801,132.652206421,1.10311937332,0.0,3.00000214577,0.0</transform>
         </spawn>
         <spawn id="68">
@@ -717,7 +760,7 @@
             <waypoint speed="40.0"/>
         </move>
     </trigger>
-    <trigger id="8">
+    <trigger id="9">
         <location>27.4829006195,111.414985657,-0.0133138727397</location>
         <spawn id="70">
             <type>ai_walker</type>
@@ -746,7 +789,7 @@
         <spawn id="74">
             <type>vehicle</type>
             <probability>0</probability>
-            <blueprint>vehicle.nissan.micra </blueprint>
+            <blueprint>vehicle.nissan.micra</blueprint>
             <transform>110.206977844,132.465087891,0.0258022211492,-0.211059659719,163.743209839,0.000798153690994</transform>
         </spawn>
         <spawn id="75">
@@ -804,23 +847,23 @@
             <transform>158.921585083,44.8039093018,0.990104734898,0.0,-169.800003052,0.0</transform>
         </spawn>
         <move id="68">
-            <waypoint speed="12.0">21.0739383698,133.843811035,1.10192573071</waypoint>
+            <waypoint speed="7.0">21.0739383698,133.843811035,1.10192573071</waypoint>
         </move>
         <move id="70">
-            <waypoint speed="7.0"/>
+            <waypoint speed="3.0"/>
         </move>
         <move id="71">
-            <waypoint speed="10.0"/>
+            <waypoint speed="7.0"/>
         </move>
         <move id="72">
-            <waypoint speed="5.0"/>
+            <waypoint speed="2.0"/>
         </move>
         <move id="81">
             <waypoint speed="30.0"/>
         </move>
 
     </trigger>
-    <trigger id="8">
+    <trigger id="10">
         <location>49.6605148315,145.945678711,0.0257201287895</location>
         <kill id="55"/>
         <kill id="56"/>
@@ -838,38 +881,38 @@
         <kill id="68"/>
         <kill id="69"/>
     </trigger>
-    <trigger id="9">
+    <trigger id="11">
         <location>80.7728271484,145.366195679,0.0250788833946</location>
-        <move id="72">
-            <waypoint speed="5.0">110.215385437,131.114349365,1.14221382141</waypoint>
+        <move id="73">
+            <waypoint speed="1.0">110.215385437,131.114349365,1.14221382141</waypoint>
         </move>
         <move id="78">
-            <waypoint speed="5.0"/>
+            <waypoint speed="3.0"/>
         </move>
         <move id="79">
-            <waypoint speed="5.0"/>
+            <waypoint speed="3.0"/>
         </move>
         <move id="80">
-            <waypoint speed="5.0"/>
+            <waypoint speed="3.0"/>
         </move>
         <move id="82">
             <waypoint speed="40.0"/>
         </move>
     </trigger>
-    <trigger id="10">
+    <trigger id="12">
         <location>114.506317139,138.359466553,0.0258276648819</location>
         <move id="75">
             <waypoint speed="7.0">151.304580688,117.248085022,1.14164245129</waypoint>
             <waypoint speed="10.0">134.410888672,114.525878906,1.13840258121</waypoint>
         </move>
     </trigger>
-    <trigger id="11">
+    <trigger id="13">
         <location>155.274307251,84.6860809326,0.0253174901009</location>
         <move id="83">
             <waypoint speed="10.0">143.576751709,42.9563140869,1.13824784756</waypoint>
         </move>
     </trigger>
-    <trigger id="12">
+    <trigger id="14">
         <location>155.274307251,84.6860809326,0.0253174901009</location>
         <kill id="70"/>
         <kill id="71"/>
