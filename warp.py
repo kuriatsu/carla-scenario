@@ -20,7 +20,7 @@ hero = None
 ego = None
 
 for actor in world.get_actors():
-    if actor.attributes.get('role_name') == 'helo':
+    if actor.attributes.get('role_name') == 'hero':
         hero = actor
     if actor.attributes.get('role_name') == 'ego_vehicle':
         ego = actor
