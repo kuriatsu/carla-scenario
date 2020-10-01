@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<data>
+    <trigger id="0">
+        <location>145.133712769,-2.25406098366,0.0168727841228</location>
+        <spawn id="0">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>99.9252700806,-46.4560890198,1.1,0.0,90.2864837646,0.0</transform>
+        </spawn>
+        <move id="0">
+            <waypoint speed="15.0">99.8738861084,-36.2210845947,-0.0358840934932</waypoint>
+            <waypoint speed="15.0">99.8274078369,-26.7980918884,-0.0360240936279</waypoint>
+            <waypoint speed="15.0">99.679107666,-15.3637952805,-0.0357116684318</waypoint>
+            <waypoint speed="15.0">82.6191177368,-1.38233685493,-0.035866163671</waypoint>
+            <waypoint speed="15.0">73.9618682861,-1.60113525391,-0.0359294898808</waypoint>
+            <waypoint speed="15.0">49.700920105,-2.07638454437,-0.0358644090593</waypoint>
+            <waypoint speed="15.0">30.7540721893,4.26168060303,-0.0343463905156</waypoint>
+            <waypoint speed="15.0">26.3594875336,29.5449409485,-0.0337198637426</waypoint>
+        </move>
+      </trigger>
+    </data>

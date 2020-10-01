@@ -83,7 +83,7 @@ class ScenarioXML(object):
         3 : no scenario
         """
 
-        if self.scenario is not None:
+        if self.scenario is not None and len(self.scenario) > 1:
             trigger = self.scenario[self.trigger_index] # get trigger tree from scenario tree
             distance = (self.ego_pose.location.x - trigger[0].text[0]) ** 2 \
                        + (self.ego_pose.location.y - trigger[0].text[1]) ** 2
@@ -98,13 +98,15 @@ class ScenarioXML(object):
                 # self.poseActor(trigger.findall("pose"))
                 self.trigger_index += 1
                 if self.trigger_index == len(self.scenario):
-                    return 2
+                    return 2 # scenario finished
 
-                return 1
+                return 1 # next scenario
             else:
-                return 0
+                return 0 # ordinary loop
+        elif len(self.scenario) == 1:
+            return 0
         else:
-            return 3
+            return 3 # no scenario
 
     def getBlueprint(self, type, name):
     # def getBlueprint(self, blueprint_list, name):
@@ -305,6 +307,10 @@ class ScenarioXML(object):
         def calcControl(control_actor):
             # some information for movng
             transform = control_actor.get('actor').get_transform()
+            if transform is None:
+                print('cannot get transform: ' + control_actor.get('id'))
+                return 0, 0, 0, 0
+
             point = control_actor.get('waypoints')[0].text
             speed = float(control_actor.get('waypoints')[0].attrib.get('speed'))
             # calc culent motion vector and distance to the target
@@ -344,16 +350,49 @@ class ScenarioXML(object):
                 if control_actor['type'] == 'vehicle' and dist < 5.0:
                     del control_actor.get('waypoints')[0]
 
-                alpha = math.atan(vector.y / vector.x) - yaw
-                omega = 2 * speed * math.sin(alpha) / dist
-
-                control = carla.VehicleControl()
+                # calc velocity
                 velocity = carla.Vector3D()
                 velocity.x = vector.x * speed
                 velocity.y = vector.y  * speed
                 velocity.z = 0.0
+
+                # calc angular velocity
+                # define angle (radian)
+                objective_angle = math.atan(vector.y / vector.x)
+                current_angle = math.radians(yaw)
+
+                # difference between objective and current angle
+                alpha = objective_angle - current_angle
+
+                # take care the change from 180 -> -180
+                if objective_angle < 0.0 and current_angle >= 0.0:
+                    alpha_2 = math.pi - current_angle + (math.pi + objective_angle)
+                    alpha = (alpha if abs(alpha) < abs(alpha_2) else alpha_2)
+                if current_angle < 0.0 and objective_angle >= 0.0:
+                    alpha_2 = -(math.pi - objective_angle + (math.pi + current_angle))
+                    alpha = alpha if abs(alpha) < abs(alpha_2) else alpha_2
+
+                # invert angle (I do not know why)
+                alpha *= -1
+
+                # calcurat omega (100 is param)
+                omega = 2 * 100 * speed * math.sin(alpha) / dist
+
                 control_actor['actor'].set_velocity(velocity)
                 control_actor['actor'].set_angular_velocity(carla.Vector3D(0.0, 0.0, omega))
+
+                # debug = self.world.debug
+                # debug.draw_arrow(
+                # begin=control_actor.get('actor').get_location() + carla.Location(z=vector.z + 3),
+                # end=control_actor.get('actor').get_location() + carla.Location(x=vector.x, y=vector.y, z=vector.z + 3),
+                # life_time=0.5
+                # )
+                # debug.draw_string(
+                # location=control_actor.get('actor').get_location() + carla.Location(z=vector.z + 3),
+                # text=str(omega),
+                # life_time=0.1
+                # )
+
             # update distination if move has multiple targets
 
             elif control_actor['type'] == 'static':

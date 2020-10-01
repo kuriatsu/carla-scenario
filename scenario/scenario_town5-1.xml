@@ -303,7 +303,7 @@
             <type>walker</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
-            <transform>-9.95117855072,-20.5609912872,1.12962138653,0.0,88.5999832153,0.0</transform>
+            <transform>-17.2408008575,-20.6374931335,1.1362054348,0.0,89.9999847412,0.0</transform>
         </spawn>
         <spawn id="85">
             <type>walker</type>
@@ -539,8 +539,8 @@
             <transform>-41.8710632324,29.3138484955,0.0976092293859,0.0369240008295,-90.0308074951,2.34554336203e-05</transform>
         </spawn>
         <move id="84">
-            <waypoint speed="2.0">-10.8956785202,-9.45081615448,1.10492265224</waypoint>
-            <waypoint speed="4.0">-10.9808473587,9.47265720367,1.10382544994</waypoint>
+            <waypoint speed="4.0">-16.9647159576,-9.92754459381,1.130443573</waypoint>
+            <waypoint speed="10.0">-17.1864356995,9.59012699127,1.10389995575</waypoint>
         </move>
         <move id="35">
             <waypoint speed="12.0"/>
