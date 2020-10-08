@@ -69,10 +69,12 @@ class ScenarioXML(object):
         self.ego_vehicle : actor of echo vehicle
         """
 
+        print(self.world.get_actors())
         for carla_actor in self.world.get_actors():
             if carla_actor.attributes.get('role_name') == 'ego_vehicle':
-                return carla_actor
+                self.ego_vehicle = carla_actor
 
+        print('could not find ego_vehicle')
 
     def checkTrigger(self):
         """check Trigger and run action
@@ -90,11 +92,11 @@ class ScenarioXML(object):
             # print('trigger', distance)
             if distance < self.intrusion_thres:
                 print("trigger: {}".format(self.trigger_index))
-                self.spawnActor(trigger.findall('spawn'))
-                self.moveActor(trigger.findall('move'))
                 self.killActor(trigger.findall('kill'))
-                self.controlTrafficLight(trigger.findall("trafficlight"))
+                self.spawnActor(trigger.findall('spawn'))
                 self.poseActor(trigger.findall("pose"))
+                self.moveActor(trigger.findall('move'))
+                self.controlTrafficLight(trigger.findall("trafficlight"))
                 # self.poseActor(trigger.findall("pose"))
                 self.trigger_index += 1
                 if self.trigger_index == len(self.scenario):
@@ -181,7 +183,6 @@ class ScenarioXML(object):
             buf = spawn.find('transform').text
             transform = carla.Transform(carla.Location(buf[0], buf[1], buf[2]), carla.Rotation(buf[3], buf[4], buf[5]))
             batch.append(carla.command.SpawnActor(blueprint, transform))
-            print("spawn: " + spawn.attrib.get("id"));
 
         # conduct spawn actor
         results = self.client.apply_batch_sync(batch)
@@ -189,7 +190,7 @@ class ScenarioXML(object):
             spawned_actor = spawn_list[i]
             if results[i].error:
                 # warnings.warn(results[i].error)
-                print("failed to spawn: " + spawned_actor.attrib.get('id'))
+                print("spawn failed: " + spawned_actor.attrib.get('id'))
                 if spawned_actor in ai_walkers_list:
                     ai_walkers_list.remove(spawned_actor)
                 for trigger in self.scenario.findall('trigger'):
@@ -206,6 +207,8 @@ class ScenarioXML(object):
             else:
                 world_id = ET.SubElement(spawned_actor, 'world_id')
                 world_id.text = results[i].actor_id
+                print("spawned : " + spawned_actor.attrib.get('id') + ', ' + str(world_id.text));
+
                 # print(spawned_actor_list[i].find('type').text)
                 if spawned_actor.find('type').text == 'static':
                     control_actor = {}
@@ -245,7 +248,7 @@ class ScenarioXML(object):
                     # control.bone_transforms = posePhoneLeft()
                     control.bone_transforms = pose_define.pose_dict.get(pose.find('form').text)()
                     actor.apply_control(control)
-                    time.sleep(1)
+                    # time.sleep(1)
                     actor.apply_control(control)
                     print('pose: '+ spawn.attrib.get('id'))
 
@@ -451,6 +454,8 @@ class ScenarioXML(object):
                         actor.set_state(carla.TrafficLightState.Green)
 
                     continue
+                else:
+                    print((controll_light.find('location').text[0] - trafficlight.get('location').x) ** 2 + (controll_light.find('location').text[1] - trafficlight['location'].y) ** 2)
 
     def __del__(self):
         batch = []
@@ -480,11 +485,12 @@ def game_loop(args):
     sx = ScenarioXML(client, world, args.scenario_file)
     sx.blueprint = sx.world.get_blueprint_library()
 
-    sx.ego_vehicle = sx.getEgoCar()
+    sx.getEgoCar()
     sx.ego_pose = sx.ego_vehicle.get_transform()
     sx.spawnActor(sx.scenario[0].findall('spawn'))
     sx.moveActor(sx.scenario[0].findall('move'))
     sx.poseActor(sx.scenario[0].findall('pose'))
+    sx.controlTrafficLight(sx.scenario[0].findall("trafficlight"))
 
     while sx.checkTrigger() in [0, 1]:
         sx.world.wait_for_tick()

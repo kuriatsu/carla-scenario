@@ -5,6 +5,7 @@ import glob
 import os
 import sys
 import argparse
+import math
 try:
     sys.path.append(glob.glob('**/carla-*%d.%d-%s.egg' % (
         sys.version_info.major,
@@ -52,8 +53,8 @@ class CarlaBridge(object):
         self.scenario_file = None
         self.scenario_xml = None
 
-        self.pub_pose = rospy.Publisher('/ndt_pose', PoseStamped, queue_size=1)
-        self.pub_twist = rospy.Publisher('/estimate_twist', TwistStamped, queue_size=1)
+        # self.pub_pose = rospy.Publisher('/ndt_pose', PoseStamped, queue_size=1)
+        # self.pub_twist = rospy.Publisher('/estimate_twist', TwistStamped, queue_size=1)
         self.pub_obj = rospy.Publisher('/my_carla_actors', ObjectArray, queue_size=5)
 
         self.ego_vehicle = None
@@ -129,11 +130,11 @@ class CarlaBridge(object):
         actor probability from scenario_xml
         """
         for spawn in self.scenario_xml.scenario.iter('spawn'):
-            if spawn.find('world_id') is not None and int(spawn.find('world_id').text) == world_id:
-                if spawn.find('probability') is not None:
-                    return int(spawn.find('probability').text)
-                else:
-                    return 0
+            if spawn.find('world_id') is None: continue
+            if int(spawn.find('world_id').text) != world_id: continue
+            if spawn.find('probability') is None: return 0
+
+            return int(spawn.find('probability').text)
 
         return 0
 
@@ -141,31 +142,31 @@ class CarlaBridge(object):
     def updateActors(self):
         """update actor dynamic info
         """
-        pose = self.scenario_xml.ego_pose
-        twist_linear = self.ego_vehicle.get_velocity()
-        twist_angular = self.ego_vehicle.get_angular_velocity()
+        # pose = self.scenario_xml.ego_pose
+        # twist_linear = self.ego_vehicle.get_velocity()
+        # twist_angular = self.ego_vehicle.get_angular_velocity()
 
-        self.ego_pose = Pose(
-            position=Point(
-                x=pose.location.x,
-                y=pose.location.y,
-                z=pose.location.z
-                ),
-            orientation=self.rotation_to_quaternion(self.scenario_xml.ego_pose.rotation)
-            )
-
-        self.ego_twist = Twist(
-            linear=Vector3(
-                x=twist_linear.x,
-                y=twist_linear.y,
-                z=twist_linear.z
-            ),
-            angular=Vector3(
-                x=twist_angular.x,
-                y=twist_angular.y,
-                z=twist_angular.z
-            )
-        )
+        # self.ego_pose = Pose(
+        #     position=Point(
+        #         x=pose.location.x,
+        #         y=pose.location.y,
+        #         z=pose.location.z
+        #         ),
+        #     orientation=self.rotation_to_quaternion(self.scenario_xml.ego_pose.rotation)
+        #     )
+        #
+        # self.ego_twist = Twist(
+        #     linear=Vector3(
+        #         x=twist_linear.x,
+        #         y=twist_linear.y,
+        #         z=twist_linear.z
+        #     ),
+        #     angular=Vector3(
+        #         x=twist_angular.x,
+        #         y=twist_angular.y,
+        #         z=twist_angular.z
+        #     )
+        # )
 
 
         for i, actor in enumerate(self.carla_actors):
@@ -185,7 +186,7 @@ class CarlaBridge(object):
             self.ros_actors[i].pose = Pose(
                 position=Point(
                     x=transform.location.x,
-                    y=transform.location.y,
+                    y=-transform.location.y,
                     z=transform.location.z
                     ),
                 orientation=self.rotation_to_quaternion(transform.rotation)
@@ -193,20 +194,20 @@ class CarlaBridge(object):
             self.ros_actors[i].twist = Twist(
                 linear=Vector3(
                     x=twist_linear.x,
-                    y=twist_linear.y,
-                    z=twist_linear.z
+                    y=-twist_linear.y,
+                    z=-twist_linear.z
                     ),
                 angular=Vector3(
                     x=twist_angular.x,
-                    y=twist_angular.y,
-                    z=twist_angular.z
+                    y=-twist_angular.y,
+                    z=-twist_angular.z
                     )
                 )
             self.ros_actors[i].accel = Accel(
                 linear=Vector3(
                     x=accel.x,
-                    y=accel.y,
-                    z=accel.z
+                    y=-accel.y,
+                    z=-accel.z
                     ),
                 angular=Vector3()
                 )
@@ -214,9 +215,9 @@ class CarlaBridge(object):
 
     def rotation_to_quaternion(self, rotation):
         quat = tf.transformations.quaternion_from_euler(
-            rotation.roll,
-            rotation.pitch,
-            rotation.yaw
+            math.radians(rotation.roll),
+            -math.radians(rotation.pitch),
+            -math.radians(rotation.yaw)
             )
         return Quaternion(x=quat[0], y=quat[1], z=quat[2], w=quat[3])
 
@@ -247,10 +248,10 @@ class CarlaBridge(object):
         header = Header(stamp=rospy.Time.now(), frame_id='map')
         object_array = ObjectArray(header=header, objects=self.ros_actors)
         self.pub_obj.publish(object_array)
-        ego_pose = PoseStamped(header=header, pose=self.ego_pose)
-        self.pub_pose.publish(ego_pose)
-        ego_twist = TwistStamped(header=header, twist=self.ego_twist)
-        self.pub_twist.publish(ego_twist)
+        # ego_pose = PoseStamped(header=header, pose=self.ego_pose)
+        # self.pub_pose.publish(ego_pose)
+        # ego_twist = TwistStamped(header=header, twist=self.ego_twist)
+        # self.pub_twist.publish(ego_twist)
 
 
     def startScenario(self, filename):

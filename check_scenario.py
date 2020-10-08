@@ -21,16 +21,22 @@ import csv
 import warnings
 
 color = [
-carla.Color(0,134,179),
-carla.Color(166,186,178),
-carla.Color(111,186,44),
-carla.Color(52,114,161),
-carla.Color(249,194,112),
-carla.Color(82,59,67),
-carla.Color(232,55,74),
-carla.Color(237,241,176),
-carla.Color(15,216,45),
-carla.Color(0,175,204),
+carla.Color(255,255,255),
+carla.Color(255,255,0),
+carla.Color(0,255,255),
+carla.Color(0,255,0),
+carla.Color(128,128,128),
+carla.Color(128,128,0),
+carla.Color(255,0,255),
+carla.Color(0,128,128),
+carla.Color(255,0,0),
+carla.Color(0,128,0),
+carla.Color(0,0,128),
+carla.Color(128,0,128),
+carla.Color(128,0,0),
+carla.Color(0,0,255),
+carla.Color(0,0,0),
+
 ]
 line_thickness = {
 'walker' : 0.2,
@@ -96,7 +102,7 @@ def main():
         debug.draw_point(
             location=location,
             life_time=args.lifetime,
-            size=0.5,
+            size=0.1,
             color=color[int(trriger.attrib.get('id'))%10]
             )
         debug.draw_string(location=location+carla.Location(z=1.0),
