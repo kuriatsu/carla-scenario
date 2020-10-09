@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<data>
+    <trigger id="0">
+        <location>0,0,0</location>
+        <spawn id="walker_l_cross_0">
+            <type>walker</type>
+            <probability>80</probability>
+            <blueprint>walker.pedestrian.0010</blueprint>
+            <transform>110.786422729,10.4979600906,1.10365664959,0.0,-179.200012207,0.0</transform>
+        </spawn>
+        <spawn id="ai_walker_right_sidewalk_0">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>131.735198975,-9.06001472473,1.11982262135,0.0,101.700073242,0.0</transform>
+        </spawn>
+        <spawn id="ai_walker_right_sidewalk_0">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>119.997451782,8.11299133301,1.11555182934,0.0,-2.29998826981,0.0</transform>
+        </spawn>
+        <spawn id="ai_vehicle_right_sideway_0">
+            <type>ai_vehicle</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>100.089317322,-17.3476982117,0.952366292477,0.0,90.700012207,0.0</transform>
+        </spawn>
+        <spawn id="ai_walker_right_sidewalk_1">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>55.1220588684,-9.59019184113,1.10123336315,0.0,95.9000015259,0.0</transform>
+        </spawn>
+        <spawn id="ai_walker_right_sidewalk_2">
+            <type>ai_walker</type>
+            <probability>80</probability>
+            <blueprint>random</blueprint>
+            <transform>79.4903869629,-9.2757730484,1.10346913338,0.0,92.3999862671,0.0</transform>
+        </spawn>
+        <move id="ai_walker_right_sidewalk_0">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="ai_walker_right_sidewalk_0">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="ai_vehicle_right_sideway_0">
+            <waypoint speed="12.0"/>
+        </move>
+    </trigger>
+    <trigger id="1">
+        <location>138.851516724,-2.28138899803,0.00914668943733</location>
+        <move id="walker_l_cross_0">
+            <waypoint speed="4.0">91.9000549316,10.2342824936,1.10389995575</waypoint>
+            <waypoint speed="4.0">91.4931793213,-9.86814117432,1.10179519653</waypoint>
+        </move>
+    </trigger>
+    <trigger id="2">
+        <location>107.27947998,-2.17566943169,-0.00681217201054</location>
+        <move id="ai_walker_right_sidewalk_1">
+            <waypoint speed="2.0"/>
+        </move>
+        <move id="ai_walker_right_sidewalk_2">
+            <waypoint speed="2.0"/>
+        </move>
+
+    </trigger>
+    <trigger id="3">
+        <location>76.4445571899,-1.70701122284,0.128902778029</location>
+        <kill id="walker_l_cross_0"/>
+        <kill id="ai_walker_right_sidewalk_0"/>
+        <kill id="ai_walker_right_sidewalk_0"/>
+        <kill id="ai_vehicle_right_sideway_0"/>
+
+    </trigger>
+    <trigger id="4">
+
+    </trigger>
+    <trigger id="4">
+        <kill id="ai_walker_right_sidewalk_1"/>
+        <kill id="ai_walker_right_sidewalk_2"/>
+    </trigger>
+</data>

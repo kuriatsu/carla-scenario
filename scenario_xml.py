@@ -69,10 +69,12 @@ class ScenarioXML(object):
         self.ego_vehicle : actor of echo vehicle
         """
 
-        print(self.world.get_actors())
         for carla_actor in self.world.get_actors():
             if carla_actor.attributes.get('role_name') == 'ego_vehicle':
                 self.ego_vehicle = carla_actor
+                print('find ego_vehicle')
+                return
+
 
         print('could not find ego_vehicle')
 
@@ -89,8 +91,9 @@ class ScenarioXML(object):
             trigger = self.scenario[self.trigger_index] # get trigger tree from scenario tree
             distance = (self.ego_pose.location.x - trigger[0].text[0]) ** 2 \
                        + (self.ego_pose.location.y - trigger[0].text[1]) ** 2
+
             # print('trigger', distance)
-            if distance < self.intrusion_thres:
+            if distance < float(trigger.attrib.get('thres')) ** 2:
                 print("trigger: {}".format(self.trigger_index))
                 self.killActor(trigger.findall('kill'))
                 self.spawnActor(trigger.findall('spawn'))
@@ -189,8 +192,7 @@ class ScenarioXML(object):
         for i in range(len(results)):
             spawned_actor = spawn_list[i]
             if results[i].error:
-                # warnings.warn(results[i].error)
-                print("spawn failed: " + spawned_actor.attrib.get('id'))
+                print("spawn failed: " + spawned_actor.attrib.get('id') + results[i].error)
                 if spawned_actor in ai_walkers_list:
                     ai_walkers_list.remove(spawned_actor)
                 for trigger in self.scenario.findall('trigger'):
@@ -454,8 +456,6 @@ class ScenarioXML(object):
                         actor.set_state(carla.TrafficLightState.Green)
 
                     continue
-                else:
-                    print((controll_light.find('location').text[0] - trafficlight.get('location').x) ** 2 + (controll_light.find('location').text[1] - trafficlight['location'].y) ** 2)
 
     def __del__(self):
         batch = []
@@ -485,12 +485,13 @@ def game_loop(args):
     sx = ScenarioXML(client, world, args.scenario_file)
     sx.blueprint = sx.world.get_blueprint_library()
 
-    sx.getEgoCar()
-    sx.ego_pose = sx.ego_vehicle.get_transform()
     sx.spawnActor(sx.scenario[0].findall('spawn'))
     sx.moveActor(sx.scenario[0].findall('move'))
     sx.poseActor(sx.scenario[0].findall('pose'))
     sx.controlTrafficLight(sx.scenario[0].findall("trafficlight"))
+
+    sx.getEgoCar()
+    sx.ego_pose = sx.ego_vehicle.get_transform()
 
     while sx.checkTrigger() in [0, 1]:
         sx.world.wait_for_tick()

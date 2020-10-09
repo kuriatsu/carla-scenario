@@ -95,43 +95,46 @@ def main():
 
     scenario = readFile(args.scenario_file)
     actor_position = {}
+    trigger_index = 0
 
-    for trriger in scenario:
-        buf = trriger[0].text
+    for trigger in scenario:
+        buf = trigger[0].text
         location = carla.Location(buf[0], buf[1], buf[2])
+        print(trigger.attrib.get('thres'))
         debug.draw_point(
             location=location,
             life_time=args.lifetime,
-            size=0.1,
-            color=color[int(trriger.attrib.get('id'))%10]
+            size=0.02 * float(trigger.attrib.get('thres')),
+            color=color[trigger_index % len(color)]
             )
         debug.draw_string(location=location+carla.Location(z=1.0),
-            text='trigger'+trriger.attrib.get('id'),
+            text='trigger'+trigger.attrib.get('id'),
             color=carla.Color(255,255,255), life_time=args.lifetime
             )
 
-        for i, action in enumerate(trriger[1:]):
+        for i, action in enumerate(trigger[1:]):
             print("id: ", action.attrib.get('id'), " type: ", action.tag)
             if action.tag == 'spawn':
                 buf = action.find('transform').text
                 location = carla.Location(buf[0], buf[1], buf[2])
-                debug.draw_point(
-                    location=location,
-                    life_time=args.lifetime,
-                    size=0.1,
-                    color=color[int(trriger.attrib.get('id'))%10]
-                    )
+                # debug.draw_point(
+                #     location=location,
+                #     life_time=args.lifetime,
+                #     size=0.1,
+                #     color=color[trigger_index % len(color)]
+                #     )
                 if (action.find('type').text == 'walker' or action.find('type').text == 'vehicle'):
                     debug.draw_string(
                         location=location+carla.Location(z=1.0),
-                        text='spawn '+action.find('type').text + action.attrib.get('id'),
-                        color=carla.Color(255,0,0), life_time=args.lifetime
+                        text=action.attrib.get('id'),
+                        color=color[trigger_index % len(color)],
+                        life_time=args.lifetime
                         )
                 else:
                     debug.draw_string(
                         location=location+carla.Location(z=1.0),
-                        text='spawn '+action.find('type').text + action.attrib.get('id'),
-                        color=carla.Color(255,255,255),
+                        text=action.attrib.get('id'),
+                        color=color[trigger_index % len(color)],
                         life_time=args.lifetime
                         )
                 actor_position[action.attrib.get('id')] = location
@@ -140,7 +143,7 @@ def main():
                 waypoints = action.findall('waypoint')
                 start = actor_position.get(action.attrib.get('id'))
                 if start is None:
-                    warnings.warn('actor {} is not spawned but waypoint is set {}'.format(action.attrib.get('id'), trriger.attrib.get('id')))
+                    warnings.warn('actor {} is not spawned but waypoint is set {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
                 else:
                     waypoints.insert(0, start)
                     if len(waypoints) > 1:
@@ -151,49 +154,49 @@ def main():
                                 debug.draw_line(
                                     begin=waypoints[i-1],
                                     end=waypoints[i],
-                                    color=color[int(trriger.attrib.get('id'))%10],
+                                    color=color[trigger_index % len(color)],
                                     thickness=0.5, life_time=args.lifetime
                                     )
                                 actor_position[action.attrib.get('id')] = waypoints[i]
                             else:
                                 debug.draw_string(
-                                    location=actor_position[action.attrib.get('id')]+carla.Location(x=1.0, z=2.0),
+                                    location=actor_position[action.attrib.get('id')]+carla.Location(x=2.0, z=1.0),
                                     text='free',
-                                    color=carla.Color(255,0,255),
+                                    color=color[trigger_index % len(color)],
                                     life_time=args.lifetime
                                     )
-                                debug.draw_point(
-                                    location=start+carla.Location(z=2.0),
-                                    life_time=args.lifetime,
-                                    size=0.1,
-                                    color=color[int(trriger.attrib.get('id'))%10]
-                                    )
+                                # debug.draw_point(
+                                #     location=start+carla.Location(x=2.0, z=1.0),
+                                #     life_time=args.lifetime,
+                                #     size=0.1,
+                                #     color=color[trigger_index % len(color)]
+                                #     )
 
             if action.tag == 'pose':
-                debug.draw_point(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(z=3.0),
-                    life_time=args.lifetime,
-                    size=0.1,
-                    color=color[int(trriger.attrib.get('id'))%10]
-                    )
+                # debug.draw_point(
+                #     location=actor_position[action.attrib.get('id')]+carla.Location(z=3.0),
+                #     life_time=args.lifetime,
+                #     size=0.1,
+                #     color=color[trigger_index % len(color)]
+                #     )
                 debug.draw_string(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(x=1.0, z=3.0),
+                    location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0, z=1.0),
                     text=action.find('form').text,
-                    color=carla.Color(150,150,0),
+                    color=color[trigger_index % len(color)],
                     life_time=args.lifetime
                     )
 
             if action.tag == "kill":
-                debug.draw_point(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(z=4.0),
-                    life_time=args.lifetime,
-                    size=0.1,
-                    color=color[int(trriger.attrib.get('id'))%10]
-                    )
+                # debug.draw_point(
+                #     location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0),
+                #     life_time=args.lifetime,
+                #     size=0.1,
+                #     color=color[trigger_index % len(color)]
+                #     )
                 debug.draw_string(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(x=1.0, z=4.0),
+                    location=actor_position[action.attrib.get('id')]+carla.Location(x=6.0, z=1.0),
                     text='kill',
-                    color=carla.Color(255,0,0),
+                    color=color[trigger_index % len(color)],
                     life_time=args.lifetime
                     )
 
@@ -204,7 +207,7 @@ def main():
                     location=location,
                     life_time=args.lifetime,
                     size=0.1,
-                    color=color[int(trriger.attrib.get('id'))%10]
+                    color=color[trigger_index % len(color)]
                     )
                 debug.draw_string(
                     location=location+carla.Location(x=2.0, z=1.0),
@@ -216,7 +219,8 @@ def main():
                     # if start is not None:
                         # debug.draw_string(location=start+carla.Location(z=1.0), text='start_ai', color=carla.Color(0,255,0), life_time=30)
                     # else:
-                        # warnings.warn('actor {} is not spawned but ai is start {}'.format(action.attrib.get('id'), trriger.attrib.get('id')))
+                        # warnings.warn('actor {} is not spawned but ai is start {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
+        trigger_index += 1
 
 if __name__ == '__main__':
     main()
