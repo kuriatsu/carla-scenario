@@ -53,7 +53,7 @@ The scenario is read from top to bottom. If the vehicle misses one trigger, the 
 * location: trigger location on the map
 
 #### 2. Spawn Actors
-* walker
+walker
 ```xml
         <spawn id="ai_walker_road1_0">
             <type>ai_walker</type>
@@ -68,7 +68,7 @@ The scenario is read from top to bottom. If the vehicle misses one trigger, the 
   * blueprint: select from [HERE](https://carla.readthedocs.io/en/latest/bp_library/) or set random.
   * transform: spawn position
   
-* vehicles
+vehicles
 ```xml
         <spawn id="vehicle_road2_0">
             <type>vehicle</type>
@@ -83,7 +83,7 @@ The scenario is read from top to bottom. If the vehicle misses one trigger, the 
   * blueprint: select from [HERE](https://carla.readthedocs.io/en/latest/bp_library/) or set random.
   * transform: spawn position
   
-* static objects
+static objects
 ```xml
         <spawn id="static_road5_0">
             <type>static</type>
