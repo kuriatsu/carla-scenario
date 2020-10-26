@@ -11,26 +11,26 @@
         </spawn>
         <spawn id="ai_walker_road1_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>122.392601013,-8.89567947388,1.11982262135,0.0,-179.000015259,0.0</transform>
         </spawn>
 
         <spawn id="ai_walker_road1_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>131.950927734,8.70213508606,1.11555182934,0.0,-176.5,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection1_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.audi.a2</blueprint>
             <transform>103.424301147,21.5339813232,0.952366292477,0.0,-89.8999862671,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection1_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.audi.etron</blueprint>
             <transform>84.4346847534,5.21189403534,0.952366292477,0.0,-1.60000622272,0.0</transform>
         </spawn>
@@ -47,19 +47,19 @@
         <location>138.851516724,-2.28138899803,0.00914668943733</location>
         <spawn id="ai_vehicle_road2_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.bmw.isetta</blueprint>
             <transform>79.8049087524,-5.01964759827,1.0,-0.0426681898534,-177.398712158,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road2_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>69.2458953857,-9.45231819153,1.10346913338,0.0,-175.299972534,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road2_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>81.3301086426,10.0537376404,1.10315310955,0.0,4.80000638962,0.0</transform>
         </spawn>
@@ -82,43 +82,43 @@
         <location>91.1747055054,-2.09582901001,0.129185676575</location>
         <spawn id="ai_walker_intersection2_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>42.2426490784,9.27190876007,1.10343551636,0.0,-123.800056458,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection2_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.chevrolet.impala</blueprint>
             <transform>25.4343910217,-52.8615875244,0.951500236988,0.0,88.0999984741,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection2_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.citroen.c3</blueprint>
             <transform>35.0713768005,36.1546592712,1.0,-0.00131139624864,-86.9553222656,3.73473852733e-07</transform>
         </spawn>
         <spawn id="ai_walker_road3_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>5.03563690186,-8.06780719757,1.10389995575,0.0,-4.49997138977,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road3_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>-14.6482954025,9.43378925323,1.10382544994,0.0,-177.700073242,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road3_2">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>-30.9893474579,9.95394897461,1.10352432728,0.0,-91.4999923706,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road3_3">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>-27.0395126343,-8.42075157166,1.10389995575,0.0,0.699981689453,0.0</transform>
         </spawn>
@@ -175,19 +175,19 @@
         <location>18.1890983582,-1.10476863384,0.129413887858</location>
         <spawn id="ai_vehicle_intersection3_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.dodge_charger.police</blueprint>
             <transform>-51.4768447876,-40.6049957275,1.0069309473,0.0,91.700012207,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection3_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.jeep.wrangler_rubicon</blueprint>
             <transform>-46.8390388489,26.6110572815,1.00695037842,0.0,-90.700012207,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection3_2">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.lincoln.mkz2017</blueprint>
             <transform>-76.1733856201,6.37776374817,1.0,0.0,-1.36016857624,0.0</transform>
         </spawn>
@@ -248,32 +248,32 @@
         <location>-50.3487548828,11.4281721115,0.170998319983</location>
         <spawn id="ai_vehicle_intersection4_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.mercedes-benz.coupe</blueprint>
             <transform>-87.1757049561,91.5634841919,1.0,-0.172393962741,1.61090493202,-0.0003662109375</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection4_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.mini.cooperst</blueprint>
             <transform>-44.2541389465,117.267730713,1.0,-0.170351743698,-85.5531311035,-0.000549312331714</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection4_2">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.mustang.mustang</blueprint>
             <transform>-17.3477153778,84.4125213623,1.0,-0.171171367168,179.161392212,-0.000518798595294</transform>
         </spawn>
         <spawn id="ai_walker_road5_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>9.52197933197,80.5159912109,1.10367369652,0.0,-173.799972534,0.0</transform>
         </spawn>
 
         <spawn id="ai_walker_road5_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>-18.0782146454,81.0703582764,1.10315942764,0.0,-39.8999481201,0.0</transform>
         </spawn>
@@ -324,25 +324,25 @@
         <location>-38.276134491,94.433380127,0.130746126175</location>
         <spawn id="ai_vehicle_intersection5_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.nissan.micra</blueprint>
             <transform>31.7390651703,120.361473083,1.0,-0.170775204897,-89.9700546265,-0.00048828063882</transform>
         </spawn>
         <spawn id="ai_vehicle_intersection5_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.nissan.patrol</blueprint>
             <transform>48.589881897,84.8239440918,1.0,-0.129397928715,179.30406189,-0.00158691359684</transform>
         </spawn>
         <spawn id="ai_walker_road6_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>walker.pedestrian.0001</blueprint>
             <transform>38.5677223206,115.213813782,1.10264265537,0.0,-16.5000457764,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road6_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>walker.pedestrian.0001</blueprint>
             <transform>21.2008876801,132.652206421,1.10311937332,0.0,3.00000214577,0.0</transform>
         </spawn>
@@ -392,43 +392,43 @@
         <location>27.4674453735,101.725067139,0.12929366529</location>
         <spawn id="ai_walker_road7_0">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>55.6699676514,152.330368042,1.13698637486,0.0,3.19999289513,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road7_1">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>77.8495407104,135.763214111,1.13999176025,0.0,-26.6999664307,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road7_2">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>walker.pedestrian.0006</blueprint>
             <transform>134.776947021,114.430953979,1.13840258121,0.0,-9.80006217957,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road7_3">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>144.569137573,76.5469665527,1.13716089725,0.0,-89.099937439,0.0</transform>
         </spawn>
         <spawn id="ai_walker_road7_4">
             <type>ai_walker</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>random</blueprint>
             <transform>161.802139282,65.1904373169,1.14250469208,0.0,-76.0998916626,0.0</transform>
         </spawn>
         <spawn id="ai_vehicle_road7_0">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.seat.leon</blueprint>
             <transform>149.772109985,100.073028564,1.0,-0.121850565076,104.394882202,0.221563830972</transform>
         </spawn>
         <spawn id="ai_vehicle_road7_1">
             <type>ai_vehicle</type>
-            <probability>0</probability>
+            <probability>20</probability>
             <blueprint>vehicle.tesla.model3</blueprint>
             <transform>151.581710815,54.1483840942,1.0,-0.137696608901,88.3374404907,-0.00134278298356</transform>
         </spawn>
