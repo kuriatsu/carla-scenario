@@ -28,7 +28,7 @@ from pose import PoseDefine
 
 class ScenarioXML(object):
 
-    def __init__(self, client, world, scenario_file):
+    def __init__(self, client, world, scenario_file, pedestrian_cross_factor):
         self.client = client
         self.world = world
         self.ego_vehicle = None
@@ -42,6 +42,7 @@ class ScenarioXML(object):
         self.pose_define = PoseDefine()
         self.spawned_static_objects_id = []
 
+        self.world.set_pedestrians_cross_factor(pedestrian_cross_factor)
 
     def readFile(self, filename):
         """read xml file and return root of ElementTree, elements of some lists are changed from text to float.
@@ -482,7 +483,7 @@ def game_loop(args):
     client = carla.Client(args.host, args.port)
     client.set_timeout(2.0)
     world = client.get_world()
-    sx = ScenarioXML(client, world, args.scenario_file)
+    sx = ScenarioXML(client, world, args.scenario_file, args.pedestrian_cross_factor)
     sx.blueprint = sx.world.get_blueprint_library()
 
     sx.spawnActor(sx.scenario[0].findall('spawn'))
@@ -529,6 +530,12 @@ if __name__ == '__main__':
         metavar='S',
         default='/home/mad-carla/share/catkin_ws/src/carla_helper/scenario_test.xml',
         help='scenario file (default: scenario.xml)')
+    argparser.add_argument(
+        '-f', '--pedestrian_cross_factor',
+        metavar='S',
+        default=0.0,
+        type=float
+        help='pedestrian cross rate 0.0-1.0')
     args = argparser.parse_args()
 
     game_loop(args)

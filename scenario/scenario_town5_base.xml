@@ -3,12 +3,7 @@
     <!-- spawn -->
     <trigger id="initial_spawn" thres="0.0">
         <location>0,0,0</location>
-        <spawn id="walker_hidden_intersection_0">
-            <type>walker</type>
-            <probability>20</probability>
-            <blueprint>walker.pedestrian.0004</blueprint>
-            <transform>112.205688477,-13.6939544678,1.10389995575,0.0,88.0999984741,0.0</transform>
-        </spawn>
+
         <spawn id="ai_walker_road1_0">
             <type>ai_walker</type>
             <probability>0</probability>
@@ -63,9 +58,6 @@
             <blueprint>random</blueprint>
             <transform>81.3301086426,10.0537376404,1.10315310955,0.0,4.80000638962,0.0</transform>
         </spawn>
-        <move id="walker_hidden_intersection_0">
-            <waypoint speed="3.0">112.466842651,10.5819349289,1.10365664959</waypoint>
-        </move>
     </trigger>
     <!-- mid road 1 -->
     <trigger id="mid_road1" thres="4.0">
@@ -133,7 +125,6 @@
         </move>
         <kill id="ai_walker_road1_0"/>
         <kill id="ai_walker_road1_1"/>
-        <kill id="walker_hidden_intersection_0"/>
     </trigger>
     <!-- trafficlight 2 -->
     <trigger id="trafficlight2" thres="15.0">

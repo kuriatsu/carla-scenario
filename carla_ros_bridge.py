@@ -254,9 +254,9 @@ class CarlaBridge(object):
         # self.pub_twist.publish(ego_twist)
 
 
-    def startScenario(self, filename):
+    def startScenario(self, filename, pedestrian_cross_factor):
         del self.scenario_xml
-        scenario_xml = ScenarioXML(self.client, self.world, filename)
+        scenario_xml = ScenarioXML(self.client, self.world, filename, pedestrian_cross_factor)
 
         scenario_xml.blueprint = self.world.get_blueprint_library()
         scenario_xml.spawnActor(scenario_xml.scenario[0].findall('spawn'))
@@ -281,7 +281,7 @@ def main(args):
         carla_bridge.client.set_timeout(2.0)
         carla_bridge.world = carla_bridge.client.get_world()
 
-        carla_bridge.startScenario(args.scenario_file)
+        carla_bridge.startScenario(args.scenario_file, args.pedestrian_cross_factor)
         carla_bridge.scenario_file = args.scenario_file
 
         rospy.Timer(rospy.Duration(0.1), carla_bridge.timerCallback)
@@ -311,6 +311,12 @@ if __name__ == '__main__':
         metavar='S',
         default='/home/mad-carla/share/catkin_ws/src/carla_helper/scenario_test.xml',
         help='scenario file (default: scenario.xml)')
+    argparser.add_argument(
+        '-f', '--pedestrian_cross_factor',
+        metavar='S',
+        default=0.0,
+        type=float
+        help='pedestrian cross rate 0.0-1.0')
     args = argparser.parse_args()
 
     main(args)
