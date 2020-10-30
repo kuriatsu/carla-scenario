@@ -63,6 +63,8 @@ class CarlaBridge(object):
         # following 2 list muxt have same actor with the same index
         self.ros_actors = [] # derived_object_msgs
         self.carla_actors = [] # carla.actor
+        self.loop_num = 0
+        self.pedestrian_cross_factor = None
 
 
     def getActors(self):
@@ -236,7 +238,8 @@ class CarlaBridge(object):
             exit(1)
         elif flag == 2:
             print('restart')
-            self.startScenario(self.scenario_file)
+            self.loop_num += 1
+            self.startScenario(self.scenario_file[self.loop_num % len(self.scenario_file)], self.pedestrian_cross_factor)
         elif flag == 1:
             self.getActors()
             self.updateActors()
@@ -281,8 +284,9 @@ def main(args):
         carla_bridge.client.set_timeout(2.0)
         carla_bridge.world = carla_bridge.client.get_world()
 
-        carla_bridge.startScenario(args.scenario_file, args.pedestrian_cross_factor)
         carla_bridge.scenario_file = args.scenario_file
+        carla_bridge.pedestrian_cross_factor = args.pedestrian_cross_factor
+        carla_bridge.startScenario(carla_bridge.scenario_file[0], carla_bridge.pedestrian_cross_factor)
 
         rospy.Timer(rospy.Duration(0.1), carla_bridge.timerCallback)
         rospy.spin()
@@ -309,13 +313,14 @@ if __name__ == '__main__':
     argparser.add_argument(
         '-s', '--scenario_file',
         metavar='S',
+        nargs='+',
         default='/home/mad-carla/share/catkin_ws/src/carla_helper/scenario_test.xml',
         help='scenario file (default: scenario.xml)')
     argparser.add_argument(
         '-f', '--pedestrian_cross_factor',
         metavar='S',
-        default=0.0,
-        type=float
+        default=0.1,
+        type=float,
         help='pedestrian cross rate 0.0-1.0')
     args = argparser.parse_args()
 

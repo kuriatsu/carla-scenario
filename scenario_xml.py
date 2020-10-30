@@ -533,8 +533,8 @@ if __name__ == '__main__':
     argparser.add_argument(
         '-f', '--pedestrian_cross_factor',
         metavar='S',
-        default=0.0,
-        type=float
+        default=1.0,
+        type=float,
         help='pedestrian cross rate 0.0-1.0')
     args = argparser.parse_args()
 
