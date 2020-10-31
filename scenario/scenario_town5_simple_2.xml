@@ -32,9 +32,18 @@
             <probability>80</probability>
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
-            <blueprint>static.prop.plasticbag</blueprint>
-            <transform>207.272354126,53.3731498718,0.3,-0.0144321890548,-87.5789871216,0.0</transform>
+            <blueprint>static.prop.trashbag</blueprint>
+            <transform>206.270477295,88.4995956421,0.3,0.00152996229008,-85.59349823,1.42755902743e-06</transform>
         </spawn>
+        <spawn id="static_highway_1">
+            <type>static</type>
+            <probability>80</probability>
+            <collision_range>8.0</collision_range>
+            <invincible>false</invincible>
+            <blueprint>static.prop.trashcan01</blueprint>
+            <transform>206.8644104,71.7677078247,0.3,-0.0162695106119,-98.4597625732,-3.05165722239e-05</transform>
+        </spawn>
+
     </trigger>
     <trigger id="highway_enter" thres="3.0">
         <location>58.4284133911,205.541885376,-0.00804050453007</location>
@@ -125,6 +134,12 @@
             <blueprint>random</blueprint>
             <transform>42.6199150085,-114.571113586,1.10391509533,0.0,-132.500030518,0.0</transform>
         </spawn>
+        <spawn id="walker_road1_stands">
+            <type>walker</type>
+            <probability>80</probability>
+            <blueprint>walker.pedestrian.0005</blueprint>
+            <transform>24.3510303497,-127.377029419,1.10391521454,0.0,-178.200012207,0.0</transform>
+        </spawn>
         <spawn id="ai_vehicle_road2_0">
             <type>ai_vehicle</type>
             <probability>0</probability>
@@ -161,12 +176,13 @@
             <blueprint>random</blueprint>
             <transform>38.7725448608,-22.9598674774,1.10283851624,0.0,16.9000511169,0.0</transform>
         </spawn>
-        <spawn id="walker_road2_phone">
+        <spawn id="walker_road2_cross">
             <type>walker</type>
             <probability>80</probability>
             <blueprint>walker.pedestrian.0001</blueprint>
-            <transform>20.6772594452,-28.2481307983,1.10353708267,0.0,-0.200012177229,0.0</transform>
+            <transform>21.5682010651,-45.0553131104,1.10274767876,0.0,-62.5000114441,0.0</transform>
         </spawn>
+
         <move id="ai_vehicle_road1_0">
             <waypoint speed="20.0"/>
         </move>
@@ -192,6 +208,7 @@
         <kill id="ai_vehicle_highway_inv_0"/>
         <kill id="ai_vehicle_highway_inv_1"/>
         <kill id="static_highway_0"/>
+        <kill id="static_highway_1"/>
     </trigger>
     <trigger id="intersection_2" thres="3.0">
         <location>30.81366539,-135.843292236,-0.00804557744414</location>
@@ -236,9 +253,6 @@
             <waypoint speed="2.0">39.394153595,-14.3418855667,1.10391521454</waypoint>
             <waypoint speed="3.0">45.3584899902,-9.38314342499,1.10129761696</waypoint>
         </move>
-        <pose id="walker_road2_phone">
-            <form>call_left</form>
-        </pose>
         <spawn id="vehicle_road3_0">
             <type>vehicle</type>
             <probability>0</probability>
@@ -269,14 +283,14 @@
             <blueprint>random</blueprint>
             <transform>40.3970336914,42.7680854797,1.10391521454,0.0,95.0999832153,0.0</transform>
         </spawn>
-        <spawn id="walker_road3_cross">
-            <type>walker</type>
-            <probability>80</probability>
-            <blueprint>random</blueprint>
-            <transform>38.4093742371,54.9983291626,1.10231781006,0.0,-132.700027466,0.0</transform>
-        </spawn>
         <kill id="ai_vehicle_intersection1_0"/>
         <kill id="ai_vehicle_intersection1_1"/>
+    </trigger>
+    <trigger id="road2_cross_walker" thres="5.0">
+        <location>26.5126552582,-65.2621459961,-0.00805980619043</location>
+        <move id="walker_road2_cross">
+            <waypoint speed="2.0">39.8751411438,-46.734500885,1.10389018059</waypoint>
+        </move>
     </trigger>
     <trigger id="intersection_3" thres="3.0">
         <location>28.1646308899,-40.9852981567,-0.0078369518742</location>
@@ -349,12 +363,7 @@
         <kill id="ai_walker_road1_2"/>
         <kill id="walker_road1_3"/>
         <kill id="walker_road1_4"/>
-    </trigger>
-    <trigger id="road3_cross_walker" thres="5.0">
-        <location>27.8771381378,34.652557373,-0.00785129517317</location>
-        <move id="walker_road3_cross">
-            <waypoint speed="2.0">20.9578285217,55.8598365784,1.10391509533</waypoint>
-        </move>
+        <kill id="walker_road1_stands"/>
     </trigger>
     <trigger id="intersection_4" thres="3.0">
         <location>28.1100196838,46.5493431091,-0.00816047657281</location>
@@ -398,7 +407,7 @@
         <kill id="walker_road2_1"/>
         <kill id="walker_road2_2"/>
         <kill id="walker_road2_3"/>
-        <kill id="walker_road2_phone"/>
+        <kill id="walker_road2_cross"/>
 
     </trigger>
     <trigger id="intersection_4" thres="3.0">
@@ -408,7 +417,6 @@
         <kill id="walker_road3_1"/>
         <kill id="walker_road3_2"/>
         <kill id="walker_road3_3"/>
-        <kill id="walker_road3_cross"/>
         <kill id="walker_road4_0"/>
         <kill id="ai_walker_road4_1"/>
         <kill id="walker_road4_2"/>
