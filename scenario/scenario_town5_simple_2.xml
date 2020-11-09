@@ -32,16 +32,16 @@
             <probability>80</probability>
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
-            <blueprint>static.prop.trashbag</blueprint>
-            <transform>206.270477295,88.4995956421,0.3,0.00152996229008,-85.59349823,1.42755902743e-06</transform>
+            <blueprint>static.prop.creasedbox01</blueprint>
+            <transform>206.270477295,88.4995956421,0.05,0.00152996229008,-85.59349823,1.42755902743e-06</transform>
         </spawn>
         <spawn id="static_highway_1">
             <type>static</type>
             <probability>80</probability>
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
-            <blueprint>static.prop.trashcan01</blueprint>
-            <transform>206.8644104,71.7677078247,0.3,-0.0162695106119,-98.4597625732,-3.05165722239e-05</transform>
+            <blueprint>static.prop.shoppingbag</blueprint>
+            <transform>206.8644104,71.7677078247,0.1,0.0,0.0,90.0</transform>
         </spawn>
 
     </trigger>
@@ -70,16 +70,16 @@
         </spawn>
         <spawn id="ai_vehicle_intersection1_1">
             <type>ai_vehicle</type>
-            <probability>100</probability>
+            <probability>0</probability>
             <blueprint>vehicle.chevrolet.impala</blueprint>
             <transform>-8.28251171112,-193.390640259,1.0,-4.53817558289,-0.761688113213,-0.228332519531</transform>
         </spawn>
         <move id="ai_vehicle_intersection1_0">
             <waypoint speed="40.0"/>
         </move>
-        <move id="ai_vehicle_intersection1_1">
+        <!-- <move id="ai_vehicle_intersection1_1">
             <waypoint speed="40.0"/>
-        </move>
+        </move> -->
     </trigger>
     <trigger id="hightway_intersection" thres="3.0">
         <location>81.0186080933,-200.864974976,-0.00821266137064</location>

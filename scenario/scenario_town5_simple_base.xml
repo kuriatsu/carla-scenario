@@ -53,16 +53,16 @@
         </spawn>
         <spawn id="ai_vehicle_intersection1_1">
             <type>ai_vehicle</type>
-            <probability>100</probability>
+            <probability>0</probability>
             <blueprint>vehicle.chevrolet.impala</blueprint>
             <transform>-8.28251171112,-193.390640259,1.0,-4.53817558289,-0.761688113213,-0.228332519531</transform>
         </spawn>
         <move id="ai_vehicle_intersection1_0">
             <waypoint speed="40.0"/>
         </move>
-        <move id="ai_vehicle_intersection1_1">
+        <!-- <move id="ai_vehicle_intersection1_1">
             <waypoint speed="40.0"/>
-        </move>
+        </move> -->
     </trigger>
     <trigger id="hightway_intersection" thres="3.0">
         <location>81.0186080933,-200.864974976,-0.00821266137064</location>
