@@ -65,7 +65,7 @@
         </move> -->
     </trigger>
     <trigger id="hightway_intersection" thres="3.0">
-        <location>81.0186080933,-200.864974976,-0.00821266137064</location>
+        <location>120.396064758,-201.946350098,-0.0100342556834</location>
         <trafficlight>
             <location>23.7787418365,-212.965911865,0.951500117779</location>
             <state>green</state>
@@ -184,7 +184,7 @@
         <kill id="ai_vehicle_highway_inv_0"/>
         <kill id="ai_vehicle_highway_inv_1"/>
     </trigger>
-    <trigger id="road1_cross_walker" thres="13.0">
+    <trigger id="road1_cross_walker" thres="22.0">
         <location>32.4618988037,-179.064071655,-0.0078674312681</location>
         <move id="walker_road1_cross">
             <waypoint speed="2.0">43.739364624,-178.338607788,1.10213553905</waypoint>

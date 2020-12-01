@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<data>
+    <trigger id="initial_spawn" thres="0.0">
+    </trigger>
+</data>
