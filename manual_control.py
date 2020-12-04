@@ -317,12 +317,12 @@ class KeyboardControl(object):
                     world.hud.notification("Recording start time is %d" % (world.recording_start))
                 elif event.key == K_t:
                     ego_pose = self._ego_player.get_transform()
-                    str = "{},{},{},{},{},{}".format(ego_pose.location.x, ego_pose.location.y, ego_pose.location.z, ego_pose.rotation.pitch, ego_pose.rotation.yaw, ego_pose.rotation.roll)
+                    str = "{:.1f},{:.1f},{:.1f},{:.1f},{:.1f},{:.1f}".format(ego_pose.location.x, ego_pose.location.y, ego_pose.location.z, ego_pose.rotation.pitch, ego_pose.rotation.yaw, ego_pose.rotation.roll)
                     print(str)
                     pyperclip.copy(str)
                 elif event.key == K_l:
                     ego_pose = self._ego_player.get_transform()
-                    str = "{},{},{}".format(float(ego_pose.location.x), float(ego_pose.location.y), float(ego_pose.location.z))
+                    str = "{:.1f},{:.1f},{:.1f}".format(float(ego_pose.location.x), float(ego_pose.location.y), float(ego_pose.location.z))
                     print(str)
                     pyperclip.copy(str)
                 if isinstance(self._control, carla.VehicleControl):
