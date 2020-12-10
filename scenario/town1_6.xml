@@ -200,6 +200,14 @@
         <move id="walker_straight_3-7">
             <waypoint speed="2.0">182.7,64.2,1.0</waypoint>
         </move>
+        <spawn id="static_straight_3">
+            <type>static</type>
+            <probability>80</probability>
+            <collision_range>8.0</collision_range>
+            <invincible>false</invincible>
+            <blueprint>static.prop.creasedbox02</blueprint>
+            <transform>223.8,55.8,0.05,0.0,-4.3,0.0</transform>
+        </spawn>
         <kill id="vehicle_straight_2-1"/>
         <kill id="vehicle_straight_2-2"/>
         <kill id="vehicle_straight_2-3"/>
@@ -267,6 +275,7 @@
         <kill id="walker_straight_3-5"/>
         <kill id="walker_straight_3-6"/>
         <kill id="walker_straight_3-7"/>
+        <kill id="static_straight_3"/>
     </trigger>
     <trigger id="walker_straight_3_cross_trigger" thres="3.0">
         <location>138.6,55.5,-0.0</location>
@@ -393,14 +402,6 @@
             <blueprint>random</blueprint>
             <transform>144.6,138.1,1.0,0.0,179.3,0.0</transform>
         </spawn>
-        <spawn id="static_straight_1">
-            <type>static</type>
-            <probability>80</probability>
-            <collision_range>8.0</collision_range>
-            <invincible>false</invincible>
-            <blueprint>static.prop.creasedbox02</blueprint>
-            <transform>120.7,133.6,0.05,0.0,177.1,0.0</transform>
-        </spawn>
         <move id="walker_straight_1-11">
             <waypoint speed="1.5">172.3,125.6,1.0</waypoint>
         </move>
@@ -434,6 +435,5 @@
         <kill id="walker_straight_1-11"/>
         <kill id="walker_straight_1-12"/>
         <kill id="walker_straight_1-13"/>
-        <kill id="static_straight_1"/>
     </trigger>
 </data>
