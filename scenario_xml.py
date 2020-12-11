@@ -24,11 +24,20 @@ import warnings
 import random
 import math
 import time
+import datetime
 from pose import PoseDefine
+import logging
+# data log
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.FileHandler('/home/kuriatsu/Documents/carla_driving_result/actor_id_' + datetime.datetime.now().strftime('%y%m%d_%H%M') + '.log'))
+logger.info('scenario_id, world_id')
 
 class ScenarioXML(object):
 
     def __init__(self, client, world, scenario_file, pedestrian_cross_factor):
+
+        # args
         self.client = client
         self.world = world
         self.ego_vehicle = None
@@ -41,8 +50,8 @@ class ScenarioXML(object):
         self.trafficlight_list = self.getTraffcLight()
         self.pose_define = PoseDefine()
         self.spawned_static_objects_id = []
-
         self.world.set_pedestrians_cross_factor(pedestrian_cross_factor)
+
 
     def readFile(self, filename):
         """read xml file and return root of ElementTree, elements of some lists are changed from text to float.
@@ -51,7 +60,7 @@ class ScenarioXML(object):
         [return]
         root of the ElementTree
         """
-
+        logger.info(filename)
         tree = ET.parse(filename)
         root = tree.getroot()
         edit_tag_list = ['transform', 'location', 'waypoint'] # tags of list which you want to use as float list, not text
@@ -106,7 +115,7 @@ class ScenarioXML(object):
                 if self.trigger_index == len(self.scenario):
                     return 2 # scenario finished
 
-                return 1 # next scenario
+                return 1 # next trigger
             else:
                 return 0 # ordinary loop
         elif len(self.scenario) == 1:
@@ -211,7 +220,7 @@ class ScenarioXML(object):
                 world_id = ET.SubElement(spawned_actor, 'world_id')
                 world_id.text = results[i].actor_id
                 print("spawned : " + spawned_actor.attrib.get('id') + ', ' + str(world_id.text));
-
+                logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
                 # print(spawned_actor_list[i].find('type').text)
                 if spawned_actor.find('type').text == 'static':
                     control_actor = {}
@@ -480,6 +489,7 @@ class ScenarioXML(object):
 def game_loop(args):
 
     # try:
+
     client = carla.Client(args.host, args.port)
     client.set_timeout(2.0)
     world = client.get_world()

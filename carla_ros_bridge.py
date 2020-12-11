@@ -6,6 +6,7 @@ import os
 import sys
 import argparse
 import math
+import logging
 try:
     sys.path.append(glob.glob('**/carla-*%d.%d-%s.egg' % (
         sys.version_info.major,
@@ -72,6 +73,8 @@ class CarlaBridge(object):
 
         """
         # self.ros_actors.clear()
+        del self.carla_actors[:]
+        del self.ros_actors[:]
 
         for actor in self.world.get_actors():
             if actor.attributes.get('role_name') in ['ego_vehicle', 'hero']:
@@ -169,7 +172,6 @@ class CarlaBridge(object):
         #         z=twist_angular.z
         #     )
         # )
-
 
         for i, actor in enumerate(self.carla_actors):
 

@@ -33,7 +33,7 @@
             <transform>290.2,126.0,1.0,0.0,-179.2,0.0</transform>
         </spawn>
     </trigger>
-    <trigger id="straight_1_move" thres="3.0">
+    <trigger id="straight_1_move" thres="5.0">
         <location>226.4,133.3,1.0</location>
         <move id="ai_vehicle_straight_1-1">
             <waypoint speed="20.0"/>
@@ -51,7 +51,7 @@
             <waypoint speed="3.0">214.2,125.3,1.0</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_1_tr" thres="3.0">
+    <trigger id="straight_1_tr" thres="5.0">
         <location>306.7,133.7,1.0</location>
         <trafficlight>
             <location>321.8,136.0,1.0</location>
@@ -121,7 +121,7 @@
             <waypoint speed="5.0">342.6,122.1,1.0</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_2_enter" thres="3.0">
+    <trigger id="straight_2_enter" thres="5.0">
         <location>339.1,119.0,1.0</location>
         <move id="walker_straight_2-1">
             <waypoint speed="2.0">330.7,94.9,1.0</waypoint>
@@ -144,7 +144,7 @@
         <kill id="walker_straight_1-2"/>
         <kill id="walker_straight_1-3"/>
     </trigger>
-    <trigger id="straight_2_tl" thres="3.0">
+    <trigger id="straight_2_tl" thres="5.0">
         <location>339.2,84.3,1.0</location>
         <trafficlight>
             <location>341.2,69.8,1.0</location>
@@ -215,7 +215,7 @@
             <waypoint speed="20"/>
         </move>
     </trigger>
-    <trigger id="straight_3_enter" thres="3.0">
+    <trigger id="straight_3_enter" thres="5.0">
         <location>323.2,55.2,1.0</location>
         <move id="ai_vehicle_straight_3-2">
             <waypoint speed="20"/>
@@ -247,7 +247,7 @@
         <kill id="walker_straight_2-4"/>
         <kill id="walker_straight_2-5"/>
     </trigger>
-    <trigger id="straight_3_mid_tl" thres="3.0">
+    <trigger id="straight_3_mid_tl" thres="5.0">
         <location>187.7,55.6,1.0</location>
         <trafficlight>
             <location>168.9,53.1,1.0</location>
@@ -310,14 +310,14 @@
         <kill id="walker_straight_3-7"/>
         <kill id="static_straight_3"/>
     </trigger>
-    <trigger id="walker_straight_3_cross_trigger" thres="3.0">
+    <trigger id="walker_straight_3_cross_trigger" thres="10.0">
         <location>125.9,55.7,1.0</location>
         <move id="walker_straight_3-cross">
             <waypoint speed="2.0">117.5,51.4,1.1</waypoint>
             <waypoint speed="2.0">145.2,52.4,1.1</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_3_mid_tl" thres="3.0">
+    <trigger id="straight_3_mid_tl" thres="5.0">
         <location>120.9,55.4,1.0</location>
         <trafficlight>
             <location>102.7,53.0,1.0</location>
@@ -366,7 +366,7 @@
         </spawn>
         <spawn id="walker_straight_4-phone">
             <type>walker</type>
-            <probability>0</probability>
+            <probability>80</probability>
             <blueprint>walker.pedestrian.0004</blueprint>
             <transform>85.4,103.5,1.0,0.0,-179.2,0.0</transform>
         </spawn>
@@ -387,7 +387,7 @@
             <form>phone_right</form>
         </pose>
     </trigger>
-    <trigger id="straight_4_enter" thres="3.0">
+    <trigger id="straight_4_enter" thres="5.0">
         <location>88.2,70.7,1.0</location>
         <move id="walker_straight_4-2">
             <waypoint speed="3.0">96.8,104.9,1.0</waypoint>
@@ -398,7 +398,7 @@
         <kill id="walker_straight_3-3"/>
         <kill id="walker_straight_3-4"/>
     </trigger>
-    <trigger id="straight_4_tl" thres="3.0">
+    <trigger id="straight_4_tl" thres="5.0">
         <location>88.7,107.9,1.0</location>
         <trafficlight>
             <location>85.9,119.8,1.0</location>
@@ -466,7 +466,7 @@
             <waypoint speed="5.0">100.7,137.7,1.0</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_1_enter" thres="3.0">
+    <trigger id="straight_1_enter" thres="5.0">
         <location>103.2,133.2,1.0</location>
         <move id="walker_straight_1-12">
             <waypoint speed="2.0">218.8,124.8,1.0</waypoint>
@@ -481,7 +481,7 @@
         <kill id="walker_straight_4-3"/>
         <kill id="walker_straight_4-phone"/>
     </trigger>
-    <trigger id="finish" thres="3.0">
+    <trigger id="finish" thres="5.0">
         <location>220.6,133.6,1.0</location>
         <kill id="ai_vehicle_straight_1-11"/>
         <kill id="ai_vehicle_straight_1-12"/>
