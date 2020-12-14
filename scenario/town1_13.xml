@@ -375,7 +375,7 @@
             <type>walker</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
-            <transform>95.5,78.2,1.0,0.0,-125.1,0.0</transform>
+            <transform>95.6,102.0,1.0,0.0,-126.7,0.0</transform>
         </spawn>
         <move id="ai_vehicle_straight_4-1">
             <waypoint speed="20"/>
@@ -402,11 +402,11 @@
     <trigger id="walker_straight_4_cross_trigger" thres="10.0">
         <location>87.9,71.8,1.0</location>
         <move id="walker_straight_4-cross">
-            <waypoint speed="2.0">84.5,77.6,1.0</waypoint>
-            <waypoint speed="5.0">84.5,63.7,1.0</waypoint>
+            <waypoint speed="2.0">84.5,101.5,1.0</waypoint>
+            <waypoint speed="5.0">84.0,90.3,1.0</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_4_tl" thres="5.0">
+    <trigger id="straight_4_tl" thres="20.0">
         <location>88.7,107.9,1.0</location>
         <trafficlight>
             <location>85.9,119.8,1.0</location>

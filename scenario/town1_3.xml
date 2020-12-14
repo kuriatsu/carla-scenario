@@ -196,7 +196,7 @@
     <trigger id="straight_3_enter" thres="5.0">
         <location>323.2,55.2,1.0</location>
         <move id="ai_vehicle_straight_3-2">
-            <waypoint speed="40"/>
+            <waypoint speed="10"/>
         </move>
         <move id="walker_straight_3-1">
             <waypoint speed="2.0">329.3,50.4,1.0</waypoint>
@@ -353,7 +353,7 @@
         <kill id="walker_straight_3-3"/>
         <kill id="walker_straight_3-4"/>
     </trigger>
-    <trigger id="straight_4_tl" thres="5.0">
+    <trigger id="straight_4_tl" thres="20.0">
         <location>88.7,107.9,1.0</location>
         <trafficlight>
             <location>85.9,119.8,1.0</location>

@@ -368,7 +368,7 @@
         <kill id="walker_straight_3-4"/>
         <kill id="static_straight_3"/>
     </trigger>
-    <trigger id="straight_4_tl" thres="5.0">
+    <trigger id="straight_4_tl" thres="20.0">
         <location>88.7,107.9,1.0</location>
         <trafficlight>
             <location>85.9,119.8,1.0</location>

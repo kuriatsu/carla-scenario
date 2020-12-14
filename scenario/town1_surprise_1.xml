@@ -322,7 +322,7 @@
         <kill id="walker_straight_3-4"/>
         <kill id="static_straight_3"/>
     </trigger>
-    <trigger id="straight_4_tl" thres="5.0">
+    <trigger id="straight_4_tl" thres="20.0">
         <location>88.7,107.9,1.0</location>
         <trafficlight>
             <location>85.9,119.8,1.0</location>
@@ -400,7 +400,7 @@
         <kill id="walker_straight_4-1"/>
         <kill id="walker_straight_4-2"/>
     </trigger>
-    <trigger id="walker_straight_1_cross_trigger" thres="10.0">
+    <trigger id="walker_straight_1_cross_trigger" thres="15.0">
         <location>143.2,134.0,-0.0</location>
         <move id="walker_straight_1-cross">
             <waypoint speed="2.0">151.0,125.7,1.0</waypoint>

@@ -1,76 +1,144 @@
 <?xml version="1.0"?>
 <data>
     <trigger id="initial_spawn" thres="0.0">
-        <spawn id="walker_pose_zebra1">
+        <location>0,0,0,0,0,0</location>
+        <spawn id="walker_pose">
             <type>walker</type>
-            <probability>50</probability>
+            <probability>80</probability>
             <blueprint>walker.pedestrian.0002</blueprint>
-            <transform>209.383361816,-176.185714722,1.29977750778,0.0,56.4999542236,0.0</transform>
+            <transform>65.8,-206.8,1.0,0.0,-174.7,0.0</transform>
         </spawn>
-        <spawn id="ai_vehicle_T_junction1">
-            <type>ai_vehicle</type>
-            <probability>0</probability>
-            <blueprint>vehicle.tesla.model3</blueprint>
-            <transform>127.626289368,-191.074905396,1.0,0.132601290941,92.1133422852,-0.0104980422184</transform>
-        </spawn>
-        <pose id="walker_pose_zebra1">
-            <form>phone_left</form>
-        </pose>
-    </trigger>
-    <trigger id="walker_cross_zebra_trigger" thres="2.0">
-        <location>226.967254639,-172.922164917,0.190344274044</location>
-    </trigger>
-    <trigger id="t_junction" thres="2.0">
-        <location>176.33770752,-173.076873779,0.19051669538</location>
-        <spawn id="walker_cross_intersection_curve">
+        <spawn id="walker_cross">
             <type>walker</type>
             <probability>100</probability>
-            <blueprint>walker.pedestrian.0002</blueprint>
-            <transform>55.5935516357,-179.111480713,1.0049738884,0.0,2.50000071526,0.0</transform>
+            <blueprint>random</blueprint>
+            <transform>92.3,-272.2,1.0,0.0,168.7,0.0</transform>
         </spawn>
-        <move id="ai_vehicle_T_junction1">
-            <waypoint speed="10.0"/>
-        </move>
-    </trigger>
-    <trigger id="end_of_straight" thres="4.0">
-        <location>78.443649292,-173.842590332,0.232167541981</location>
-        <spawn id="ai_walker_curve1">
-            <type>ai_walker</type>
+        <spawn id="walker_walk-1">
+            <type>walker</type>
             <probability>0</probability>
             <blueprint>random</blueprint>
-            <transform>72.3032836914,-230.064254761,1.13571548462,0.0,-75.5999755859,0.0</transform>
+            <transform>73.9,-179.4,1.0,-0.0,0.6,0.0</transform>
         </spawn>
-        <spawn id="ai_walker_curve2">
-            <type>ai_walker</type>
+        <spawn id="walker_walk-2">
+            <type>walker</type>
             <probability>0</probability>
             <blueprint>random</blueprint>
-            <transform>73.2664489746,-268.5965271,1.13251030445,0.0,114.199813843,0.0</transform>
+            <transform>207.4,-233.5,1.0,-0.0,92.7,0.0</transform>
         </spawn>
-        <spawn id="static_curve">
+        <spawn id="static">
             <type>static</type>
             <probability>80</probability>
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
             <blueprint>static.prop.plasticbag</blueprint>
-            <transform>88.4945297241,-271.182434082,0.5,0.0,71.3999862671,0.0</transform>
+            <transform>156.9,-307.7,0.1,90.0,166.8,0.0</transform>
         </spawn>
-        <move id="ai_walker_curve1">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="ai_walker_curve2">
-            <waypoint speed="2.0"/>
-        </move>
-        <move id="walker_cross_intersection_curve">
-            <waypoint speed="2.0">68.4580688477,-179.192840576,1.30085861683</waypoint>
-        </move>
-        <kill id="walker_pose_zebra1"/>
-        <kill id="ai_vehicle_T_junction1"/>
+        <pose id="walker_pose">
+            <form>phone_left</form>
+        </pose>
     </trigger>
-    <trigger id="kill_actor_at_curve1" thres="2.0">
-        <location>214.047424316,-308.001678467,-0.000803527829703</location>
-        <kill id="walker_cross_intersection_curve"/>
-        <kill id="ai_walker_curve1"/>
-        <kill id="ai_walker_curve2"/>
-        <kill id="static_curve"/>
+    <trigger id="straight_1_tl-1" thres="5.0">
+        <location>155.0,-173.0,1.0</location>
+        <trafficlight>
+            <location>122.0,-179.2,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>135.8,-166.7,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>120.6,-166.4,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <move id="walker_walk-1">
+            <waypoint speed="2.0">117.3,-179.2,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="straight_1_tl-2" thres="5.0">
+        <location>87.7,-173.5,1.0</location>
+        <trafficlight>
+            <location>53.6,-179.4,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>68.9,-166.7,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>53.5,-167.1,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+    </trigger>
+    <trigger id="walker_cross_trigger" thres="25.0">
+        <location>91.5,-275.8,1.0</location>
+        <move id="walker_cross">
+            <waypoint speed="2.0">85.0,-281.5,1.0</waypoint>
+            <waypoint speed="5.0">66.9,-255.1,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="straight_2_tl-1" thres="5.0">
+        <location>178.0,-307.8,1.0</location>
+        <trafficlight>
+            <location>210.8,-302.5,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>211.5,-315.5,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>192.9,-315.7,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>196.9,-298.1,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+    </trigger>
+    <trigger id="straight_2_tl-2" thres="5.0">
+        <location>201.1,-269.6,1.0</location>
+        <trafficlight>
+            <location>194.9,-237.6,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>191.9,-253.0,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>210.1,-255.2,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>209.6,-239.9,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <move id="walker_walk-2">
+            <waypoint speed="2.0">206.4,-188.7,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="kill_actor" thres="5.0">
+        <location>199.3,-180.1,1.0</location>
+        <kill id="walker_cross"/>
+        <kill id="walker_pose"/>
+        <kill id="walker_walk-1"/>
+        <kill id="walker_walk-2"/>
+        <kill id="static"/>
     </trigger>
 </data>
