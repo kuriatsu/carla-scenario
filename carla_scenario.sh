@@ -41,13 +41,13 @@ elif [ $1 = "Town04" ]; then
 elif [ $1 = "Town01" ]; then
     scenarios=(
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_surprise_1.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_16.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_12.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_7.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_14.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_4.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_16.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_5.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_10.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_8.xml"
