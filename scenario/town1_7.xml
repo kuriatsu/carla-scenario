@@ -395,7 +395,7 @@
         <location>88.4,93.1,-0.0</location>
         <move id="walker_straight_4-cross">
             <waypoint speed="1.5">84.9,104.9,1.0</waypoint>
-            <waypoint speed="3.0">74.5,117.5,1.0</waypoint>
+            <waypoint speed="5.0">74.5,117.5,1.0</waypoint>
         </move>
     </trigger>
     <trigger id="straight_4_tl" thres="20.0">
