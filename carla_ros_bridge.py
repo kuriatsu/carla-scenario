@@ -177,7 +177,7 @@ class CarlaBridge(object):
 
             transform = actor.get_transform()
             if transform.location == carla.Vector3D(0.0,0.0,0.0):
-                print('actor may be died. id : ', actor.id)
+                print('ros_bridge: actor may be died. id : ', actor.id)
                 del self.ros_actors[i]
                 del self.carla_actors[i]
                 continue
@@ -186,8 +186,10 @@ class CarlaBridge(object):
             twist_angular = actor.get_angular_velocity()
             twist_linear = actor.get_velocity()
 
-            self.ros_actors[i].header = Header(stamp=rospy.Time.now(), frame_id='map')
-            self.ros_actors[i].pose = Pose(
+            ros_actor = self.ros_actors[i]
+
+            ros_actor.header = Header(stamp=rospy.Time.now(), frame_id='map')
+            ros_actor.pose = Pose(
                 position=Point(
                     x=transform.location.x,
                     y=-transform.location.y,
@@ -195,7 +197,12 @@ class CarlaBridge(object):
                     ),
                 orientation=self.rotation_to_quaternion(transform.rotation)
                 )
-            self.ros_actors[i].twist = Twist(
+
+            # static object tend to sink under ground
+            if ros_actor.classification == Object.CLASSIFICATION_UNKNOWN:
+                ros_actor.pose.position.z += ros_actor.shape.dimensions[2] * 0.5
+
+            ros_actor.twist = Twist(
                 linear=Vector3(
                     x=twist_linear.x,
                     y=-twist_linear.y,
@@ -207,7 +214,7 @@ class CarlaBridge(object):
                     z=-twist_angular.z
                     )
                 )
-            self.ros_actors[i].accel = Accel(
+            ros_actor.accel = Accel(
                 linear=Vector3(
                     x=accel.x,
                     y=-accel.y,
