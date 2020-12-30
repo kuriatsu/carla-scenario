@@ -102,7 +102,6 @@ class ScenarioXML(object):
             distance = (self.ego_pose.location.x - trigger[0].text[0]) ** 2 \
                        + (self.ego_pose.location.y - trigger[0].text[1]) ** 2
 
-            # print('trigger', distance)
             if distance < float(trigger.attrib.get('thres')) ** 2:
                 print("trigger: {}".format(self.trigger_index))
                 self.killActor(trigger.findall('kill'))
@@ -220,14 +219,12 @@ class ScenarioXML(object):
                 world_id.text = results[i].actor_id
                 print("spawned : " + spawned_actor.attrib.get('id') + ', ' + str(world_id.text));
                 logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
-                # print(spawned_actor_list[i].find('type').text)
                 if spawned_actor.find('type').text == 'static':
                     control_actor = {}
                     control_actor['actor'] = self.world.get_actor(world_id.text)
                     control_actor['type'] = 'static'
                     control_actor['collision_range'] = spawned_actor.find('collision_range').text
                     control_actor['invincible'] = True if spawned_actor.find('invincible').text == 'true' else False
-                    # print('control_actor', control_actor)
                     self.control_actor_list.append(control_actor)
 
 
@@ -256,9 +253,9 @@ class ScenarioXML(object):
             for spawn in self.scenario.iter('spawn'):
                 if pose.attrib.get('id') == spawn.attrib.get('id'):
                     actor = self.world.get_actor(spawn.find('world_id').text)
-                    # control.bone_transforms = posePhoneLeft()
                     control.bone_transforms = pose_define.pose_dict.get(pose.find('form').text)()
                     actor.apply_control(control)
+                    self.world.wait_for_tick()
                     # time.sleep(1)
                     actor.apply_control(control)
                     print('pose: '+ spawn.attrib.get('id'))
@@ -290,7 +287,6 @@ class ScenarioXML(object):
             """
             control_actor = {}
             control_actor['actor'] = self.world.get_actor(world_id)
-            # control_actor['world_id'] = world_id
             control_actor['type'] = type
             control_actor['id'] = id
             control_actor['waypoints'] = waypoints
@@ -352,7 +348,6 @@ class ScenarioXML(object):
 
             print(control_actor.get('actor').id, control_actor.get('actor').id)
             if control_actor['type'] == 'walker' and control_actor.get('waypoints'):
-                # print('waypoint', control_actor.get('waypoints'))
                 vector, speed, dist, _ = calcControl(control_actor)
 
                 # shift to the next waypoint
@@ -360,8 +355,6 @@ class ScenarioXML(object):
                     del control_actor.get('waypoints')[0]
 
                 batch.append(carla.command.ApplyWalkerControl(control_actor.get('actor').id, carla.WalkerControl(direction=vector, speed=speed)))
-                # control = carla.WalkerControl(direction=vector, speed=speed)
-                # control_actor['actor'].apply_control(control)
 
             elif control_actor['type'] == 'vehicle' and control_actor.get('waypoints'):
                 # calc vel and rotation
@@ -397,8 +390,6 @@ class ScenarioXML(object):
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
 
-                # control_actor['actor'].set_velocity(velocity)
-                # control_actor['actor'].set_angular_velocity(carla.Vector3D(0.0, 0.0, omega))
                 batch.append(carla.command.ApplyVelocity(control_actor.get('actor').id, velocity))
                 batch.append(carla.command.ApplyAngularVelocity(control_actor.get('actor').id, carla.Vector3D(0.0, 0.0, omega)))
 
@@ -432,7 +423,6 @@ class ScenarioXML(object):
                     else:
                         self.control_actor_list.remove(control_actor)
                         batch.append(carla.command.DestroyActor(control_actor.get('actor').id))
-                        # control_actor.get('actor').destroy()
 
             # something without next waypoint
             else:
@@ -490,7 +480,7 @@ class ScenarioXML(object):
         for actor in self.world.get_actors():
             if actor.type_id.startswith("vehicle") or actor.type_id.startswith("walker") or actor.type_id.startswith("controller"):
                 if actor.attributes.get('role_name') != 'ego_vehicle':
-                    # print('remove {}'.format(actor.attrib.get('id')))
+                    print('remove debris not in scenario')
                     batch.append(carla.command.DestroyActor(actor.id))
 
         self.client.apply_batch(batch)
