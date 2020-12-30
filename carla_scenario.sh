@@ -37,25 +37,25 @@ elif [ $1 = "Town04" ]; then
     "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"
     )
     python /home/kuriatsu/Source/carla_scenario/carla_ros_bridge.py -s "${scenarios[@]}"
-
+# 7: not for control
 elif [ $1 = "Town01" ]; then
     scenarios=(
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_surprise_1.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_11.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_14.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_9.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_15.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_6.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_10.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_13.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_14.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_8.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_7.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_16.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_12.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_9.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_11.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_16.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_13.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_7.xml"
+    # "/home/kuriatsu/Source/carla_scenario/scenario/town1_15.xml"
     # "/home/kuriatsu/Source/carla_scenario/scenario/town1_3.xml"
     )
     python /home/kuriatsu/Source/carla_scenario/carla_ros_bridge.py -s "${scenarios[@]}"

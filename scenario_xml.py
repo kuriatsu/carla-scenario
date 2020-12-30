@@ -167,7 +167,6 @@ class ScenarioXML(object):
 
         for spawn in spawn_list:
             actor_ids = {}
-
             blueprint = self.getBlueprint(spawn.find('type').text, spawn.find('blueprint').text)
             blueprint.set_attribute('role_name', spawn.attrib.get('id'))
 
@@ -291,6 +290,7 @@ class ScenarioXML(object):
             """
             control_actor = {}
             control_actor['actor'] = self.world.get_actor(world_id)
+            # control_actor['world_id'] = world_id
             control_actor['type'] = type
             control_actor['id'] = id
             control_actor['waypoints'] = waypoints
@@ -342,22 +342,26 @@ class ScenarioXML(object):
             return vector, speed, dist, transform.rotation.yaw
 
 
+        batch = []
         # debug = self.world.debug
         for control_actor in self.control_actor_list:
-
             if control_actor.get('actor').is_alive == False:
                 self.control_actor_list.remove(control_actor)
                 print("Innocent actor ", control_actor['actor'].id, "is dead")
                 continue
 
+            print(control_actor.get('actor').id, control_actor.get('actor').id)
             if control_actor['type'] == 'walker' and control_actor.get('waypoints'):
                 # print('waypoint', control_actor.get('waypoints'))
                 vector, speed, dist, _ = calcControl(control_actor)
+
+                # shift to the next waypoint
                 if dist < 1.0:
                     del control_actor.get('waypoints')[0]
 
-                control = carla.WalkerControl(direction=vector, speed=speed)
-                control_actor['actor'].apply_control(control)
+                batch.append(carla.command.ApplyWalkerControl(control_actor.get('actor').id, carla.WalkerControl(direction=vector, speed=speed)))
+                # control = carla.WalkerControl(direction=vector, speed=speed)
+                # control_actor['actor'].apply_control(control)
 
             elif control_actor['type'] == 'vehicle' and control_actor.get('waypoints'):
                 # calc vel and rotation
@@ -393,8 +397,10 @@ class ScenarioXML(object):
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
 
-                control_actor['actor'].set_velocity(velocity)
-                control_actor['actor'].set_angular_velocity(carla.Vector3D(0.0, 0.0, omega))
+                # control_actor['actor'].set_velocity(velocity)
+                # control_actor['actor'].set_angular_velocity(carla.Vector3D(0.0, 0.0, omega))
+                batch.append(carla.command.ApplyVelocity(control_actor.get('actor').id, velocity))
+                batch.append(carla.command.ApplyAngularVelocity(control_actor.get('actor').id, carla.Vector3D(0.0, 0.0, omega)))
 
                 # debug = self.world.debug
                 # debug.draw_arrow(
@@ -424,12 +430,17 @@ class ScenarioXML(object):
                             control_actor.get('actor').destroy()
                             self.control_actor_list.remove(control_actor)
                     else:
-                        control_actor.get('actor').destroy()
                         self.control_actor_list.remove(control_actor)
+                        batch.append(carla.command.DestroyActor(control_actor.get('actor').id))
+                        # control_actor.get('actor').destroy()
 
+            # something without next waypoint
             else:
-                print('{} is free from control'.format(control_actor.get('id')))
+                print('{} reached goal and killed '.format(control_actor.get('id')))
                 self.control_actor_list.remove(control_actor)
+                batch.append(carla.command.DestroyActor(control_actor.get('actor').id))
+
+        self.client.apply_batch(batch)
 
 
     def killActor(self, death_note):
@@ -442,9 +453,9 @@ class ScenarioXML(object):
                         self.world.get_actor(ai_controller_id).stop()
                         batch.append(carla.command.DestroyActor(ai_controller_id))
 
+                    print("kill: " + spawn.attrib.get("id"));
                     batch.append(carla.command.DestroyActor(spawn.find('world_id').text))
                     spawn.remove(spawn.find('world_id'))
-                    print("killed: " + spawn.attrib.get("id"));
 
         self.client.apply_batch(batch)
 
