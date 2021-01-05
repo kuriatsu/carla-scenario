@@ -346,7 +346,6 @@ class ScenarioXML(object):
                 print("Innocent actor ", control_actor['actor'].id, "is dead")
                 continue
 
-            print(control_actor.get('actor').id, control_actor.get('actor').id)
             if control_actor['type'] == 'walker' and control_actor.get('waypoints'):
                 vector, speed, dist, _ = calcControl(control_actor)
 
