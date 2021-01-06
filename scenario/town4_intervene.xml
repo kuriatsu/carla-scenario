@@ -38,7 +38,7 @@
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
             <blueprint>static.prop.plasticbag</blueprint>
-            <transform>149.4,-307.3,1.0,0.0,171.0,0.0</transform>
+            <transform>149.4,-307.3,0.1,0.0,171.0,90.0</transform>
         </spawn>
         <pose id="walker_pose">
             <form>phone_right</form>
@@ -82,12 +82,6 @@
             <state>red</state>
             <time>30.0</time>
         </trafficlight>
-    </trigger>
-    <trigger id="walker_cross_trigger" thres="18.0">
-        <location>199.7,-235.8,1.0</location>
-        <move id="walker_cross">
-            <waypoint speed="2.0">207.6,-235.0,1.0</waypoint>
-        </move>
     </trigger>
     <trigger id="straight_2_tl-1" thres="5.0">
         <location>178.0,-307.8,1.0</location>
@@ -136,6 +130,12 @@
         </trafficlight>
         <move id="walker_walk-2">
             <waypoint speed="2.0">206.4,-188.7,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="walker_cross_trigger" thres="18.0">
+        <location>199.7,-235.8,1.0</location>
+        <move id="walker_cross">
+            <waypoint speed="2.0">207.6,-235.0,1.0</waypoint>
         </move>
     </trigger>
     <trigger id="kill_actor" thres="5.0">

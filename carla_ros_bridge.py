@@ -114,7 +114,7 @@ class CarlaBridge(object):
                 derived_obj.id = actor.id
                 derived_obj.shape.type = SolidPrimitive.BOX
                 # print(self.scenario_xml.blueprint.find(actor.type_id).size)
-                size = 1
+                size = 0.5
                 # size = self.scenario_xml.blueprint.find(actor.type_id).size
                 derived_obj.shape.dimensions = [
                     float(size)*2,
@@ -199,8 +199,8 @@ class CarlaBridge(object):
                 )
 
             # static object tend to sink under ground
-            if ros_actor.classification == Object.CLASSIFICATION_UNKNOWN:
-                ros_actor.pose.position.z += ros_actor.shape.dimensions[2] * 0.5
+            # if ros_actor.classification == Object.CLASSIFICATION_UNKNOWN:
+            #     ros_actor.pose.position.z += ros_actor.shape.dimensions[2] * 0.5
 
             ros_actor.twist = Twist(
                 linear=Vector3(

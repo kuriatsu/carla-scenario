@@ -137,7 +137,7 @@
             <waypoint speed="5.0">152.8,137.8,1.0</waypoint>
         </move>
     </trigger>
-    <trigger id="straight_1_cross_trigger" thres="15.0">
+    <trigger id="straight_1_cross_trigger" thres="18.0">
         <location>181.3,133.8,1.0</location>
         <move id="walker_straight_1-cross">
             <waypoint speed="3.0">181.2,125.5,1.0</waypoint>

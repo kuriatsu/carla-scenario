@@ -59,12 +59,6 @@
             <blueprint>vehicle.audi.a2</blueprint>
             <transform>246.5,129.6,1.0,0.0,177.8,0.0</transform>
         </spawn>
-        <spawn id="ai_vehicle_straight_1-4">
-            <type>ai_vehicle</type>
-            <probability>0</probability>
-            <blueprint>vehicle.audi.a2</blueprint>
-            <transform>318.5,129.8,1.0,0.0,-178.1,0.0</transform>
-        </spawn>
         <spawn id="walker_straight_1-4">
             <type>walker</type>
             <probability>0</probability>
@@ -104,9 +98,6 @@
         <move id="ai_vehicle_straight_1-3">
             <waypoint speed="20.0"/>
         </move>
-        <move id="ai_vehicle_straight_1-4">
-            <waypoint speed="20.0"/>
-        </move>
         <move id="walker_straight_1-4">
             <waypoint speed="2.0">173.8,138.2,1.0</waypoint>
         </move>
@@ -130,7 +121,7 @@
         <kill id="walker_straight_1-2"/>
         <kill id="walker_straight_1-3"/>
     </trigger>
-    <trigger id="straight_1_cross_trigger" thres="15.0">
+    <trigger id="straight_1_cross_trigger" thres="18.0">
         <location>277.1,133.6,1.0</location>
         <move id="walker_straight_1-latter_cross">
             <waypoint speed="3.0">277.1,126.0,1.0</waypoint>
@@ -202,7 +193,6 @@
             <waypoint speed="2.0">343.3,116.1,1.0</waypoint>
         </move>
         <kill id="ai_vehicle_straight_1-3"/>
-        <kill id="ai_vehicle_straight_1-4"/>
         <kill id="walker_straight_1-4"/>
         <kill id="walker_straight_1-5"/>
         <kill id="walker_straight_1-6"/>
@@ -264,9 +254,9 @@
             <transform>232.3,64.0,1.0,0.0,179.9,0.0</transform>
         </spawn>
         <spawn id="walker_straight_3-pose">
-            <type>walker.pedestrian.0001</type>
+            <type>walker</type>
             <probability>80</probability>
-            <blueprint>random</blueprint>
+            <blueprint>walker.pedestrian.0001</blueprint>
             <transform>243.8,62.0,1.0,-0.0,88.8,0.0</transform>
         </spawn>
         <spawn id="walker_straight_3-dummy_pose_1">
@@ -422,7 +412,7 @@
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
             <blueprint>static.prop.plasticbag</blueprint>
-            <transform>88.1,89.7,0.1,0.0,90.5,0.0</transform>
+            <transform>88.1,89.7,0.1,0.0,90.5,-90.0</transform>
         </spawn>
         <spawn id="walker_straight_4-dummy_static_1">
             <type>walker</type>
