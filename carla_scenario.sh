@@ -40,22 +40,23 @@ elif [ $1 = "Town04" ]; then
 # 7: not for control
 elif [ $1 = "Town01" ]; then
     scenarios=(
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_base.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_3.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_base.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_3.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_3.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_3.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_base.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_4.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_4.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_4.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_4.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_base.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_1.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_1.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_1.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_base.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_2.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_2.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_2.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_2.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_2.xml"
     )
     python /home/kuriatsu/Source/carla_scenario/carla_ros_bridge.py -s "${scenarios[@]}"
 

@@ -185,7 +185,7 @@
             <type>walker</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
-            <transform>342.3,87.1,1.1,-0.0,111.8,0.0</transform>
+            <transform>341.3,87.0,1.0,0.0,124.3,0.0</transform>
         </spawn>
         <spawn id="walker_straight_2-dummy_cross_1">
             <type>walker</type>

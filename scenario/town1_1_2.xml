@@ -81,7 +81,7 @@
             <type>walker</type>
             <probability>80</probability>
             <blueprint>random</blueprint>
-            <transform>276.9,126.7,1.0,0.0,144.9,0.0</transform>
+            <transform>276.1,126.9,1.0,0.0,138.5,0.0</transform>
         </spawn>
         <spawn id="walker_straight_1-dummy_cross_1">
             <type>walker</type>
@@ -111,7 +111,7 @@
             <waypoint speed="5.0">277.0,137.7,1.0</waypoint>
             <waypoint speed="3.0">255.9,137.5,1.0</waypoint>
         </move>
-        <move id="walker_straight_1-dummy_cross_1">
+        <move id="walker_straight_1-dummy_cross_2">
             <waypoint speed="0.5">279.6,125.5,1.0</waypoint>
             <waypoint speed="2.0">324.8,125.2,1.0</waypoint>
         </move>
