@@ -32,14 +32,14 @@
             <blueprint>random</blueprint>
             <transform>207.4,-233.5,1.0,-0.0,92.7,0.0</transform>
         </spawn>
-        <spawn id="static">
+        <!-- <spawn id="static">
             <type>static</type>
             <probability>80</probability>
             <collision_range>8.0</collision_range>
             <invincible>false</invincible>
             <blueprint>static.prop.plasticbag</blueprint>
-            <transform>149.4,-307.3,0.1,0.0,171.0,90.0</transform>
-        </spawn>
+            <transform>149.4,-307.3,0.15,0.0,171.0,90.0</transform>
+        </spawn> -->
         <pose id="walker_pose">
             <form>phone_right</form>
         </pose>
@@ -144,6 +144,6 @@
         <kill id="walker_pose"/>
         <kill id="walker_walk-1"/>
         <kill id="walker_walk-2"/>
-        <kill id="static"/>
+        <!-- <kill id="static"/> -->
     </trigger>
 </data>
