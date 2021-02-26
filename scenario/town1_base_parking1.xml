@@ -1,0 +1,391 @@
+<?xml version="1.0"?>
+<data>
+    <trigger id="initial_spawn" thres="0.0">
+        <location>0,0,0,0,0,0</location>
+        <spawn id="ai_vehicle_straight_1-1">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>139.6,129.4,1.0,0.0,-179.1,0.0</transform>
+        </spawn>
+        <spawn id="ai_vehicle_straight_1-2">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>195.7,129.6,1.0,0.0,-178.5,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-1">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>175.4,125.6,1.0,0.0,-179.1,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-2">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>161.8,125.1,1.0,0.0,-0.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-3">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>189.4,138.0,1.0,0.0,-178.7,0.0</transform>
+        </spawn>
+    </trigger>
+    <trigger id="straight_1_enter" thres="5.0">
+        <location>103.2,133.2,1.0</location>
+        <spawn id="ai_vehicle_straight_1-3">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>246.5,129.6,1.0,0.0,177.8,0.0</transform>
+        </spawn>
+        <spawn id="vehicle_straight_1-4">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>301.7,128.6,-0.0,-0.0,-180.0,-0.0</transform>
+        </spawn>
+        <spawn id="vehicle_straight_1-5">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>295.8,128.6,-0.0,0.0,-179.9,0.0</transform>
+        </spawn>
+        <spawn id="vehicle_straight_1-6">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>290.2,128.6,-0.0,-0.0,-180.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-4">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>257.7,138.2,1.0,0.0,180.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-5">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>235.8,125.5,1.0,0.0,-0.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_1-6">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>290.2,126.0,1.0,0.0,-179.2,0.0</transform>
+        </spawn>
+        <move id="ai_vehicle_straight_1-1">
+            <waypoint speed="20"/>
+        </move>
+        <move id="ai_vehicle_straight_1-2">
+            <waypoint speed="30"/>
+        </move>
+        <move id="walker_straight_1-1">
+            <waypoint speed="2.0">101.8,125.5,1.0</waypoint>
+        </move>
+        <move id="walker_straight_1-2">
+            <waypoint speed="2.0">218.8,124.8,1.0</waypoint>
+        </move>
+        <move id="walker_straight_1-3">
+            <waypoint speed="2.0">121.7,138.2,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="straight_1_middle" thres="5.0">
+        <location>182.8,133.6,1.0</location>
+        <move id="ai_vehicle_straight_1-3">
+            <waypoint speed="20.0"/>
+        </move>
+        <move id="walker_straight_1-4">
+            <waypoint speed="2.0">173.8,138.2,1.0</waypoint>
+        </move>
+        <move id="walker_straight_1-5">
+            <waypoint speed="1.0">315.3,125.6,1.0</waypoint>
+        </move>
+        <move id="walker_straight_1-6">
+            <waypoint speed="3.0">214.2,125.3,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="straight_1_tr" thres="5.0">
+        <location>306.7,133.7,1.0</location>
+        <trafficlight>
+            <location>321.8,136.0,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>341.0,143.9,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>332.3,118.9,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <spawn id="vehicle_straight_2-1">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>334.2,80.6,1.0,-0.0,91.1,0.0</transform>
+        </spawn>
+        <spawn id="vehicle_straight_2-2">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>334.2,87.2,1.0,-0.0,89.4,0.0</transform>
+        </spawn>
+        <spawn id="vehicle_straight_2-3">
+            <type>vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>334.2,94.5,1.0,-0.0,90.8,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_2-1">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>331.0,73.6,1.0,-0.0,90.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_2-2">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>342.3,72.0,1.0,-0.0,91.3,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_2-3">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>343.1,114.4,1.0,0.0,-89.9,0.0</transform>
+        </spawn>
+        <move id="walker_straight_2-3">
+            <waypoint speed="1.5">342.4,79.8,1.0</waypoint>
+        </move>
+        <kill id="ai_vehicle_straight_1-1"/>
+        <kill id="ai_vehicle_straight_1-2"/>
+        <kill id="walker_straight_1-1"/>
+        <kill id="walker_straight_1-2"/>
+        <kill id="walker_straight_1-3"/>
+    </trigger>
+    <trigger id="straight_2_enter" thres="5.0">
+        <location>339.1,119.0,1.0</location>
+        <move id="walker_straight_2-1">
+            <waypoint speed="2.0">331.0,105.0,1.0</waypoint>
+        </move>
+        <move id="walker_straight_2-2">
+            <waypoint speed="2.0">343.3,116.1,1.0</waypoint>
+        </move>
+        <kill id="ai_vehicle_straight_1-3"/>
+        <kill id="vehicle_straight_1-4"/>
+        <kill id="vehicle_straight_1-5"/>
+        <kill id="vehicle_straight_1-6"/>
+        <kill id="walker_straight_1-4"/>
+        <kill id="walker_straight_1-5"/>
+        <kill id="walker_straight_1-6"/>
+    </trigger>
+    <trigger id="straight_2_tl" thres="5.0">
+        <location>339.2,84.3,1.0</location>
+        <trafficlight>
+            <location>341.2,69.8,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>332.1,44.9,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>321.8,62.2,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <spawn id="ai_vehicle_straight_3-1">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>292.7,60.1,1.0,0.0,-1.2,0.0</transform>
+        </spawn>
+        <spawn id="ai_vehicle_straight_3-2">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>234.0,59.9,1.0,0.0,-2.4,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_3-1">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>284.2,50.5,1.0,-0.0,1.4,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_3-2">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>239.7,64.3,1.0,0.0,-4.4,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_3-3">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>178.6,51.7,1.0,0.0,-1.8,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_3-4">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>232.3,64.0,1.0,0.0,179.9,0.0</transform>
+        </spawn>
+        <move id="ai_vehicle_straight_3-1">
+            <waypoint speed="20"/>
+        </move>
+    </trigger>
+    <trigger id="straight_3_enter" thres="5.0">
+        <location>323.2,55.2,1.0</location>
+        <move id="ai_vehicle_straight_3-2">
+            <waypoint speed="20"/>
+        </move>
+        <move id="walker_straight_3-1">
+            <waypoint speed="2.0">329.3,50.4,1.0</waypoint>
+        </move>
+        <move id="walker_straight_3-2">
+            <waypoint speed="2.0">300.6,64.2,1.0</waypoint>
+        </move>
+        <move id="walker_straight_3-3">
+            <waypoint speed="2.0">259.8,50.3,1.0</waypoint>
+        </move>
+        <move id="walker_straight_3-4">
+            <waypoint speed="2.0">168.4,63.6,1.0</waypoint>
+        </move>
+        <kill id="vehicle_straight_2-1"/>
+        <kill id="vehicle_straight_2-2"/>
+        <kill id="vehicle_straight_2-3"/>
+        <kill id="walker_straight_2-1"/>
+        <kill id="walker_straight_2-2"/>
+        <kill id="walker_straight_2-3"/>
+    </trigger>
+    <trigger id="straight_3_middle" thres="5.0">
+        <location>229.8,55.2,1.0</location>
+        <spawn id="walker_straight_3-5">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>96.1,74.4,1.0,0.0,-90.5,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_3-6">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>138.2,51.8,1.0,0.0,179.2,0.0</transform>
+        </spawn>
+    </trigger>
+    <trigger id="straight_3_mid_tl" thres="5.0">
+        <location>187.7,55.6,1.0</location>
+        <trafficlight>
+            <location>168.9,53.1,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>144.3,62.1,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>151.4,45.4,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <move id="walker_straight_3-5">
+            <waypoint speed="3.0">97.5,65.1,1.0</waypoint>
+            <waypoint speed="2.0">139.9,63.7,1.0</waypoint>
+        </move>
+        <move id="walker_straight_3-6">
+            <waypoint speed="1.0">103.0,51.5,1.0</waypoint>
+        </move>
+        <kill id="ai_vehicle_straight_3-1"/>
+        <kill id="ai_vehicle_straight_3-2"/>
+        <kill id="walker_straight_3-1"/>
+        <kill id="walker_straight_3-2"/>
+        <kill id="walker_straight_3-3"/>
+        <kill id="walker_straight_3-4"/>
+    </trigger>
+    <trigger id="straight_3_mid_tl" thres="5.0">
+        <location>120.9,55.4,1.0</location>
+        <trafficlight>
+            <location>102.7,53.0,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>86.0,45.8,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>94.8,70.3,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+        <spawn id="ai_vehicle_straight_4-1">
+            <type>ai_vehicle</type>
+            <probability>0</probability>
+            <blueprint>vehicle.audi.a2</blueprint>
+            <transform>92.1,95.8,1.0,0.0,-90.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_4-1">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>96.2,83.5,1.0,-0.0,89.0,0.0</transform>
+        </spawn>
+        <spawn id="walker_straight_4-2">
+            <type>walker</type>
+            <probability>0</probability>
+            <blueprint>random</blueprint>
+            <transform>84.2,75.1,1.0,-0.0,90.0,0.0</transform>
+        </spawn>
+        <move id="ai_vehicle_straight_4-1">
+            <waypoint speed="20"/>
+        </move>
+        <move id="walker_straight_4-1">
+            <waypoint speed="2.0">96.2,71.9,1.0</waypoint>
+            <waypoint speed="2.0">96.1,110.9,1.0</waypoint>
+        </move>
+        <move id="walker_straight_4-2">
+            <waypoint speed="2.0">83.9,141.9,1.0</waypoint>
+        </move>
+    </trigger>
+    <trigger id="straight_4_enter" thres="5.0">
+        <location>88.2,70.7,1.0</location>
+        <kill id="walker_straight_3-5"/>
+        <kill id="walker_straight_3-6"/>
+    </trigger>
+    <trigger id="straight_4_tl" thres="20.0">
+        <location>88.7,107.9,1.0</location>
+        <trafficlight>
+            <location>85.9,119.8,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>94.8,144.4,1.0</location>
+            <state>green</state>
+            <time>30.0</time>
+        </trafficlight>
+        <trafficlight>
+            <location>102.7,127.0,1.0</location>
+            <state>red</state>
+            <time>30.0</time>
+        </trafficlight>
+    </trigger>
+    <trigger id="finish" thres="5.0">
+        <location>88.5,116.2,0.0,-0.0,86.5,0.0</location>
+        <kill id="ai_vehicle_straight_4-1"/>
+        <kill id="walker_straight_4-1"/>
+        <kill id="walker_straight_4-2"/>
+    </trigger>
+</data>
