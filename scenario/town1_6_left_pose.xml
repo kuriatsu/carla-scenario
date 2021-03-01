@@ -284,8 +284,8 @@
         <spawn id="walker_straight_3-pose">
             <type>walker</type>
             <probability>80</probability>
-            <blueprint>walker.pedestrian.0001</blueprint>
-            <transform>125.4,58.7,1.0,0.0,78.6,0.0</transform>
+            <blueprint>walker.pedestrian.0003</blueprint>
+            <transform>126.5,62.3,1.1,0.0,27.4,0.0</transform>
         </spawn>
         <spawn id="walker_straight_3-dummy1">
             <type>walker</type>

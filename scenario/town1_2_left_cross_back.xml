@@ -45,19 +45,19 @@
             <type>vehicle</type>
             <probability>0</probability>
             <blueprint>vehicle.audi.a2</blueprint>
-            <transform>301.7,128.6,-0.0,-0.0,-180.0,-0.0</transform>
+            <transform>301.7,128.4,-0.0,-0.0,-180.0,-0.0</transform>
         </spawn>
         <spawn id="vehicle_straight_1-5">
             <type>vehicle</type>
             <probability>0</probability>
             <blueprint>vehicle.audi.a2</blueprint>
-            <transform>295.8,128.6,-0.0,0.0,-179.9,0.0</transform>
+            <transform>295.8,128.4,-0.0,0.0,-179.9,0.0</transform>
         </spawn>
         <spawn id="vehicle_straight_1-6">
             <type>vehicle</type>
             <probability>0</probability>
             <blueprint>vehicle.audi.a2</blueprint>
-            <transform>290.2,128.6,-0.0,-0.0,-180.0,0.0</transform>
+            <transform>290.2,128.4,-0.0,-0.0,-180.0,0.0</transform>
         </spawn>
         <spawn id="walker_straight_1-4">
             <type>walker</type>

@@ -80,7 +80,7 @@
         <spawn id="walker_straight_1-pose">
             <type>walker</type>
             <probability>80</probability>
-            <blueprint>random</blueprint>
+            <blueprint>walker.pedestrian.0007</blueprint>
             <transform>301.1,130.0,1.0,0.0,55.2,0.0</transform>
         </spawn>
         <spawn id="walker_straight_1-dummy1">
