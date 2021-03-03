@@ -381,7 +381,7 @@
         <kill id="walker_straight_3-3"/>
         <kill id="walker_straight_3-4"/>
     </trigger>
-    <trigger id="straight_3_cross_trigger" thres="18.0">
+    <trigger id="straight_3_cross_trigger" thres="20.0">
         <location>122.6,55.7,1.0</location>
         <move id="walker_straight_3-cross">
             <waypoint speed="2.0">122.6,63.0,1.1</waypoint>

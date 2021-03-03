@@ -120,7 +120,7 @@
             <transform>290.2,126.0,1.0,0.0,-179.2,0.0</transform>
         </spawn>
         <move id="ai_vehicle_straight_1-1">
-            <waypoint speed="20"/>
+            <waypoint speed="50"/>
         </move>
         <move id="ai_vehicle_straight_1-2">
             <waypoint speed="30"/>

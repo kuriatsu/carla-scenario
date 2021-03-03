@@ -41,6 +41,28 @@ elif [ $1 = "Town04" ]; then
 elif [ $1 = "Town01" ]; then
     scenarios=(
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_3.xml"
+    # 1
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_left_pose_back.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_6_left_cross.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_right_cross.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4_right_pose.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_left_cross.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5_right_pose.xml"
+    # 2
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_right_pose.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4_left_cross.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_left_cross_forward.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5_right_cross.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_left_pose.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_6_left_pose.xml"
     # 3
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
@@ -54,6 +76,7 @@ elif [ $1 = "Town01" ]; then
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_6_right_cross.xml"
     # 4
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
+    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_left_pose.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_4_right_cross.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
@@ -62,26 +85,6 @@ elif [ $1 = "Town01" ]; then
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_left_cross_back.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town1_5_left_cross.xml"
-    # 1
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_left_pose_back.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_6_left_cross.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_right_cross.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4_right_pose.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_left_cross.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5_right_pose.xml"
-    # 2
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_3_right_pose.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_4_left_cross.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_left_cross_forward.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_5_right_cross.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_2_0.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_1_left_pose.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town1_6_left_pose.xml"
     )
     python /home/kuriatsu/Source/carla_scenario/carla_ros_bridge.py -s "${scenarios[@]}"
 
