@@ -21,8 +21,8 @@ if [ $1 = "Town05" ]; then
 
 elif [ $1 = "Town04" ]; then
     scenarios=(
-    "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"
-    "/home/kuriatsu/Source/carla_scenario/scenario/town4_base.xml"
+    # "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"
+    # "/home/kuriatsu/Source/carla_scenario/scenario/town4_base.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"
     "/home/kuriatsu/Source/carla_scenario/scenario/town4_intervene.xml"

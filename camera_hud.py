@@ -47,8 +47,9 @@ except ImportError:
 
 VIEW_FOV = 100
 
-logging.basicConfig(filename='/home/kuriatsu/Documents/carla_driving_result/' + datetime.datetime.now().strftime('%y%m%d_%H%M') + '.log', level=logging.INFO)
-
+# data log
+logging.basicConfig(filename='/home/kuriatsu/Documents/carla_driving_result/time_' + datetime.datetime.now().strftime('%y%m%d_%H%M') + '.log', level=logging.INFO)
+logging.info('round,time,collision')
 # ==============================================================================
 # -- Cliant ----------------------------------------------------
 # ==============================================================================
@@ -68,6 +69,7 @@ class Cliant(object):
         self.hud = None
         self.camera = None
         self.collision = None
+
 
     def set_synchronous_mode(self, synchronous_mode):
         """
@@ -276,6 +278,10 @@ class HUD(object):
         self.collision_num = 0
         self.last_collision_point = None
         self.last_collision_frame = 0
+        self.round = -1
+        self.is_on_start_point = False
+        self.is_on_goal_point = False
+        self.is_started = False
 
         for carla_actor in world.get_actors():
             if carla_actor.attributes.get('role_name') == args.egoname:
@@ -301,16 +307,37 @@ class HUD(object):
 
         # start timer and stop it
         if self.start_loc and self.goal_loc:
+
+            # on start point flag
             if (ego_loc.x - self.start_loc[0])**2 + (ego_loc.y - self.start_loc[1])**2 < 4.0:
-                self.start_time = self.simulation_time
+                self.is_on_start_point = True
 
+            # not on the start point
+            else:
+                # just after passing the start point, start stop_watch, count up round, reset collision count
+                if self.is_on_start_point:
+                    self.start_time = self.simulation_time
+                    self.is_started = True
+                    self.collision_num = 0
+                    self.round += 1
+
+                self.is_on_start_point = False
+
+            # on goal point flag
             if (ego_loc.x - self.goal_loc[0])**2 + (ego_loc.y - self.goal_loc[1])**2 < 4.0:
-                logging.info('time {}s'.format(self.stop_watch))
-                logging.info('collision {}times'.format(self.collision_num))
-                self.start_time = 0.0
-                self.collision_num = 0
+                # just after reaching on goal point, log the result
+                if not self.is_on_goal_point:
+                    logging.info('{},{},{}'.format(self.round, self.stop_watch, self.collision_num))
+                    self.is_started = False
 
-            elif self.start_time != 0.0:
+                self.is_on_goal_point = True
+
+            #  not on the goal flag
+            else:
+                self.is_on_goal_point = False
+
+            # if started count up stop_watch
+            if self.is_started:
                 self.stop_watch = self.simulation_time - self.start_time
 
         # judge the collision is worth counting as one collision
@@ -335,7 +362,9 @@ class HUD(object):
             str(self.collision_num),
             'time:',
             '% .2f' % self.stop_watch,
-            '']
+            'Round:',
+            str(self.round)
+            ]
 
     def render(self, display):
         if self._show_info:
@@ -374,6 +403,14 @@ class HUD(object):
                 # stop_watch
                 surface = self.font_large.render(self.info_text[6], True, (255, 255, 255))
                 display.blit(surface, (2350, 870))
+
+                # round
+                surface = self.font_small.render(self.info_text[7], True, (255, 255, 255))
+                display.blit(surface, (2850, 840))
+
+                # round num
+                surface = self.font_large.render(self.info_text[8], True, (255, 255, 255))
+                display.blit(surface, (3000, 870))
 
             # for item in self.info_text:
             #     if v_offset + 18 > self.dim[1]:
@@ -442,25 +479,25 @@ def main():
         help='window resolution (default: 3840x1080)')
     argparser.add_argument(
         '-s' ,'--start',
-        metavar='x,y',
-        default='145.649108887 -1.90140223503 0.14900586009',
+        metavar=('x', 'y', 'z', 'yaw'),
+        default=(229.2, 133.4, -0.0, -90.0),
         type=float,
-        nargs=3,
+        nargs=4,
         help='start position where the timer starts')
     argparser.add_argument(
         '-t','--transform',
         metavar='x,y,z,roll,pitch,yaw',
         type=float,
         nargs=6,
-        default='-0.05 -0.2 1.21 0.0 0.0 0.0',
+        default=(-0.18, -0.2, 0.9, 0.0, 0.0, 0.0),
         help='relative transform from vehicle '
     )
     argparser.add_argument(
         '-g' ,'--goal',
-        metavar='x y',
-        default='-145.308700562 91.4853286743 0.0420927219093',
+        metavar=('x', 'y', 'z', 'yaw'),
+        default=(229.2, 133.4, -0.0, -90.0),
         type=float,
-        nargs=3,
+        nargs=4,
         help='goal position where the timer stops')
     argparser.add_argument(
         '-e', '--egoname',
@@ -470,6 +507,7 @@ def main():
 
     args, unknown = argparser.parse_known_args()
     print(args.transform)
+
     try:
         client = Cliant(args)
         client.game_loop(args)

@@ -384,7 +384,7 @@ class ScenarioXML(object):
                     alpha = alpha if abs(alpha) < abs(alpha_2) else alpha_2
 
                 # invert angle (I do not know why)
-                alpha *= -1
+                alpha *= 1
 
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
