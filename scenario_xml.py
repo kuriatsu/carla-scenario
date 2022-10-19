@@ -168,7 +168,6 @@ class ScenarioXML(object):
             actor_ids = {}
             blueprint = self.getBlueprint(spawn.find('type').text, spawn.find('blueprint').text)
             blueprint.set_attribute('role_name', spawn.attrib.get('id'))
-
             # set blueprint for walker
             if 'walker' in spawn.find('type').text:
 
@@ -193,6 +192,11 @@ class ScenarioXML(object):
             # append command to spawn actor to batch
             buf = spawn.find('transform').text
             transform = carla.Transform(carla.Location(buf[0], buf[1], buf[2]), carla.Rotation(buf[3], buf[4], buf[5]))
+
+            if spawn.attrib.get('id') == "ego_vehicle" and self.ego_vehicle is not None:
+                self.ego_vehicle.set_transform(transform)
+                continue
+
             batch.append(carla.command.SpawnActor(blueprint, transform))
 
         # conduct spawn actor
@@ -375,6 +379,7 @@ class ScenarioXML(object):
                 # difference between objective and current angle
                 alpha = objective_angle - current_angle
 
+
                 # take care the change from 180 -> -180
                 if objective_angle < 0.0 and current_angle >= 0.0:
                     alpha_2 = math.pi - current_angle + (math.pi + objective_angle)
@@ -384,13 +389,13 @@ class ScenarioXML(object):
                     alpha = alpha if abs(alpha) < abs(alpha_2) else alpha_2
 
                 # invert angle (I do not know why)
-                alpha *= 1
+                alpha *= -1
 
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
 
-                batch.append(carla.command.ApplyVelocity(control_actor.get('actor').id, velocity))
-                batch.append(carla.command.ApplyAngularVelocity(control_actor.get('actor').id, carla.Vector3D(0.0, 0.0, omega)))
+                batch.append(carla.command.ApplyTargetVelocity(control_actor.get('actor').id, velocity))
+                batch.append(carla.command.ApplyTargetAngularVelocity(control_actor.get('actor').id, carla.Vector3D(0.0, 0.0, omega)))
 
                 # debug = self.world.debug
                 # debug.draw_arrow(
@@ -478,9 +483,11 @@ class ScenarioXML(object):
 
         for actor in self.world.get_actors():
             if actor.type_id.startswith("vehicle") or actor.type_id.startswith("walker") or actor.type_id.startswith("controller"):
-                if actor.attributes.get('role_name') != 'ego_vehicle':
-                    print('remove debris not in scenario')
-                    batch.append(carla.command.DestroyActor(actor.id))
+                # if actor.attributes.get('role_name') != 'ego_vehicle':
+                #    print('remove debris not in scenario')
+                #    batch.append(carla.command.DestroyActor(actor.id))
+                print('remove debris not in scenario')
+                batch.append(carla.command.DestroyActor(actor.id))
 
         self.client.apply_batch(batch)
 
@@ -495,6 +502,7 @@ def game_loop(args):
     world = client.get_world()
     sx = ScenarioXML(client, world, args.scenario_file, args.pedestrian_cross_factor)
     sx.blueprint = sx.world.get_blueprint_library()
+    sx.getEgoCar()
 
     sx.spawnActor(sx.scenario[0].findall('spawn'))
     sx.moveActor(sx.scenario[0].findall('move'))

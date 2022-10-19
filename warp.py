@@ -23,8 +23,12 @@ for actor in world.get_actors():
 
     if actor.attributes.get('role_name') == 'hero':
         hero = actor
+        # hero.set_location(ego.get_location()+carla.Location(x=2.0, z=3.0))
     if actor.attributes.get('role_name') == 'ego_vehicle':
         ego = actor
+    if actor.type_id == "spectator":
+        loc = carla.Location(x=-241.09835633, y=1241.9001535, z=20)
+        actor.set_location(loc)
 
 
-hero.set_location(ego.get_location()+carla.Location(x=2.0, z=3.0))
+
