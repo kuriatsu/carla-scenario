@@ -374,22 +374,17 @@ class ScenarioXML(object):
                 # calc angular velocity
                 # define angle (radian)
                 objective_angle = math.atan(vector.y / vector.x)
+                objective_angle -= math.pi if vector.y < 0.0 else 0.0
                 current_angle = math.radians(yaw)
 
                 # difference between objective and current angle
                 alpha = objective_angle - current_angle
 
-
                 # take care the change from 180 -> -180
-                if objective_angle < 0.0 and current_angle >= 0.0:
-                    alpha_2 = math.pi - current_angle + (math.pi + objective_angle)
-                    alpha = (alpha if abs(alpha) < abs(alpha_2) else alpha_2)
-                if current_angle < 0.0 and objective_angle >= 0.0:
-                    alpha_2 = -(math.pi - objective_angle + (math.pi + current_angle))
-                    alpha = alpha if abs(alpha) < abs(alpha_2) else alpha_2
-
-                # invert angle (I do not know why)
-                alpha *= -1
+                if alpha > math.pi:
+                    alpha = alpha - 2*math.pi
+                elif alpha < -math.pi:
+                    alpha = 2*math.pi - alpha
 
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
