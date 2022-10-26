@@ -26,12 +26,6 @@ import math
 import time
 import datetime
 from pose import PoseDefine
-import logging
-# data log
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.FileHandler('/home/kuriatsu/Documents/carla_driving_result/actor_id_' + datetime.datetime.now().strftime('%y%m%d_%H%M') + '.log'))
-logger.info('scenario_id, world_id')
 
 class ScenarioXML(object):
 
