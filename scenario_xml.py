@@ -288,6 +288,7 @@ class ScenarioXML(object):
             control_actor['type'] = type
             control_actor['id'] = id
             control_actor['waypoints'] = waypoints
+            control_actor['stop_time'] = 0.0 # if speed == 0: stop vehicle for 1sec. save world elapse time when start stop
             self.control_actor_list.append(control_actor)
 
 
@@ -322,17 +323,31 @@ class ScenarioXML(object):
 
             point = control_actor.get('waypoints')[0].text
             speed = float(control_actor.get('waypoints')[0].attrib.get('speed'))
-            # calc culent motion vector and distance to the target
             vector = carla.Vector3D(
                 float(point[0]) - transform.location.x,
                 float(point[1]) - transform.location.y,
                 float(point[2]) - transform.location.z
                 )
-            dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
-            # normalize vector to calcurate velocity
-            vector.x = vector.x / dist
-            vector.y = vector.y / dist
-            # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+
+            if speed > 0.0:
+                # calc culent motion vector and distance to the target
+                dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
+                # normalize vector to calcurate velocity
+                vector.x = vector.x / dist
+                vector.y = vector.y / dist
+                # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+
+            else:
+                elapsed_time = carla.Timestamp().elapsed_seconds
+                if control_actor['stop_time'] == 0.0:
+                    control_actor['stop_time'] = elapsed_time
+                    dist = 100
+                elif elapsed_time - control_actor['stop_time'] < 1.0:
+                    dist = 100
+                else:
+                    control_actor['stop_time'] = 0.0
+                    dist = 0.0
+
             return vector, speed, dist, transform.rotation.yaw
 
 
@@ -521,7 +536,7 @@ def game_loop(args):
 if __name__ == '__main__':
 
     argparser = argparse.ArgumentParser( description = __doc__)
-    argparser.add_argument(
+    argparser.add_argument
         '--host',
         metavar='H',
         default='127.0.0.1',
