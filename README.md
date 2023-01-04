@@ -1,5 +1,8 @@
 # carla_scenario
 
+Python 2.x and 3.x scripts which support you to create scenarios in [CALRA](https://carla.org/), written in python, for human beings all over the world.
+These scripts enable you to use [CARLA Python API](https://carla.readthedocs.io/en/latest/python_api/) via XML file.
+
 ## Demo
 ![output](https://user-images.githubusercontent.com/38074802/195296981-5ac8c0a4-b225-43a9-8c57-ed863bca9c3f.gif)
 ```bash
@@ -7,11 +10,6 @@
 python3 scenario_xml.py -s scenario/town5.xml
 python3 manual_control.py --rolename ego_vehicle
 ```
-
-## Overview
-Python 2.x and 3.x scripts which support you to create scenarios in [CALRA](https://carla.org/), written in python, for human beings all over the world.
-These scripts enable you to use [CARLA Python API](https://carla.readthedocs.io/en/latest/python_api/) via XML file.
-
 
 ## Features
 * Control actors and trafficlight when the ego_vehicle steps on triggers.
@@ -62,10 +60,10 @@ python carla_ros_bridge.py -s /path/to/scenario.xml
 ```
 The object msg will be published
 
-### Create Scenario
+## Create Scenario
 Demo scenario is [here](https://github.com/kuriatsu/carla-scenario/blob/master/scenario/town5.xml)
 
-#### 0. Get spawn positions
+### 0. Get spawn positions
 ```bash
 # simulator
 ./CarlaUE4.sh
@@ -74,11 +72,11 @@ python3 manual_control.py --filter vehicle*
 ```
 * `--filter`: `walker.pedestrian*` or `vehicle*`
 
-##### How to copy HERO position to the clipboard
+#### How to copy HERO position to the clipboard
 * `L` Button: get actor's location to clipboard for xml file
 * `T` Button: get actor's tralsform to clipboard for xml file
 
-#### 1. Set trigger
+### 1. Set trigger
 The scenario is read from top to bottom. If the vehicle misses one trigger, the scenario will stop at the point. Please be careful when deciding the "thres" value
 **The trigger 0 is considered as initial setting. The scenario of trigger 0 is launched when the scenario starts whether the vehicle has stepped on the trigger.**
 ```xml
@@ -89,7 +87,7 @@ The scenario is read from top to bottom. If the vehicle misses one trigger, the 
 * thres: The vehicle is considered to have stepped on the trigger when the vehicle is within the range of the value(m) from the trigger position.
 * location: trigger location on the map
 
-#### 2. Spawn Actors
+### 2. Spawn Actors
 walker
 ```xml
         <spawn id="ai_walker_road1_0">
@@ -139,7 +137,7 @@ static objects
   * blueprint: select from [HERE](https://carla.readthedocs.io/en/latest/bp_library/) or set random.
   * transform: spawn position
   
-#### 3. Control Actors
+### 3. Control Actors
 * Control ai actor
 ```xml
         <move id="ai_walker_road1_0">
@@ -157,13 +155,13 @@ static objects
 ```
 * waypoint: the goal point of actors (transform of point)
 
-#### 4. Kill Actor
+### 4. Kill Actor
 ```xml
         <kill id="ai_walker_road1_0"/>
         <kill id="vehicle_road2_0"/>
 ```
 
-#### 5. Control trafficlight
+### 5. Control trafficlight
 When the vehicle steps the trigger, the light turns to the color
 ```xml
         <trafficlight>
@@ -191,11 +189,11 @@ location: the traffic light pole location (the script finds pole within 3m from 
 state: red, green, yellow
 time: Time to keep the color
 
-### Check Scenario
-1.  Run simulator with server window (to get bird eye view), then change map `python carla-0.9.8/Python/util/config.py -m Town05`
-1. Run check scenario
+## Check Scenario
+1. Run simulator with server window (to get bird eye view), then change map `python carla-0.9.8/Python/util/config.py -m Town05`
+2. Run check scenario
 ```bash
 python check_scenario.py -s /path/to/scenario.xml
 ```
-1. You can check the scenario. (Consistency check function will be supported...)
+3. You can check the scenario. (Consistency check function will be supported...)
 
