@@ -34,6 +34,34 @@ pip install -r requirements.txt
 Prease confirm that you sourced .egg file provided by CALRA.
 
 ## Usage
+### Run Scenario
+1. Run simulator and change map.
+
+1. spawn ego vehicle with rolename=ego_vehicle
+```bash
+python manual_control.py --rolename ego_vehicle
+```
+
+1. Run scenario
+```bash
+python scenario.xml -s /path/to/scenario.xml
+```
+
+### Run Scenario with ROS
+1. Run simulator and change map.
+
+1. spawn ego vehicle with rolename=ego_vehicle
+```bash
+python manual_control.py --rolename ego_vehicle
+```
+1. roscore
+
+1. run scenario with ros
+```bash
+python carla_ros_bridge.py -s /path/to/scenario.xml
+```
+The object msg will be published
+
 ### Create Scenario
 Demo scenario is [here](https://github.com/kuriatsu/carla-scenario/blob/master/scenario/town5.xml)
 
@@ -171,30 +199,3 @@ python check_scenario.py -s /path/to/scenario.xml
 ```
 1. You can check the scenario. (Consistency check function will be supported...)
 
-### Run Scenario
-1. Run simulator and change map.
-
-1. spawn ego vehicle with rolename=ego_vehicle
-```bash
-python manual_control.py --rolename ego_vehicle
-```
-
-1. Run scenario
-```bash
-python scenario.xml -s /path/to/scenario.xml
-```
-
-### Run Scenario with ROS
-1. Run simulator and change map.
-
-1. spawn ego vehicle with rolename=ego_vehicle
-```bash
-python manual_control.py --rolename ego_vehicle
-```
-1. roscore
-
-1. run scenario with ros
-```bash
-python carla_ros_bridge.py -s /path/to/scenario.xml
-```
-The object msg will be published
