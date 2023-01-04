@@ -1,5 +1,12 @@
 # carla_scenario
+
+## Demo
 ![output](https://user-images.githubusercontent.com/38074802/195296981-5ac8c0a4-b225-43a9-8c57-ed863bca9c3f.gif)
+```bash
+./CarlaUE4.sh
+python3 scenario_xml.py -s scenario/town5.xml
+python3 manual_control.py --rolename ego_vehicle
+```
 
 ## Overview
 Python 2.x and 3.x scripts which support you to create scenarios in [CALRA](https://carla.org/), written in python, for human beings all over the world.
@@ -16,9 +23,6 @@ These scripts enable you to use [CARLA Python API](https://carla.readthedocs.io/
   The [carla-ros-bridge]() doesn't support obstacles which added to the CARLA world after launching the carla-ros-bridge. So you need to spawn all of the actors at first. It's not good for long and sophisticated scenarios because it consumes the processing power a lot. These scripts support spawn and kill actors and update them to the ROS message. It saves processing power, good for the long scenarios.
    And this script can repeat the scenario after the scenario finished.
    
-   
-## Demo
-
 ## Requirement
 * CARLA (0.9.6-0.9.8 are tested)
 * ROS (option)
@@ -31,14 +35,18 @@ Prease confirm that you sourced .egg file provided by CALRA.
 
 ## Usage
 ### Create Scenario
-Write XML file like this... The sample is [HERE](https://github.com/kuriatsu/carla-scenario/blob/master/scenario/scenario_town5_base.xml)
-#### 0. Run simulator and manual_control.py
-Customised scripts from carla_manual_control.py.
+Demo scenario is [here](https://github.com/kuriatsu/carla-scenario/blob/master/scenario/town5.xml)
 
-##### options
-* `--filter`: walker.pedestrian* or vehicle*
+#### 0. Get spawn positions
+```bash
+# simulator
+./CarlaUE4.sh
+# Control HERO and copy it's position to the clipboard for scenario configulation
+python3 manual_control.py --filter vehicle*
+```
+* `--filter`: `walker.pedestrian*` or `vehicle*`
 
-##### functions
+##### How to copy HERO position to the clipboard
 * `L` Button: get actor's location to clipboard for xml file
 * `T` Button: get actor's tralsform to clipboard for xml file
 
