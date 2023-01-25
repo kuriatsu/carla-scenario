@@ -54,7 +54,7 @@ class ScenarioXML(object):
         [return]
         root of the ElementTree
         """
-        logger.info(filename)
+        # logger.info(filename)
         tree = ET.parse(filename)
         root = tree.getroot()
         edit_tag_list = ['transform', 'location', 'waypoint'] # tags of list which you want to use as float list, not text
@@ -216,7 +216,7 @@ class ScenarioXML(object):
                 world_id = ET.SubElement(spawned_actor, 'world_id')
                 world_id.text = results[i].actor_id
                 print("spawned : " + spawned_actor.attrib.get('id') + ', ' + str(world_id.text));
-                logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
+                # logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
                 if spawned_actor.find('type').text == 'static':
                     control_actor = {}
                     control_actor['actor'] = self.world.get_actor(world_id.text)
