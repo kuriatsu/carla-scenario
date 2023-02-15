@@ -15,6 +15,7 @@ try:
 except IndexError:
     pass
 
+
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -449,11 +450,11 @@ class ScenarioXML(object):
             elif control_actor['type'] == 'ai_vehicle' and control_actor.get('waypoints'):
                 actor = control_actor['actor']
                 agent = control_actor['agent']
-                if control_actor.get('id') in ('705', '706', '708', '709', '712', '716'):
-                    # carla/PythonAPI/carla/agents/navigation/global_route_planner.py", line 293, in _path_search
-                    # self._graph, source=start[0], target=end[0]
-                    # above error is happend in this id
-                    continue
+                # if control_actor.get('id') in ('705', '706', '708', '709', '712', '716'):
+                #     # carla/PythonAPI/carla/agents/navigation/global_route_planner.py", line 293, in _path_search
+                #     # self._graph, source=start[0], target=end[0]
+                #     # above error is happend in this id
+                #     continue
                 if not control_actor['is_destination']:
                     destination_waypoint = control_actor.get('waypoints').pop(0)
                     print('ai_vehicle {}, next destination :{}'.format(control_actor.get('id'),destination_waypoint.text))
