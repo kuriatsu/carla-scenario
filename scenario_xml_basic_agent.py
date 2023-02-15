@@ -5,9 +5,8 @@ Welcome to CARLA scenario controller.
 import glob
 import os
 import sys
-import copy
 try:
-    sys.path.append(glob.glob('../carla/PythonAPI/carla/dist/carla-*%d.%d-%s.egg' % (
+    sys.path.append(glob.glob('**/carla-*%d.%d-%s.egg' % (
         sys.version_info.major,
         sys.version_info.minor,
         'win-amd64' if os.name == 'nt' else 'linux-x86_64'))[0])
@@ -28,13 +27,7 @@ import math
 import time
 import datetime
 from pose import PoseDefine
-try:
-    sys.path.append('/home/user/Desktop/NEDO/carla/PythonAPI/carla')
-except IndexError:
-    pass
 
-
-# To import a basic agent
 from agents.navigation.basic_agent import BasicAgent
 
 opt_dict = {
@@ -74,7 +67,6 @@ class ScenarioXML(object):
         self.trafficlight_list = self.getTraffcLight()
         self.pose_define = PoseDefine()
         self.spawned_static_objects_id = []
-        self.agent_list = []
         self.world.set_pedestrians_cross_factor(pedestrian_cross_factor)
 
 
@@ -85,7 +77,7 @@ class ScenarioXML(object):
         [return]
         root of the ElementTree
         """
-        #logger.info(filename)
+        # logger.info(filename)
         tree = ET.parse(filename)
         root = tree.getroot()
         edit_tag_list = ['transform', 'location', 'waypoint'] # tags of list which you want to use as float list, not text
@@ -213,7 +205,6 @@ class ScenarioXML(object):
                 if blueprint.has_attribute('driver_id'):
                     driver_id = random.choice(blueprint.get_attribute('driver_id').recommended_values)
                     blueprint.set_attribute('driver_id', driver_id)
-            
 
             # append command to spawn actor to batch
             buf = spawn.find('transform').text
@@ -223,12 +214,7 @@ class ScenarioXML(object):
                 self.ego_vehicle.set_transform(transform)
                 continue
 
-            actor = carla.command.SpawnActor(blueprint, transform)
-            batch.append(actor)
-            #if ('ai_vehicle' in spawn.find('type').text):
-            #    agent = BasicAgent(actor, opt_dict=opt_dict)
-            #    self.agent_list.append(agent)
-
+            batch.append(carla.command.SpawnActor(blueprint, transform))
 
         # conduct spawn actor
         results = self.client.apply_batch_sync(batch)
@@ -253,7 +239,7 @@ class ScenarioXML(object):
                 world_id = ET.SubElement(spawned_actor, 'world_id')
                 world_id.text = results[i].actor_id
                 print("spawned : " + spawned_actor.attrib.get('id') + ', ' + str(world_id.text));
-                #logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
+                # logger.info('{},{}'.format(spawned_actor.attrib.get('id'), str(world_id.text)))
                 if spawned_actor.find('type').text == 'static':
                     control_actor = {}
                     control_actor['actor'] = self.world.get_actor(world_id.text)
@@ -308,11 +294,20 @@ class ScenarioXML(object):
                 print('cannot start AI walker. world_id: ', world_id)
                 return
 
-        def moveAiVehicle(world_id):
+        def moveAiVehicle(id, world_id, type, waypoints):
             try:
                 actor = self.world.get_actor(world_id)
                 #actor.set_autopilot(True)
-                #actor.apply_control(agent.run_step())
+                speed = float(waypoints[0].attrib.get('speed'))
+                agent = BasicAgent(actor, target_speed=speed, opt_dict=opt_dict)
+                control_actor = {}
+                control_actor['actor'] = self.world.get_actor(world_id)
+                control_actor['agent'] = agent
+                control_actor['type'] = type
+                control_actor['id'] = id
+                control_actor['waypoints'] = waypoints
+                control_actor['is_destination'] = False
+                self.control_actor_list.append(control_actor)
             except:
                 print('cannot start AI vehicle. world_id: ', world_id)
                 return
@@ -329,7 +324,7 @@ class ScenarioXML(object):
             control_actor['stop_time'] = 0.0 # if speed == 0: stop vehicle for 1sec. save world elapse time when start stop
             self.control_actor_list.append(control_actor)
 
-        i = 0
+
         for move_elem in move_elem_list:
             for spawn_elem in self.scenario.iter('spawn'):
                 if move_elem.attrib.get('id') == spawn_elem.attrib.get('id'):
@@ -337,16 +332,15 @@ class ScenarioXML(object):
                     if type == 'ai_walker':
                         moveAiWalker(spawn_elem.find('ai_controller_id').text, float(move_elem.find('waypoint').attrib.get('speed')))
                     elif type == 'ai_vehicle':
-                        moveAiVehicle(spawn_elem.find('world_id').text)
-                        i+=1
+                        moveAiVehicle(move_elem.attrib.get('id'), spawn_elem.find('world_id').text, type, move_elem.findall('waypoint'))
                     elif type == 'walker' or type == 'vehicle':
                         moveInnocentActor(move_elem.attrib.get('id'), spawn_elem.find('world_id').text, type, move_elem.findall('waypoint')) # take over world info in spawn element and move info in move element
                     # elif type == 'static':
                     #     moveStaticActor(spawn_elem.find('world_id').text, type) # take over world info in spawn element and move info in move element
-                    print("move: " + spawn_elem.attrib.get("id"))
+                    print("move: " + spawn_elem.attrib.get("id"));
 
 
-    def controlActor(self,move_elem_list):
+    def controlActor(self):
         """control actor in loop
         [args]
         self.control_actor_list : actor dictionary for control them in loop
@@ -451,9 +445,32 @@ class ScenarioXML(object):
                 # text=str(omega),
                 # life_time=0.1
                 # )
-
-            # update distination if move has multiple targets
-
+            # for carla BasicAgent
+            elif control_actor['type'] == 'ai_vehicle' and control_actor.get('waypoints'):
+                actor = control_actor['actor']
+                agent = control_actor['agent']
+                if control_actor.get('id') in ('705', '706', '708', '709', '712', '716'):
+                    # carla/PythonAPI/carla/agents/navigation/global_route_planner.py", line 293, in _path_search
+                    # self._graph, source=start[0], target=end[0]
+                    # above error is happend in this id
+                    continue
+                if not control_actor['is_destination']:
+                    destination_waypoint = control_actor.get('waypoints').pop(0)
+                    print('ai_vehicle {}, next destination :{}'.format(control_actor.get('id'),destination_waypoint.text))
+                    destination_loc = carla.Location(
+                        float(destination_waypoint.text[0]),
+                        float(destination_waypoint.text[1]),
+                        float(destination_waypoint.text[2])
+                    )
+                    speed = float(destination_waypoint.attrib.get('speed'))
+                    agent.set_target_speed(speed)
+                    agent.set_destination(destination_loc)
+                    control_actor['is_destination'] = True
+                if agent.done():
+                    control_actor['is_destination'] = False
+                else:
+                    control = agent.run_step()
+                    actor.apply_control(control)
             elif control_actor['type'] == 'static':
                 transform = control_actor.get('actor').get_transform()
                 dist = math.sqrt(
@@ -478,18 +495,6 @@ class ScenarioXML(object):
                 batch.append(carla.command.DestroyActor(control_actor.get('actor').id))
 
         self.client.apply_batch(batch)
-
-        for move_elem in move_elem_list:
-            for spawn_elem in self.scenario.iter('spawn'):
-                if move_elem.attrib.get('id') == spawn_elem.attrib.get('id'):
-                    type = spawn_elem.find('type').text
-                    if type == 'ai_vehicle':
-                        world_id =spawn_elem.find('world_id').text
-                        actor = self.world.get_actor(world_id)
-                        speed = float(move_elem.find('waypoint').attrib.get('speed'))
-                        # "target_speed" in opt_dict will be overwritten by "speed" from scenario.xml
-                        agent = BasicAgent(actor, target_speed=speed, opt_dict=opt_dict)
-                        actor.apply_control(agent.run_step())
 
 
     def killActor(self, death_note):
@@ -566,17 +571,14 @@ def game_loop(args):
 
     sx.getEgoCar()
     sx.ego_pose = sx.ego_vehicle.get_transform()
-    agent = BasicAgent(sx.ego_vehicle, opt_dict=opt_dict)
 
     while sx.checkTrigger() in [0, 1]:
         sx.world.wait_for_tick()
         if sx.ego_vehicle is None:
             sx.getEgoCar()
-            agent = BasicAgent(sx.ego_vehicle, opt_dict=opt_dict)
         else:
             sx.ego_pose = sx.ego_vehicle.get_transform()
-            sx.controlActor(sx.scenario[0].findall('move'))
-            sx.ego_vehicle.apply_control(agent.run_step())
+            sx.controlActor()
 
         time.sleep(0.1)
 
@@ -604,7 +606,7 @@ if __name__ == '__main__':
     argparser.add_argument(
         '-s', '--scenario_file',
         metavar='S',
-        default='/home/user/Desktop/NEDO/scenario2.xml',
+        default='/home/mad-carla/share/catkin_ws/src/carla_helper/scenario_test.xml',
         help='scenario file (default: scenario.xml)')
     argparser.add_argument(
         '-f', '--pedestrian_cross_factor',
