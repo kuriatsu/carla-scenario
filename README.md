@@ -190,3 +190,36 @@ python manual_control.py --rolename ego_vehicle
 python carla_ros_bridge.py -s /path/to/scenario.xml
 ```
 The object msg will be published
+
+### Run Scenario with Recognition Delay
+1. Run simulator and change map.
+
+1. launch carla ros bridge
+    ```bash
+    source /opt/carla-ros-bridge/melodic/setup.bash
+    roslaunch carla_ros_bridge carla_ros_bridge.launch
+    ```
+
+1. activate marker node
+    ```bash
+    python marker_to_ros.py
+    ```
+
+1. activate recognition delay node
+    ```bash
+    python delay_generator_from_marker.py
+    ```
+
+1. spawn ego vehicle with rolename=ego_vehicle
+    ```bash
+    python manual_control.py --rolename ego_vehicle
+    ```
+
+1. attach sensor to ego vehicle
+
+1. run scenario
+    ```bash
+    python scenario_xml.py -s /path/to/scenario.xml
+    ```
+
+Check the rviz and you can see the markers of recognition delay.
