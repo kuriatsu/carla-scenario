@@ -536,7 +536,7 @@ def game_loop(args):
 if __name__ == '__main__':
 
     argparser = argparse.ArgumentParser( description = __doc__)
-    argparser.add_argument
+    argparser.add_argument(
         '--host',
         metavar='H',
         default='127.0.0.1',

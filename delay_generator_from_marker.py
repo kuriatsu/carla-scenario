@@ -26,6 +26,7 @@ class DelayMarkerGenerator():
 
         for marker in marker_array.markers:
             self._convert_marker_color(marker)
+            marker.header.stamp = rospy.Time.now()
 
         self.markers_delay_pub.publish(marker_array)
 
