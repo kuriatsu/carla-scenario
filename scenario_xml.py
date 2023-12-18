@@ -335,24 +335,30 @@ class ScenarioXML(object):
                 # normalize vector to calcurate velocity
                 vector.x = vector.x / dist
                 vector.y = vector.y / dist
-                # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+                debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x*100, vector.y*100, 0.0), life_time=0.5)
 
             else:
-                elapsed_time = carla.Timestamp().elapsed_seconds
-                if control_actor['stop_time'] == 0.0:
-                    control_actor['stop_time'] = elapsed_time
-                    dist = 100
-                elif elapsed_time - control_actor['stop_time'] < 1.0:
-                    dist = 100
-                else:
-                    control_actor['stop_time'] = 0.0
-                    dist = 0.0
+                dist = 0.001
+                vector.x = vector.x / dist
+                vector.y = vector.y / dist
+
+                # elapsed_time = time.time() 
+                # print(elapsed_time - control_actor["stop_time"], control_actor.get('waypoints')[0].text, control_actor.get("waypoints")[0].get("speed"))
+                # if control_actor['stop_time'] == 0.0:
+                #     control_actor['stop_time'] = elapsed_time
+                #     dist = 100
+                # elif elapsed_time - control_actor['stop_time'] < 1.0:
+                #     dist = 100
+                # else:
+                #     control_actor['stop_time'] = 0.0
+                #     dist = 0.0001
+                #     del control_actor.get('waypoints')[0]
 
             return vector, speed, dist, transform.rotation.yaw
 
 
         batch = []
-        # debug = self.world.debug
+        debug = self.world.debug
         for control_actor in self.control_actor_list:
             if control_actor.get('actor').is_alive == False:
                 self.control_actor_list.remove(control_actor)
@@ -371,29 +377,36 @@ class ScenarioXML(object):
             elif control_actor['type'] == 'vehicle' and control_actor.get('waypoints'):
                 # calc vel and rotation
                 vector, speed, dist, yaw = calcControl(control_actor)
+                # if control_actor['type'] == 'vehicle' and (float(control_actor.get('waypoints')[0].get("speed")) < 0.01 or dist < 5.0):
                 if control_actor['type'] == 'vehicle' and dist < 5.0:
                     del control_actor.get('waypoints')[0]
+                    # vector, speed, dist, yaw = calcControl(control_actor)
+                    # continue
 
+                speed = 0.0 if speed < 0.1 else speed 
                 # calc velocity
                 velocity = carla.Vector3D()
                 velocity.x = vector.x * speed
-                velocity.y = vector.y  * speed
+                velocity.y = vector.y * speed
                 velocity.z = 0.0
 
                 # calc angular velocity
                 # define angle (radian)
-                objective_angle = math.atan(vector.y / vector.x)
-                objective_angle -= math.pi if vector.y < 0.0 else 0.0
                 current_angle = math.radians(yaw)
+                objective_angle = math.atan(vector.y / vector.x)
+                if vector.x < 0.0 and vector.y < 0.0:
+                    objective_angle -= math.pi
+                elif vector.x < 0.0 and vector.y > 0.0:
+                    objective_angle += math.pi
 
                 # difference between objective and current angle
                 alpha = objective_angle - current_angle
 
                 # take care the change from 180 -> -180
-                if alpha > math.pi:
-                    alpha = alpha - 2*math.pi
-                elif alpha < -math.pi:
-                    alpha = 2*math.pi - alpha
+                # if alpha > math.pi:
+                #     alpha -= 2*math.pi
+                # elif alpha < -math.pi:
+                #     alpha += 2*math.pi
 
                 # calcurat omega (100 is param)
                 omega = 2 * 100 * speed * math.sin(alpha) / dist
@@ -536,7 +549,7 @@ def game_loop(args):
 if __name__ == '__main__':
 
     argparser = argparse.ArgumentParser( description = __doc__)
-    argparser.add_argument
+    argparser.add_argument(
         '--host',
         metavar='H',
         default='127.0.0.1',
