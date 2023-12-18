@@ -141,6 +141,12 @@ class CarlaScenario():
         else:
             return 0
                 
+    def initialize(self, scenario):
+    
+        self.spawnActor(scenario[0].findall('spawn'))
+        self.moveActor(scenario[0].findall('move'))
+        tls = TrafficLight.getLights()
+        self.spawned_actors.append(tls)
 
 def game_loop(args):
 
@@ -152,8 +158,6 @@ def game_loop(args):
     carla_scenario = CarlaScenario(world, client)
 
     scenario = carla_scenario.readFile(args.scenario_file)
-    carla_scenario.spawnActor(scenario[0].findall('spawn'))
-    carla_scenario.moveActor(scenario[0].findall('move'))
 
     trigger_index = 0
     while len(scenario) > trigger_index:
