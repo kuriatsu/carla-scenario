@@ -8,9 +8,8 @@ import argparse
 import warnings
 
 class TrafficLight(Actor):
-    def __init__(self):
-        super().__init__()
-        self.world
+    def __init__(self, world):
+        super().__init__(world, None, None)
 
     def getLights(self):
 
