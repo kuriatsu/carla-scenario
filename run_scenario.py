@@ -12,7 +12,6 @@ class CarlaScenario():
 
         self.client = client
         self.world = world
-
         self.scenario
 
         self.blueprint = self.world.get_blueprint_library()
@@ -21,6 +20,18 @@ class CarlaScenario():
 
         self.spawned_actors = {}
         self.control_actors = {}
+        self.actor_dict = {
+                "ai_vehicle": AiVehicle,
+                "vehicle": Vehicle,
+                "warp_vehicle": WarpVehicle,
+                "ai_walker": AiWalker,
+                "walker": Walker,
+                "warp_walker": WarpWalker,
+                "static": Static,
+                "traffic_light": TrafficLight,
+                }
+        self.batch = {} # id: command
+        self.actors = {} 
 
     def readFile(self, filename):
         """read xml file and return root of ElementTree, elements of some lists are changed from text to float.
@@ -36,70 +47,17 @@ class CarlaScenario():
 
         # convert text list to float list
         for tag in decode_tags:
-            for itr in root.iter(tag):
-                if itr.text is not None:
-                    itr.text = [float(val) for val in itr.text.split(",")]
+            for iter in root.iter(tag):
+                if iter.text is not None:
+                    iter.text = [float(val) for val in iter.text.split(",")]
         return root
 
 
-
     def getWorldActors(self):
-        for carla_actor in self.world.get_actors():
-            if carla_actor.type_id == 'traffic.traffic_light':
-                tl = TrafficLight(carla_actor.id, carla_action.get_location())
-                spawned_actors[carla_actor.id] = tl
+        for actor in self.world.get_actors():
+            if actor.type_id == 'traffic.traffic_light':
+                self.actors[actor.id] = TrafficLight(actor.id, actor.get_location())
 
-    def spawnActor(self, actions):
-        batch = []
-        for spawn in actions:
-            if spawn.find("type") == "ai_vehicle":
-                actor = AiVehicle(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "vehicle":
-                actor = Vehicle(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "warp_vehicle":
-                actor = WarpVehicle(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "ai_walker":
-                actor = AiWalker(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "walker":
-                actor = Walker(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "warp_walker":
-                actor = WarpWalker(self.world, spawn.attrib.get("id"), self.blueprint)
-            elif spawn.find("type") == "static":
-                actor = Static(self.world, spawn.attrib.get("id"), self.blueprint)
-            else:
-                pass
-
-            batch.append(actor.spawn())
-            self.spawned_actors[spawn.attrib.get("id")] = actor
-
-        results = self.client.apply_batch_sync(batch)
-        for i, result in enumerate(results):
-            scenario_id = actions[i].attrib.get("id")
-            if result.error:
-                warnings.warn(result.error)
-                del self.spawned_actors[scenario_id]
-            else:
-                self.spawned_actors[scenario_id].postSpawn(result)
-
-
-    def moveActor(self, actions):
-        batch = []
-        for a in actions:
-            scenario_id = a.attrib.get("id")
-            if scenario_id in self.spawned_actors.keys():
-                batch.append(self.spawned_actors[scenario_id].move(a))
-
-        results = self.client.apply_batch_sync(batch)
-
-    def killActor(self, actions):
-        batch = []
-        for a in actions:
-            scenario_id = a.attrib.get("id")
-            if scenario_id in self.spawned_actors.keys():
-                batch.append(self.spawned_actors[scenario_id].kill())
-                del self.spawned_actors[scenario_id]
-
-        results = self.client.apply_batch_sync(batch)
 
     def step(self, trigger):
         """check Trigger and run action
@@ -114,7 +72,6 @@ class CarlaScenario():
         else:
             self.ego_pose = self.ego_vehicle.get_transform()
 
-        batch = []
         for i in range(len(self.spawned_actors)):
             command = self.spawned_actors[i].step()
             if not command:
@@ -127,14 +84,39 @@ class CarlaScenario():
         distance = (self.ego_pose.trigger_location.x - trigger_location.text[0]) ** 2 \
                    + (self.ego_pose.trigger_location.y - trigger_location.text[1]) ** 2
 
+        ## execute action
         if distance < float(trigger.attrib.get('thres')) ** 2:
-            batch = []
-            spawn_actors = {}
-            self.killActor(trigger.findall('kill'))
-            self.spawnActor(trigger.findall('spawn'))
-            self.moveActor(trigger.findall('move'))
-            self.moveActor(trigger.findall('trafficlight'))
-            self.moveActor(trigger.findall('pose'))
+            for action in trigger:
+                if action.tag == "location": continue
+
+                id = action.attrib.get("id")
+                if action.tag == "spawn" : 
+                    self.actors[id] = (self.actor_dict[action.find("type")](self.world, id, self.blueprint))
+                else:
+                    if id not in self.actors:
+                        warnings.warn(f"{id} has not been spawned")
+                        continue
+
+                self.actors[id].action(action)
+                if self.actors[id].command is not None:
+                    self.batch.append(self.actors[id])
+
+            for actor in self.batch:
+                responses = self.client.apply_batch_sync([actor.command for actor in self.batch])
+            remove_batch = []
+            for i, (response, actor) in enumerate(zip(responses, self.batch)):
+                if response.error:
+                    warnings.warn(result.error)
+                    self.actors.pop(actor.scenario_id)
+                    remove_batch.append(i) 
+                else:
+                    actor.getResponse(response)
+                    remove_batch.append(i) 
+                    if actor.command is not None:
+                        self.batch.append(actor.command)
+
+            ## remove stale batches from self.batch
+            self.batch = [b for i, b in enumerate(self.batch) if i not in remove_batch]
             self.world.wait_for_tick()
 
             return 1
