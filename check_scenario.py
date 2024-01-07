@@ -48,6 +48,16 @@ trafficlight_color = {
 'yellow' : carla.Color(255, 255, 0)
 
 }
+
+draw_dict = {
+        "spawn": drawSpawn,
+        "move" : drawMove,
+        "kill" : drawKill,
+        "pose" : drawPose,
+        "traffic_light" : drawTrafficLight,
+        }
+
+
 def readFile(filename):
 
     tree = ET.parse(filename)
@@ -60,6 +70,135 @@ def readFile(filename):
                 itr.text = [float(val) for val in itr.text.split(',')]
 
     return root
+
+
+def drawSpawn(action, debug, lifetime):
+    buf = action.find('transform').text
+    location = carla.Location(buf[0], buf[1], buf[2])
+    # debug.draw_point(
+    #     location=location,
+    #     life_time=lifetime,
+    #     size=0.1,
+    #     color=color[trigger_index % len(color)]
+    #     )
+    if (action.find('type').text == 'walker' or action.find('type').text == 'vehicle'):
+        debug.draw_string(
+            location=location+carla.Location(z=1.0),
+            text=action.attrib.get('id'),
+            color=color[trigger_index % len(color)],
+            life_time=lifetime
+            )
+    else:
+        debug.draw_string(
+            location=location+carla.Location(z=1.0),
+            text=action.attrib.get('id'),
+            color=color[trigger_index % len(color)],
+            life_time=lifetime
+            )
+    actor_position[action.attrib.get('id')] = location
+
+    return
+
+def drawMove(action, debug, lifetime):
+    waypoints = action.findall('waypoint')
+    start = actor_position.get(action.attrib.get('id'))
+    if start is None:
+        warnings.warn('actor {} is not spawned but waypoint is set {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
+    else:
+        waypoints.insert(0, start)
+        if len(waypoints) > 1:
+            for i in range(1, len(waypoints)):
+                buf = waypoints[i].text
+                if buf is not None:
+                    waypoints[i] = carla.Location(buf[0], buf[1], buf[2])
+                    debug.draw_line(
+                        begin=waypoints[i-1],
+                        end=waypoints[i],
+                        color=color[trigger_index % len(color)],
+                        thickness=0.5, life_time=lifetime
+                        )
+                    actor_position[action.attrib.get('id')] = waypoints[i]
+                else:
+                    debug.draw_string(
+                        location=actor_position[action.attrib.get('id')]+carla.Location(x=2.0, z=1.0),
+                        text='free',
+                        color=color[trigger_index % len(color)],
+                        life_time=lifetime
+                        )
+                    # debug.draw_point(
+                    #     location=start+carla.Location(x=2.0, z=1.0),
+                    #     life_time=lifetime,
+                    #     size=0.1,
+                    #     color=color[trigger_index % len(color)]
+                    #     )
+    return
+
+def drawPose(action, debug, lifetime):
+    # debug.draw_point(
+    #     location=actor_position[action.attrib.get('id')]+carla.Location(z=3.0),
+    #     life_time=lifetime,
+    #     size=0.1,
+    #     color=color[trigger_index % len(color)]
+    #     )
+    debug.draw_string(
+        location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0, z=1.0),
+        text=action.find('form').text,
+        color=color[trigger_index % len(color)],
+        life_time=lifetime
+        )
+
+    return
+
+def drawKill(action, debug, lifetime):
+    # debug.draw_point(
+    #     location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0),
+    #     life_time=lifetime,
+    #     size=0.1,
+    #     color=color[trigger_index % len(color)]
+    #     )
+    debug.draw_string(
+        location=actor_position[action.attrib.get('id')]+carla.Location(x=6.0, z=1.0),
+        text='kill',
+        color=color[trigger_index % len(color)],
+        life_time=lifetime
+        )
+    return
+
+
+def drawTrafficLight(action, debug, lifetime):
+    buf = action.find('location').text
+    location = carla.Location(buf[0], buf[1], buf[2])
+    debug.draw_point(
+        location=location,
+        life_time=lifetime,
+        size=0.1,
+        color=color[trigger_index % len(color)]
+        )
+    debug.draw_string(
+        location=location+carla.Location(x=2.0, z=1.0),
+        text=action.find("time").text,
+        color=trafficlight_color[action.find("state").text],
+        life_time=lifetime
+        )
+    # else:
+        # if start is not None:
+            # debug.draw_string(location=start+carla.Location(z=1.0), text='start_ai', color=carla.Color(0,255,0), life_time=30)
+        # else:
+            # warnings.warn('actor {} is not spawned but ai is start {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
+    return
+
+def drawAllTrafficLight(world, debug, lifetime):
+    for actor in world.get_actors():
+        if actor.type_id == "traffic.traffic_light":
+            debug.draw_string(
+                location=actor.get_location+carla.Location(z=3.0),
+                text=f"traffic light : {actor.id}",
+                color=trafficlight_color["green"],
+                life_time=lifetime
+                )
+
+
+
 
 def main():
 
@@ -98,128 +237,27 @@ def main():
     trigger_index = 0
 
     for trigger in scenario:
+
+        ## draw trigger
         buf = trigger[0].text
         location = carla.Location(buf[0], buf[1], buf[2])
         print(trigger.attrib.get('thres'))
         debug.draw_point(
             location=location,
-            life_time=args.lifetime,
+            life_time=lifetime,
             size=0.02 * float(trigger.attrib.get('thres')),
             color=color[trigger_index % len(color)]
             )
         debug.draw_string(location=location+carla.Location(z=1.0),
             text='trigger'+trigger.attrib.get('id'),
-            color=carla.Color(255,255,255), life_time=args.lifetime
+            color=carla.Color(255,255,255), life_time=lifetime
             )
 
+        ## draw actions in trigger
         for i, action in enumerate(trigger[1:]):
             print("id: ", action.attrib.get('id'), " type: ", action.tag)
-            if action.tag == 'spawn':
-                buf = action.find('transform').text
-                location = carla.Location(buf[0], buf[1], buf[2])
-                # debug.draw_point(
-                #     location=location,
-                #     life_time=args.lifetime,
-                #     size=0.1,
-                #     color=color[trigger_index % len(color)]
-                #     )
-                if (action.find('type').text == 'walker' or action.find('type').text == 'vehicle'):
-                    debug.draw_string(
-                        location=location+carla.Location(z=1.0),
-                        text=action.attrib.get('id'),
-                        color=color[trigger_index % len(color)],
-                        life_time=args.lifetime
-                        )
-                else:
-                    debug.draw_string(
-                        location=location+carla.Location(z=1.0),
-                        text=action.attrib.get('id'),
-                        color=color[trigger_index % len(color)],
-                        life_time=args.lifetime
-                        )
-                actor_position[action.attrib.get('id')] = location
+            draw_dict[action.tag](action, debug, args.lifetime)
 
-            if action.tag == 'move':
-                waypoints = action.findall('waypoint')
-                start = actor_position.get(action.attrib.get('id'))
-                if start is None:
-                    warnings.warn('actor {} is not spawned but waypoint is set {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
-                else:
-                    waypoints.insert(0, start)
-                    if len(waypoints) > 1:
-                        for i in range(1, len(waypoints)):
-                            buf = waypoints[i].text
-                            if buf is not None:
-                                waypoints[i] = carla.Location(buf[0], buf[1], buf[2])
-                                debug.draw_line(
-                                    begin=waypoints[i-1],
-                                    end=waypoints[i],
-                                    color=color[trigger_index % len(color)],
-                                    thickness=0.5, life_time=args.lifetime
-                                    )
-                                actor_position[action.attrib.get('id')] = waypoints[i]
-                            else:
-                                debug.draw_string(
-                                    location=actor_position[action.attrib.get('id')]+carla.Location(x=2.0, z=1.0),
-                                    text='free',
-                                    color=color[trigger_index % len(color)],
-                                    life_time=args.lifetime
-                                    )
-                                # debug.draw_point(
-                                #     location=start+carla.Location(x=2.0, z=1.0),
-                                #     life_time=args.lifetime,
-                                #     size=0.1,
-                                #     color=color[trigger_index % len(color)]
-                                #     )
-
-            if action.tag == 'pose':
-                # debug.draw_point(
-                #     location=actor_position[action.attrib.get('id')]+carla.Location(z=3.0),
-                #     life_time=args.lifetime,
-                #     size=0.1,
-                #     color=color[trigger_index % len(color)]
-                #     )
-                debug.draw_string(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0, z=1.0),
-                    text=action.find('form').text,
-                    color=color[trigger_index % len(color)],
-                    life_time=args.lifetime
-                    )
-
-            if action.tag == "kill":
-                # debug.draw_point(
-                #     location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0),
-                #     life_time=args.lifetime,
-                #     size=0.1,
-                #     color=color[trigger_index % len(color)]
-                #     )
-                debug.draw_string(
-                    location=actor_position[action.attrib.get('id')]+carla.Location(x=6.0, z=1.0),
-                    text='kill',
-                    color=color[trigger_index % len(color)],
-                    life_time=args.lifetime
-                    )
-
-            if action.tag == "trafficlight":
-                buf = action.find('location').text
-                location = carla.Location(buf[0], buf[1], buf[2])
-                debug.draw_point(
-                    location=location,
-                    life_time=args.lifetime,
-                    size=0.1,
-                    color=color[trigger_index % len(color)]
-                    )
-                debug.draw_string(
-                    location=location+carla.Location(x=2.0, z=1.0),
-                    text=action.find("time").text,
-                    color=trafficlight_color[action.find("state").text],
-                    life_time=args.lifetime
-                    )
-                # else:
-                    # if start is not None:
-                        # debug.draw_string(location=start+carla.Location(z=1.0), text='start_ai', color=carla.Color(0,255,0), life_time=30)
-                    # else:
-                        # warnings.warn('actor {} is not spawned but ai is start {}'.format(action.attrib.get('id'), trigger.attrib.get('id')))
         trigger_index += 1
 
 if __name__ == '__main__':

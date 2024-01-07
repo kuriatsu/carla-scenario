@@ -2,28 +2,123 @@
 """
 Welcome to CARLA scenario controller.
 """
-import glob
-import os
-import sys
-try:
-    sys.path.append(glob.glob('**/carla-*%d.%d-%s.egg' % (
-        sys.version_info.major,
-        sys.version_info.minor,
-        'win-amd64' if os.name == 'nt' else 'linux-x86_64'))[0])
-except IndexError:
-    pass
-
-# ==============================================================================
-# -- imports -------------------------------------------------------------------
-# ==============================================================================
 import carla
+import xml.etree.ElementTree as ET
 import argparse
-import time
+import warnings
 
-class PoseDefine(object):
+class Walker(Actor):
+    def __init__(self, world, scenario_id, blueprint):
+        super().__init__(world, scenario_id, blueprint)
+        self.action_dict = {
+                "spawn": self.spawn,
+                "move" : self.move,
+                "kill" : self.kill,
+                "pose" : self.pose,
+                }
+        self.walker_posture_lib
+        self.waypoints
+
+    def getBlueprint(self, xml):
+        if xml.find("blueprint") == "random":
+            blueprint = random.choice(self.blueprint.filter("walker.*"))
+        else:
+            try:
+                blueprint = self.blueprint.find(name)
+            except ValueError:
+                warnings.warn(f"spcecified blueprint is not exist : {xml.find('blueprint').text}")
+                blueprint = random.choice(self.blueprint.filter("walker.*"))
+
+        blueprint.set_attribute('role_name', spawn.attrib.get(self.scenario_id))
+        # set as not invencible
+        if blueprint.has_attribute('is_invincible'):
+            blueprint.set_attribute('is_invincible', 'false')
+
+        return blueprint
+
+
+    def spawn(self, xml):
+
+        blueprint = self.getBlueprint(self, xml)
+
+        transform = xml.find('transform').text
+        transform = carla.Transform(
+                carla.Location(transform[0], transform[1], transform[2]), 
+                carla.Rotation(transform[3], transform[4], transform[5])
+                )
+
+        self.commands = [carla.command.SpawnActor(blueprint, transform)]
+        return
+
+
+    def pose(self, xml):
+        control = carla.WalkerBoneControl()
+        control.bone_transforms = LibPose.dict[xml.find('type').text]()
+        self.actor.apply_control(control)
+        self.world.wait_for_tick()
+        self.actor.apply_control(control)
+        return
+
+
+    def move(self, xml):
+        self.waypoints = xml.findall("waypoint")
+
+        vector, speed, dist, _ = calcControl()
+        if dist < 1.0:
+            self.waypoints.pop(0)
+        self.commands = [carla.command.ApplyWalkerControl(self.world_id, carla.WalkerControl(direction=vector, speed=speed))]
+        return
+
+
+    def calcControl(self):
+        # some information for movng
+        transform = self.world_actor.get_transform()
+        if transform is None:
+            print('cannot get transform: ' + self.scenario_id)
+            return 0, 0, 0, 0
+
+        waypoint = self.waypoints[0].text
+        speed = float(self.waypoints[0].attrib.get('speed'))
+        # calc culent motion vector and distance to the target
+        vector = carla.Vector3D(
+            float(waypoint[0]) - transform.location.x,
+            float(waypoint[1]) - transform.location.y,
+            float(waypoint[2]) - transform.location.z
+            )
+        dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
+        # normalize vector to calcurate velocity
+        vector.x = vector.x / dist
+        vector.y = vector.y / dist
+        # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+
+        yaw = math.atan(
+            (float(waypoint[1]) - transform.location.y) 
+            / (float(waypoint[0]) - transform.location.x)
+            )
+        yaw = math.degrees(yaw)
+
+
+        return vector, speed, dist, yaw
+
+
+    def getResponse(self, response):
+        super().getResponse(response)
+        if self.waypoints:
+            vector, speed, dist, _ = self.calcControl()
+            self.commands = [carla.command.ApplyWalkerControl(self.world_id, carla.WalkerControl(direction=vector, speed=speed))]
+            if dist < 1.0:
+                self.waypoints.pop(0)
+
+        else:
+            self.commands = []
+
+        return
+
+        
+class LibPose(object):
 
     def __init__(self):
-        self.pose_dict = {
+        self.dict = {
         'phone_right' : self.posePhoneRight,
         'phone_left' : self.posePhoneLeft,
         'call_right' : self.poseCallRight,
@@ -64,70 +159,3 @@ class PoseDefine(object):
             neck = ('crl_neck__c', carla.Transform(location=carla.Location(x=0, y=0.0, z=1.55), rotation=carla.Rotation(yaw=180, roll=50, pitch=0)))
             return [arm_L, forearm_L, hand_L, arm_R, forearm_R, neck]
 
-
-def main():
-    argparser = argparse.ArgumentParser( description = __doc__)
-    argparser.add_argument(
-        '--host',
-        metavar='H',
-        default='127.0.0.1',
-        help='IP of the host server (default: 127.0.0.1)')
-    argparser.add_argument(
-        '-p', '--port',
-        metavar='P',
-        default=2000,
-        type=int,
-        help='TCP port to listen to (default: 2000)')
-    argparser.add_argument(
-        '-f', '--filter',
-        metavar='F',
-        default='walker.pedestrian.0010',
-        help='pedestrian blueprint (default: walker.pedestrian.0010)')
-    argparser.add_argument(
-        '-r', '--rolename',
-        metavar='R',
-        default='hero',
-        help='pedestrian rolename (default: hero)')
-
-    args = argparser.parse_args()
-
-    # setup carla environment
-    client = carla.Client(args.host, args.port)
-    client.set_timeout(2.0)
-    world = client.get_world()
-
-    for carla_actor in world.get_actors():
-        if carla_actor.attributes.get('role_name') == args.rolename:
-            actor = carla_actor
-
-    # get pose instance and setup
-    pose_actor = PoseDefine()
-    pose_dict = pose_actor.pose_dict
-    pose_len = len(pose_dict)
-    pose_index = 0
-
-    # get actor control
-    control = carla.WalkerBoneControl()
-    control.bone_transforms = pose_actor.poseCallLeft()
-
-    while True:
-        key = raw_input('input n(ext) or p(revious) to make actor take pose or q(uit)')
-        if key == 'n':
-            pose_index += 1
-            control.bone_transforms = pose_dict.values()[pose_index % pose_len]()
-            actor.apply_control(control)
-            time.sleep(0.05)
-            actor.apply_control(control)
-        elif key == 'p':
-            pose_index -= 1
-            control.bone_transforms = pose_dict.values()[pose_index % pose_len]()
-            actor.apply_control(control)
-            time.sleep(0.05)
-            actor.apply_control(control)
-        elif key == 'q':
-            break
-        else:
-            print('wrong key')
-
-if __name__ == '__main__':
-    main()

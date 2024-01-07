@@ -44,70 +44,77 @@ class Vehicle(Actor):
                 carla.Rotation(transform[3], transform[4], transform[5])
                 )
 
-        return carla.command.SpawnActor(blueprint, transform)
+        self.commands = [carla.command.SpawnActor(blueprint, transform)]
+        return
 
     def move(self, xml):
-        self.is_controlled = True
         self.waypoints = xml.findall("waypoint")
 
-    def calcControl(control_actor):
-        # some information for movng
-        transform = control_actor.get('actor').get_transform()
-        if transform is None:
-            print('cannot get transform: ' + control_actor.get('id'))
-            return 0, 0, 0, 0
-
-        point = control_actor.get('waypoints')[0].text
-        speed = float(control_actor.get('waypoints')[0].attrib.get('speed'))
-        # calc culent motion vector and distance to the target
-        vector = carla.Vector3D(
-            float(point[0]) - transform.location.x,
-            float(point[1]) - transform.location.y,
-            float(point[2]) - transform.location.z
-            )
-        dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
-        # normalize vector to calcurate velocity
-        vector.x = vector.x / dist
-        vector.y = vector.y / dist
-        # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
-        return vector, speed, dist, transform.rotation.yaw
-
-    def step(self, xml):
-        super().step()
-        # calc vel and rotation
-        vector, speed, dist, yaw = calcControl(control_actor)
-        if control_actor['type'] == 'vehicle' and dist < 5.0:
+        vector, speed, dist, omaga = self.calcControl()
+        if dist < 5.0:
             del self.waypoints[0]
 
-        # calc velocity
-        velocity = carla.Vector3D()
-        velocity.x = vector.x * speed
-        velocity.y = vector.y  * speed
-        velocity.z = 0.0
-
-        # calc angular velocity
-        # define angle (radian)
-        objective_angle = math.atan(vector.y / vector.x)
-        current_angle = math.radians(yaw)
-
-        # difference between objective and current angle
-        alpha = objective_angle - current_angle
-
-        # take care the change from 180 -> -180
-        if objective_angle < 0.0 and current_angle >= 0.0:
-            alpha_2 = math.pi - current_angle + (math.pi + objective_angle)
-            alpha = (alpha if abs(alpha) < abs(alpha_2) else alpha_2)
-        if current_angle < 0.0 and objective_angle >= 0.0:
-            alpha_2 = -(math.pi - objective_angle + (math.pi + current_angle))
-            alpha = alpha if abs(alpha) < abs(alpha_2) else alpha_2
-
-        # invert angle (I do not know why)
-        alpha *= 1
-
-        # calcurat omega (100 is param)
-        omega = 2 * 100 * speed * math.sin(alpha) / dist
-
-        return [
+        self.commands = [
             carla.command.ApplyVelocity(world_id, velocity),
             carla.command.ApplyAngularVelocity(world_id, carla.Vector3D(0.0, 0.0, omega))
             ]
+
+        return
+
+    def calcControl():
+        transform = self.actor.get_transform()
+        if transform is None:
+            print('cannot get transform: ' + self.scenario_id)
+            return 0, 0, 0, 0
+
+        waypoint = self.waypoints[0].text
+        speed = float(self.waypoints[0].attrib.get('speed'))
+
+        ## calc current motion vector and distance from current position to waypoint
+        vector = carla.Vector3D(
+            float(waypoint[0]) - transform.location.x,
+            float(waypoint[1]) - transform.location.y,
+            float(waypoint[2]) - transform.location.z
+            )
+        dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
+        vector.x = vector.x / dist
+        vector.y = vector.y / dist
+        # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+
+        ## calcurate velocity
+        velocity = carla.Vector3D()
+        velocity.x = vector.x * speed
+        velocity.y = vector.y * speed
+        velocity.z = 0.0
+
+        ## calcurate angular velocity
+        objective_angle = math.atan(vector.y / vector.x)
+        if vector.x < 0.0 and vector.y < 0.0:
+            objective_angle -= math.pi
+        elif vector.x < 0.0 and vector.y > 0.0:
+            objective_angle += math.pi
+        current_angle = math.radians(yaw)
+
+        ## difference between objective and current angle
+        alpha = objective_angle - current_angle
+
+        ## calcurate omega (100 is param)
+        omega = 2 * 100 * speed * math.sin(alpha) / dist
+
+        return vector, speed, dist, omega 
+
+    def getResponse(self, response):
+        super().getResponse(response)
+        if self.waypoints:
+            vector, speed, dist, omaga = self.calcControl()
+            self.commands = [
+                carla.command.ApplyVelocity(world_id, velocity),
+                carla.command.ApplyAngularVelocity(world_id, carla.Vector3D(0.0, 0.0, omega))
+                ]
+            if dist < 5.0:
+                self.waypoints.pop(0)
+
+        else:
+            self.commands = []
+
+        return

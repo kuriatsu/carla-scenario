@@ -11,8 +11,8 @@ class AiWalker(Walker):
     def __init__(self, world, scenario_id, blueprint):
         super().__init__(world, scenario_id, blueprint)
         self.ai_walker_bp = self.blueprint.find('controller.ai.walker')
-        self.ai_walker
-        self.ai_walker_id
+        self.ai_walker = None
+        self.ai_walker_id = None
 
     def getBlueprint(self, xml):
 
@@ -22,13 +22,21 @@ class AiWalker(Walker):
 
         return blueprint
 
-    def postSpawn(self, response):
-        super().postSpawn(response)
+    def getResponse(self, response):
+        super().getResponse(response)
+
         try:
-            self.ai_walker = self.world.spawn_actor(self.ai_walker_bp, carla.Transform(), attach_to=self.actor)
-            self.ai_walker_id = ai_walker.id
+            self.commands = [carla.command.SpawnActor(self.ai_walker_bp, carla.Transform(), attach_to=self.actor)]
+            return
         except:
             print(f"failed to attach ai walker to {scenario_id}")
+            return
+
+        ## get ai walker id acter spawning ai_walker (assume self.ai_walker=None, self.carla_actor exists)
+        if self.world_id is not None and self.ai_walker_id is None:
+            self.ai_walker_id = response.actor_id
+            self.ai_walker = self.world.get_actor(self.ai_walker_id)
+
     
     def move(self, xml):
         try:

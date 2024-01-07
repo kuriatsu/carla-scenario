@@ -7,7 +7,14 @@ import xml.etree.ElementTree as ET
 import argparse
 import warnings
 
-class WarpVehicle(Vehicle):
+class AiVehicle(Vehicle):
     def __init__(self, world, scenario_id, blueprint):
         super().__init__(world, scenario_id, blueprint)
+        self.waypoints
 
+    def move(self, xml):
+        try:
+            self.actor.set_autopilot(True)
+        except:
+            print('cannot start AI vehicle. world_id: ', world_id)
+            return
