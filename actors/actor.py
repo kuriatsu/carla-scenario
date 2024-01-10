@@ -26,22 +26,23 @@ class Actor():
         pass
 
     def action(self, xml):
-        if not actor.is_alive:
-            print(f"actor {self.world_id} is dead")
-            self.commands = []
-
         if xml.tag in self.action_dict.keys():
-            self.action_dict[xml.tag](xml):
+            self.action_dict[xml.tag](xml)
 
         else:
             print(f"unknown action {xml.tag}")
             self.commands = []
 
+        if self.carla_actor is not None and not self.carla_actor.is_alive:
+            print(f"actor {self.world_id} is dead")
+            self.commands = []
+
+
     def getResponse(self, response):
         if self.world_id is None:
             self.world_id = response.actor_id
             self.carla_actor = self.world.get_actor(self.world_id)
-            print(f"spawned scenario_id: {self.scenario_id}, world_id: {self.world_id}");
+            print(f"spawned scenario_id: {self.scenario_id}, world_id: {self.world_id}")
             
         return None
 

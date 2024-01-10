@@ -6,6 +6,7 @@ import carla
 import xml.etree.ElementTree as ET
 import argparse
 import warnings
+from actors.actor import Actor
 
 class TrafficLight(Actor):
     def __init__(self, world):

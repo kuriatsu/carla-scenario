@@ -6,24 +6,28 @@ import carla
 import xml.etree.ElementTree as ET
 import argparse
 import warnings
+import math
+import random
+from actors.actor import Actor
 
 class Vehicle(Actor):
     def __init__(self, world, scenario_id, blueprint):
         super().__init__(world, scenario_id, blueprint)
+        self.waypoints = None 
 
     def getBlueprint(self, xml):
     # def getBlueprint(self, blueprint_list, name):
 
-        if xml.find("blueprint") == "random":
+        if xml.find("blueprint").text == "random":
             blueprint = random.choice(self.blueprint.filter("vehicle.*"))
         else:
             try:
-                blueprint = self.blueprint.find(name)
+                blueprint = self.blueprint.find(xml.find("blueprint").text)
             except ValueError:
                 warnings.warn(f"spcecified blueprint is not exist : {xml.find('blueprint').text}")
                 blueprint = random.choice(self.blueprint.filter("vehicle.*"))
 
-        blueprint.set_attribute('role_name', spawn.attrib.get(self.scenario_id))
+        blueprint.set_attribute('role_name', self.scenario_id)
         if blueprint.has_attribute('color'):
             color = random.choice(blueprint.get_attribute('color').recommended_values)
             blueprint.set_attribute('color', color)
@@ -36,7 +40,7 @@ class Vehicle(Actor):
 
     def spawn(self, xml):
 
-        blueprint = self.getBlueprint(self, xml)
+        blueprint = self.getBlueprint(xml)
 
         transform = xml.find('transform').text
         transform = carla.Transform(
@@ -50,19 +54,19 @@ class Vehicle(Actor):
     def move(self, xml):
         self.waypoints = xml.findall("waypoint")
 
-        vector, speed, dist, omaga = self.calcControl()
+        vector, velocity, dist, omega = self.calcControl()
         if dist < 5.0:
             del self.waypoints[0]
 
         self.commands = [
-            carla.command.ApplyVelocity(world_id, velocity),
-            carla.command.ApplyAngularVelocity(world_id, carla.Vector3D(0.0, 0.0, omega))
+            carla.command.ApplyTargetVelocity(self.world_id, velocity),
+            carla.command.ApplyTargetAngularVelocity(self.world_id, carla.Vector3D(0.0, 0.0, omega))
             ]
 
         return
 
-    def calcControl():
-        transform = self.actor.get_transform()
+    def calcControl(self):
+        transform = self.carla_actor.get_transform()
         if transform is None:
             print('cannot get transform: ' + self.scenario_id)
             return 0, 0, 0, 0
@@ -93,7 +97,8 @@ class Vehicle(Actor):
             objective_angle -= math.pi
         elif vector.x < 0.0 and vector.y > 0.0:
             objective_angle += math.pi
-        current_angle = math.radians(yaw)
+
+        current_angle = math.radians(transform.rotation.yaw)
 
         ## difference between objective and current angle
         alpha = objective_angle - current_angle
@@ -101,15 +106,15 @@ class Vehicle(Actor):
         ## calcurate omega (100 is param)
         omega = 2 * 100 * speed * math.sin(alpha) / dist
 
-        return vector, speed, dist, omega 
+        return vector, velocity, dist, omega 
 
     def getResponse(self, response):
         super().getResponse(response)
         if self.waypoints:
-            vector, speed, dist, omaga = self.calcControl()
+            vector, velocity, dist, omega = self.calcControl()
             self.commands = [
-                carla.command.ApplyVelocity(world_id, velocity),
-                carla.command.ApplyAngularVelocity(world_id, carla.Vector3D(0.0, 0.0, omega))
+                carla.command.ApplyTargetVelocity(self.world_id, velocity),
+                carla.command.ApplyTargetAngularVelocity(self.world_id, carla.Vector3D(0.0, 0.0, omega))
                 ]
             if dist < 5.0:
                 self.waypoints.pop(0)

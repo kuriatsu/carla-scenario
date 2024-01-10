@@ -6,6 +6,7 @@ import carla
 import xml.etree.ElementTree as ET
 import argparse
 import warnings
+from actors.actor import Actor
 
 class Static(Actor):
     def __init__(self, world, scenario_id, blueprint):
@@ -49,7 +50,7 @@ class Static(Actor):
     def getResponse(self, response):
         super().postSpawn(response)
 
-        if self.is_invincible: continue
+        if self.is_invincible: return 
 
         if self.ego_vehicle is None:
             self.ego_vehicle = self.getEgoVehicle()

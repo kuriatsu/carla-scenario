@@ -6,6 +6,8 @@ import carla
 import xml.etree.ElementTree as ET
 import argparse
 import warnings
+import random
+from actors.actor import Actor
 
 class Walker(Actor):
     def __init__(self, world, scenario_id, blueprint):
@@ -20,11 +22,11 @@ class Walker(Actor):
         self.waypoints
 
     def getBlueprint(self, xml):
-        if xml.find("blueprint") == "random":
+        if xml.find("blueprint").text == "random":
             blueprint = random.choice(self.blueprint.filter("walker.*"))
         else:
             try:
-                blueprint = self.blueprint.find(name)
+                blueprint = self.blueprint.find(xml.find("blueprint").text)
             except ValueError:
                 warnings.warn(f"spcecified blueprint is not exist : {xml.find('blueprint').text}")
                 blueprint = random.choice(self.blueprint.filter("walker.*"))
@@ -39,7 +41,7 @@ class Walker(Actor):
 
     def spawn(self, xml):
 
-        blueprint = self.getBlueprint(self, xml)
+        blueprint = self.getBlueprint(xml)
 
         transform = xml.find('transform').text
         transform = carla.Transform(

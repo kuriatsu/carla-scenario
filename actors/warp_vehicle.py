@@ -6,6 +6,7 @@ import carla
 import xml.etree.ElementTree as ET
 import argparse
 import warnings
+from actors.vehicle import Vehicle
 
 class WarpVehicle(Vehicle):
     def __init__(self, world, scenario_id, blueprint):
