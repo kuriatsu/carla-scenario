@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 import argparse
 import warnings
 from actors.vehicle import Vehicle
+import math
 
 class WarpVehicle(Vehicle):
     def __init__(self, world, scenario_id, blueprint):
@@ -20,7 +21,7 @@ class WarpVehicle(Vehicle):
         return
 
     def calcTargetTransform(self):
-        transform = self.world_actor.get_transform()
+        transform = self.carla_actor.get_transform()
         if transform is None:
             print('cannot get transform: ' + control_actor.get('id'))
             return 0, 0, 0, 0
@@ -31,7 +32,7 @@ class WarpVehicle(Vehicle):
             / (float(point[0]) - transform.location.x)
             )
         yaw = math.degrees(yaw)
-        return carla.Transform(carla.Location(**point), carla.Rotation(0.0, yaw, 0.0))
+        return carla.Transform(carla.Location(point[0], point[1], point[2]), carla.Rotation(0.0, yaw, 0.0))
 
     def getResponse(self, response):
         super().getResponse(response)

@@ -49,14 +49,7 @@ trafficlight_color = {
 
 }
 
-draw_dict = {
-        "spawn": drawSpawn,
-        "move" : drawMove,
-        "kill" : drawKill,
-        "pose" : drawPose,
-        "traffic_light" : drawTrafficLight,
-        }
-
+actor_position = {}
 
 def readFile(filename):
 
@@ -72,7 +65,7 @@ def readFile(filename):
     return root
 
 
-def drawSpawn(action, debug, lifetime):
+def drawSpawn(action, debug, lifetime, trigger_index):
     buf = action.find('transform').text
     location = carla.Location(buf[0], buf[1], buf[2])
     # debug.draw_point(
@@ -99,7 +92,7 @@ def drawSpawn(action, debug, lifetime):
 
     return
 
-def drawMove(action, debug, lifetime):
+def drawMove(action, debug, lifetime, trigger_index):
     waypoints = action.findall('waypoint')
     start = actor_position.get(action.attrib.get('id'))
     if start is None:
@@ -133,7 +126,7 @@ def drawMove(action, debug, lifetime):
                     #     )
     return
 
-def drawPose(action, debug, lifetime):
+def drawPose(action, debug, lifetime, trigger_index):
     # debug.draw_point(
     #     location=actor_position[action.attrib.get('id')]+carla.Location(z=3.0),
     #     life_time=lifetime,
@@ -149,7 +142,7 @@ def drawPose(action, debug, lifetime):
 
     return
 
-def drawKill(action, debug, lifetime):
+def drawKill(action, debug, lifetime, trigger_index):
     # debug.draw_point(
     #     location=actor_position[action.attrib.get('id')]+carla.Location(x=4.0),
     #     life_time=lifetime,
@@ -165,7 +158,7 @@ def drawKill(action, debug, lifetime):
     return
 
 
-def drawTrafficLight(action, debug, lifetime):
+def drawTrafficLight(action, debug, lifetime, trigger_index):
     buf = action.find('location').text
     location = carla.Location(buf[0], buf[1], buf[2])
     debug.draw_point(
@@ -198,6 +191,14 @@ def drawAllTrafficLight(world, debug, lifetime):
                 )
 
 
+
+draw_dict = {
+        "spawn": drawSpawn,
+        "move" : drawMove,
+        "kill" : drawKill,
+        "pose" : drawPose,
+        "traffic_light" : drawTrafficLight,
+        }
 
 
 def main():
@@ -233,7 +234,6 @@ def main():
     debug = world.debug
 
     scenario = readFile(args.scenario_file)
-    actor_position = {}
     trigger_index = 0
 
     for trigger in scenario:
@@ -244,19 +244,19 @@ def main():
         print(trigger.attrib.get('thres'))
         debug.draw_point(
             location=location,
-            life_time=lifetime,
+            life_time=args.lifetime,
             size=0.02 * float(trigger.attrib.get('thres')),
             color=color[trigger_index % len(color)]
             )
         debug.draw_string(location=location+carla.Location(z=1.0),
             text='trigger'+trigger.attrib.get('id'),
-            color=carla.Color(255,255,255), life_time=lifetime
+            color=carla.Color(255,255,255), life_time=args.lifetime
             )
 
         ## draw actions in trigger
         for i, action in enumerate(trigger[1:]):
             print("id: ", action.attrib.get('id'), " type: ", action.tag)
-            draw_dict[action.tag](action, debug, args.lifetime)
+            draw_dict[action.tag](action, debug, args.lifetime, trigger_index)
 
         trigger_index += 1
 

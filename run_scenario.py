@@ -203,7 +203,7 @@ def game_loop(args):
     trigger_index += carla_scenario.step(scenario[trigger_index], True)
     while len(scenario) > trigger_index:
         print(trigger_index)
-        trigger_index += carla_scenario.step(scenario[trigger_index], False)
+        trigger_index += carla_scenario.step(scenario[trigger_index], True)
         world.wait_for_tick()
         time.sleep(0.1)
 
