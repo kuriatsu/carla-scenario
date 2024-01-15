@@ -90,10 +90,8 @@ class CarlaScenario():
     def executeActorCommand(self):
         ## extract carla.command from actor instances
         batch = []
-        print("actor_batch num: ", len(self.actor_batch))
         for actor in self.actor_batch:
             if not actor.commands: continue
-            print(f"commands of {actor.scenario_id}", actor.commands)
             batch.append(actor.commands[0])
             actor.commands.pop(0)
 
@@ -102,6 +100,8 @@ class CarlaScenario():
 
         ## handle response
         actor_batch_next = []
+        batch_next = []
+
         for i, (response, actor) in enumerate(zip(responses, self.actor_batch)):
             if response.error:
                 print("spawn failed: ", actor.scenario_id)
@@ -109,13 +109,12 @@ class CarlaScenario():
                 self.spawned_actors.pop(actor.scenario_id)
             else:
                 actor.getResponse(response)
-                if len(actor.commands) > 0:
-                    for _ in range(len(actor.commands)):
-                        print(f"add responce command of {response.actor_id}")
+                for command in actor.commands:
+                    if command not in batch_next:
                         actor_batch_next.append(actor)
+                        batch_next.append(command)
 
         ## remove stale batches from self.actor_batch
-        self.actor_batch = []
         self.actor_batch = actor_batch_next
         self.world.wait_for_tick()
 
@@ -127,10 +126,12 @@ class CarlaScenario():
         2 : end of scenario
         3 : no scenario
         """
+        self.executeActorCommand()
 
         ## execute next scenario 
         if ignore_trigger or self.checkTrigger(next_scenario.find("location"), next_scenario.attrib.get("thres")):
-            print("next trigger")
+
+            ## spawn actor
             for action in next_scenario.findall("spawn"):
                 actor_id = action.attrib.get("id")
                 actor = self.actor_type[action.find("type").text](self.world, actor_id, self.blueprint)
@@ -138,11 +139,11 @@ class CarlaScenario():
                 self.spawned_actors[actor_id].action(action)
                 if self.spawned_actors[actor_id].commands:
                     for _ in range(len(self.spawned_actors[actor_id].commands)):
-                        print("spawn")
                         self.actor_batch.append(self.spawned_actors[actor_id])
 
             self.executeActorCommand()
 
+            ## control/kill actor
             for action in next_scenario:
                 if action.tag in ["location", "spawn"]: continue
 
@@ -154,10 +155,9 @@ class CarlaScenario():
                 self.spawned_actors[actor_id].action(action)
                 if len(self.spawned_actors[actor_id].commands) > 0:
                     for _ in range(len(self.spawned_actors[actor_id].commands)):
-                        print("control")
                         self.actor_batch.append(self.spawned_actors[actor_id])
 
-            self.executeActorCommand()
+            # self.executeActorCommand()
 
             return 1
 
@@ -170,22 +170,12 @@ class CarlaScenario():
 
         ego_pose = self.ego_vehicle.get_location()
 
-        # for i in range(len(self.spawned_actors)):
-        #     command = self.spawned_actors[i].step()
-        #     if not command:
-        #         del self.spawned_actors[i]
-
-        #     batch.append(actor.step())
-        # self.client.apply_batch(batch)
-
         distance = ((ego_pose.x - trigger_location.text[0]) ** 2 \
                    + (ego_pose.y - trigger_location.text[1]) ** 2) ** 0.5
 
+        print(f"trigger distance {distance}, thres {thres}")
         return distance < float(thres) 
     
-        # self.spawned_actors = {**self.spawned_actors, **getTrafficLights(self.world)}
-        # self.spawnActor(step(scenario[0]))
-        
 
 def game_loop(args):
 
@@ -202,8 +192,8 @@ def game_loop(args):
     carla_scenario.removeActors()
     trigger_index += carla_scenario.step(scenario[trigger_index], True)
     while len(scenario) > trigger_index:
-        print(trigger_index)
-        trigger_index += carla_scenario.step(scenario[trigger_index], True)
+        print(f"trigger {trigger_index}")
+        trigger_index += carla_scenario.step(scenario[trigger_index], False)
         world.wait_for_tick()
         time.sleep(0.1)
 

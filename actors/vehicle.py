@@ -81,9 +81,14 @@ class Vehicle(Actor):
             float(waypoint[2]) - transform.location.z
             )
         dist = math.sqrt(vector.x ** 2 + vector.y ** 2)
+
+        if dist < 3.0 or speed < 0.1:
+            return vector, carla.Vector3D(0.0, 0.0, 0.0), dist, 0.0
+
         vector.x = vector.x / dist
         vector.y = vector.y / dist
-        # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x, vector.y, 0.0), life_time=0.5)
+        # debug = self.world.debug
+        # debug.draw_arrow(begin=transform.location ,end=transform.location + carla.Location(vector.x*3, vector.y*3, 0.0), life_time=0.5)
 
         ## calcurate velocity
         velocity = carla.Vector3D()
@@ -110,7 +115,7 @@ class Vehicle(Actor):
 
     def getResponse(self, response):
         super().getResponse(response)
-        if self.waypoints:
+        if self.waypoints and not self.commands:
             vector, velocity, dist, omega = self.calcControl()
             self.commands = [
                 carla.command.ApplyTargetVelocity(self.world_id, velocity),
@@ -119,7 +124,7 @@ class Vehicle(Actor):
             if dist < 5.0:
                 self.waypoints.pop(0)
 
-        else:
+        elif not self.waypoints:
             self.commands = []
 
         return
