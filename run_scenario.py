@@ -80,11 +80,12 @@ class CarlaScenario():
         print("could not find ego_vehicle")
 
 
-    def removeActors(self):
+    def removeActors(self, exception_list=[]):
         batch = []
         for actor in self.world.get_actors():
             if actor.type_id.startswith("vehicle") or actor.type_id.startswith("walker"):
-                 batch.append(carla.command.DestroyActor(actor.id))
+                if actor.attributes.get("role_name") not in exception_list:
+                     batch.append(carla.command.DestroyActor(actor.id))
         self.client.apply_batch_sync(batch)
 
     def executeActorCommand(self):
@@ -189,10 +190,10 @@ def game_loop(args):
     scenario = carla_scenario.readFile(args.scenario_file)
 
     trigger_index = 0 
-    carla_scenario.removeActors()
+    carla_scenario.removeActors(["ego_vehicle"])
     trigger_index += carla_scenario.step(scenario[trigger_index], True)
     while len(scenario) > trigger_index:
-        print(f"trigger {trigger_index}")
+        print(f"trigger {trigger_index}, {scenario[trigger_index].attrib.get('id')}")
         trigger_index += carla_scenario.step(scenario[trigger_index], False)
         world.wait_for_tick()
         time.sleep(0.1)
