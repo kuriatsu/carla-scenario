@@ -22,8 +22,8 @@ python3 manual_control.py --rolename ego_vehicle
    And this script can repeat the scenario after the scenario finished.
    
 ## Requirement
-* CARLA (0.9.6-0.9.8 are tested)
-* ROS (option)
+* CARLA (0.9.13 tested)
+* python3.7 or 3.8
 
 ## Install
 ```bash
