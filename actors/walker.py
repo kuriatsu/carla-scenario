@@ -97,6 +97,11 @@ class Walker(Actor):
             (float(waypoint[1]) - transform.location.y) 
             / (float(waypoint[0]) - transform.location.x)
             )
+        if vector.x < 0.0 and vector.y < 0.0:
+            yaw -= math.pi
+        elif vector.x < 0.0 and vector.y > 0.0:
+            yaw += math.pi
+
         yaw = math.degrees(yaw)
 
 

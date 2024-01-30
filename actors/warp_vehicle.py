@@ -26,13 +26,26 @@ class WarpVehicle(Vehicle):
             print('cannot get transform: ' + control_actor.get('id'))
             return 0, 0, 0, 0
 
-        point = self.waypoints[0].text
-        yaw = math.atan(
-            (float(point[1]) - transform.location.y) 
-            / (float(point[0]) - transform.location.x)
+        waypoint = self.waypoints[0].text
+        ## calc current motion vector and distance from current position to waypoint
+        vector = carla.Vector3D(
+            float(waypoint[0]) - transform.location.x,
+            float(waypoint[1]) - transform.location.y,
+            float(waypoint[2]) - transform.location.z
             )
+
+        yaw = math.atan(
+            (float(waypoint[1]) - transform.location.y) 
+            / (float(waypoint[0]) - transform.location.x)
+            )
+
+        if vector.x < 0.0 and vector.y < 0.0:
+            yaw -= math.pi
+        elif vector.x < 0.0 and vector.y > 0.0:
+            yaw += math.pi
+
         yaw = math.degrees(yaw)
-        return carla.Transform(carla.Location(point[0], point[1], point[2]), carla.Rotation(0.0, yaw, 0.0))
+        return carla.Transform(carla.Location(waypoint[0], waypoint[1], waypoint[2]), carla.Rotation(0.0, yaw, 0.0))
 
     def getResponse(self, response):
         super().getResponse(response)
