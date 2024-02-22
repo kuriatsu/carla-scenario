@@ -65,6 +65,20 @@ class Vehicle(Actor):
 
         return
 
+    def updateCommand(self):
+        if self.waypoints and not self.commands:
+            vector, velocity, dist, omega = self.calcControl()
+            self.commands = [
+                carla.command.ApplyTargetVelocity(self.world_id, velocity),
+                carla.command.ApplyTargetAngularVelocity(self.world_id, carla.Vector3D(0.0, 0.0, omega))
+                ]
+            print(f"{self.scenario_id} target_vel: {velocity}")
+            if dist < 5.0:
+                self.waypoints.pop(0)
+
+        elif not self.waypoints:
+            self.commands = []
+
     def calcControl(self):
         transform = self.carla_actor.get_transform()
         if transform is None:
@@ -73,6 +87,7 @@ class Vehicle(Actor):
 
         waypoint = self.waypoints[0].text
         speed = float(self.waypoints[0].attrib.get('speed'))
+        print(f"{self.scenario_id} current_vel: {self.carla_actor.get_velocity()}")
 
         ## calc current motion vector and distance from current position to waypoint
         vector = carla.Vector3D(
@@ -113,18 +128,4 @@ class Vehicle(Actor):
 
         return vector, velocity, dist, omega 
 
-    def getResponse(self, response):
-        super().getResponse(response)
-        if self.waypoints and not self.commands:
-            vector, velocity, dist, omega = self.calcControl()
-            self.commands = [
-                carla.command.ApplyTargetVelocity(self.world_id, velocity),
-                carla.command.ApplyTargetAngularVelocity(self.world_id, carla.Vector3D(0.0, 0.0, omega))
-                ]
-            if dist < 5.0:
-                self.waypoints.pop(0)
 
-        elif not self.waypoints:
-            self.commands = []
-
-        return

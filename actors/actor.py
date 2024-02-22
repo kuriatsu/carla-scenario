@@ -43,8 +43,13 @@ class Actor():
             self.world_id = response.actor_id
             self.carla_actor = self.world.get_actor(self.world_id)
             print(f"spawned scenario_id: {self.scenario_id}, world_id: {self.world_id}")
+
+        self.updateCommand()
             
         return None
+
+    def updateCommand():
+        return
 
     def spawn(self):
         return

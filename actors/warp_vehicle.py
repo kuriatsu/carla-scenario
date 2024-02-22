@@ -20,6 +20,16 @@ class WarpVehicle(Vehicle):
         self.waypoints.pop(0)
         return
 
+    def updateCommand(self):
+        if self.waypoints:
+            target_transform = self.calcTargetTransform()
+            self.commands = [carla.command.ApplyTransform(self.world_id, target_transform)] 
+            self.waypoints.pop(0)
+        else:
+            self.commands = []
+
+        return
+
     def calcTargetTransform(self):
         transform = self.carla_actor.get_transform()
         if transform is None:
@@ -36,7 +46,7 @@ class WarpVehicle(Vehicle):
 
         yaw = math.atan(
             (float(waypoint[1]) - transform.location.y) 
-            / (float(waypoint[0]) - transform.location.x)
+            / (float(waypoint[0]) - transform.location.x + 0.001)
             )
 
         if vector.x < 0.0 and vector.y < 0.0:
@@ -47,13 +57,3 @@ class WarpVehicle(Vehicle):
         yaw = math.degrees(yaw)
         return carla.Transform(carla.Location(waypoint[0], waypoint[1], waypoint[2]), carla.Rotation(0.0, yaw, 0.0))
 
-    def getResponse(self, response):
-        super().getResponse(response)
-        if self.waypoints:
-            target_transform = self.calcTargetTransform()
-            self.commands = [carla.command.ApplyTransform(self.world_id, target_transform)] 
-            self.waypoints.pop(0)
-        else:
-            self.commands = []
-
-        return
